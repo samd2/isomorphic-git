@@ -14,12 +14,8 @@ describe('huge repo clone and checkout', () => {
   ;(process.browser ? xit : it)(
     'clone from git-http-mock-server with non-blocking optimization for repo with 1k files',
     async () => {
-      const {
-        fs,
-        dir,
-        gitdir,
-        gitdirsmfullpath,
-      } = await makeFixtureAsSubmodule(`test-clone-karma-non-blocking`)
+      const { fs, dir, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule(`test-clone-karma-non-blocking`)
       const branchName = 'main1k'
 
       await clone({

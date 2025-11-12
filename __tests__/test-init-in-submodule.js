@@ -9,9 +9,8 @@ const {
 
 describe('init', () => {
   ;(process.browser ? xit : it)('init', async () => {
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-init'
-    )
+    const { fs, dir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-init')
     await init({ fs, dir })
     expect(await fs.exists(dir)).toBe(true)
     expect(await fs.exists(`${gitdirsmfullpath}/objects`)).toBe(true)
@@ -30,9 +29,8 @@ describe('init', () => {
     'init does not overwrite existing config',
     async () => {
       // Setup
-      const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-        'test-init'
-      )
+      const { fs, dir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-init')
       const name = 'me'
       const email = 'meme'
       await init({ fs, dir })

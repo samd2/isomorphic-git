@@ -6,8 +6,8 @@ import { InvalidRefNameError } from '../errors/InvalidRefNameError.js'
 import { GitRefManager } from '../managers/GitRefManager.js'
 import { FileSystem } from '../models/FileSystem.js'
 import { assertParameter } from '../utils/assertParameter.js'
-import validRef from '../utils/isValidRef.js'
 import { discoverGitdir } from '../utils/discoverGitdir.js'
+import validRef from '../utils/isValidRef.js'
 import { join } from '../utils/join.js'
 
 /**

@@ -74,12 +74,11 @@ describe('GitIndex', () => {
   ;(process.browser ? xit : it)(
     'write unmerged index to disk and read it back',
     async () => {
-      const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-        'test-GitIndex'
-      )
+      const { fs, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-GitIndex')
       await GitIndexManager.acquire(
         { fs, gitdir: gitdirsmfullpath, cache: {} },
-        async function(index) {
+        async function (index) {
           expect(index.entries.length).toBe(0)
           expect(index.entriesFlat.length).toBe(0)
           index.insert({ filepath: 'a', oid: '01', stage: 1 })
@@ -90,7 +89,7 @@ describe('GitIndex', () => {
       )
       await GitIndexManager.acquire(
         { fs, gitdir: gitdirsmfullpath, cache: {} },
-        async function(index) {
+        async function (index) {
           expect(index.entries.length).toBe(1)
           expect(index.entriesFlat.length).toBe(3)
           expect(index.unmergedPaths).toContain('a')
@@ -114,7 +113,7 @@ describe('GitIndex', () => {
     // Test
     await GitIndexManager.acquire(
       { fs, gitdir: gitdirsmfullpath, cache: {} },
-      async function(index) {
+      async function (index) {
         expect(index.unmergedPaths.length).toEqual(2)
         expect(index.entriesFlat.length).toBe(7)
         expect(index.unmergedPaths).toContain('a')

@@ -16,9 +16,8 @@ const {
 describe('branch', () => {
   ;(process.browser ? xit : it)('branch', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-branch'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-branch')
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch' })
     const files = await fs.readdir(
@@ -59,9 +58,8 @@ describe('branch', () => {
   })
   ;(process.browser ? xit : it)('branch force', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-branch'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-branch')
     let error = null
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch' })
@@ -153,12 +151,8 @@ describe('branch', () => {
     'create branch with same name as a remote',
     async () => {
       // Setup
-      const {
-        fs,
-        dir,
-        gitdir,
-        gitdirsmfullpath,
-      } = await makeFixtureAsSubmodule('test-branch')
+      const { fs, dir, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-branch')
       let error = null
       // Test
       try {
@@ -174,9 +168,8 @@ describe('branch', () => {
   )
   ;(process.browser ? xit : it)('create branch named "HEAD"', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-branch'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-branch')
     let error = null
     // Test
     try {

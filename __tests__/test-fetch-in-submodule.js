@@ -14,9 +14,8 @@ const localhost =
 
 describe('fetch', () => {
   ;(process.browser ? xit : it)('fetch (from Github)', async () => {
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-fetch-cors'
-    )
+    const { fs, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -42,9 +41,8 @@ describe('fetch', () => {
     ).toBe(false)
   })
   ;(process.browser ? xit : it)('shallow fetch (from Github)', async () => {
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-fetch-cors'
-    )
+    const { fs, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -155,9 +153,8 @@ describe('fetch', () => {
   ;(process.browser ? xit : it)(
     'shallow fetch single commit by hash (from Github)',
     async () => {
-      const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-        'test-fetch-cors'
-      )
+      const { fs, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-fetch-cors')
       await setConfig({
         fs,
         gitdir,
@@ -184,9 +181,8 @@ describe('fetch', () => {
   ;(process.browser ? xit : it)(
     'shallow fetch since (from Github)',
     async () => {
-      const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-        'test-fetch-cors'
-      )
+      const { fs, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-fetch-cors')
       await setConfig({
         fs,
         gitdir,
@@ -213,9 +209,8 @@ describe('fetch', () => {
   ;(process.browser ? xit : it)(
     'shallow fetch exclude (from Github)',
     async () => {
-      const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-        'test-fetch-cors'
-      )
+      const { fs, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-fetch-cors')
       await setConfig({
         fs,
         gitdir,
@@ -242,9 +237,8 @@ describe('fetch', () => {
   ;(process.browser ? xit : it)(
     'shallow fetch relative (from Github)',
     async () => {
-      const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-        'test-fetch-cors'
-      )
+      const { fs, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-fetch-cors')
       await setConfig({
         fs,
         gitdir,
@@ -311,12 +305,8 @@ describe('fetch', () => {
   ;(process.browser ? xit : it)(
     'fetch empty repository from git-http-mock-server',
     async () => {
-      const {
-        fs,
-        dir,
-        gitdir,
-        gitdirsmfullpath,
-      } = await makeFixtureAsSubmodule('test-empty')
+      const { fs, dir, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-empty')
       await fetch({
         fs,
         http,
@@ -338,12 +328,8 @@ describe('fetch', () => {
   ;(process.browser ? xit : it)(
     'fetch --prune from git-http-mock-server',
     async () => {
-      const {
-        fs,
-        dir,
-        gitdir,
-        gitdirsmfullpath,
-      } = await makeFixtureAsSubmodule('test-fetch-client')
+      const { fs, dir, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-fetch-client')
       await setConfig({
         fs,
         gitdir,
@@ -370,12 +356,8 @@ describe('fetch', () => {
   ;(process.browser ? xit : it)(
     'fetch --prune-tags from git-http-mock-server',
     async () => {
-      const {
-        fs,
-        dir,
-        gitdir,
-        gitdirsmfullpath,
-      } = await makeFixtureAsSubmodule('test-fetch-client')
+      const { fs, dir, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-fetch-client')
       await setConfig({
         fs,
         gitdir,

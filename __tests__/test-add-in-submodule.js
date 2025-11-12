@@ -263,9 +263,8 @@ describe('add', () => {
   ;(process.browser ? xit : it)(
     'git add . with core.autocrlf=true does not break binary files',
     async () => {
-      const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-        'test-add-autocrlf'
-      )
+      const { fs, dir, gitdir } =
+        await makeFixtureAsSubmodule('test-add-autocrlf')
       expect(
         await getConfig({ fs, dir, gitdir, path: 'core.autocrlf' })
       ).toEqual('true')

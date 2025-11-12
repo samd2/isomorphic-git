@@ -25,7 +25,7 @@ const { clone } = require('isomorphic-git')
 
 const { makeFixture } = require('./FixtureFS.js')
 
-var copyRecursiveSyncShell = async function(src, dest) {
+const copyRecursiveSyncShell = async function (src, dest) {
   const { spawnSync } = require('child_process')
   spawnSync('cp -rp ' + String(src) + ' ' + String(dest) + ' ', {
     shell: '/bin/bash',

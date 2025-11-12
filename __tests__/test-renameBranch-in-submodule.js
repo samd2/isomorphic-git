@@ -10,9 +10,8 @@ const {
 describe('renameBranch', () => {
   ;(process.browser ? xit : it)('branch already exists', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-renameBranch'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-renameBranch')
     let error = null
     // Test
     try {
@@ -31,9 +30,8 @@ describe('renameBranch', () => {
   })
   ;(process.browser ? xit : it)('invalid new branch name', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-renameBranch'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-renameBranch')
     let error = null
     // Test
     try {
@@ -52,9 +50,8 @@ describe('renameBranch', () => {
   })
   ;(process.browser ? xit : it)('invalid old branch name', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-renameBranch'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-renameBranch')
     let error = null
     // Test
     try {
@@ -73,9 +70,8 @@ describe('renameBranch', () => {
   })
   ;(process.browser ? xit : it)('missing ref argument', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-renameBranch'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-renameBranch')
     let error = null
     // Test
     try {
@@ -89,9 +85,8 @@ describe('renameBranch', () => {
   })
   ;(process.browser ? xit : it)('missing oldref argument', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-renameBranch'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-renameBranch')
     let error = null
     // Test
     try {
@@ -105,9 +100,8 @@ describe('renameBranch', () => {
   })
   ;(process.browser ? xit : it)('rename branch', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-renameBranch'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-renameBranch')
     // Test
     await renameBranch({
       fs,
@@ -124,9 +118,8 @@ describe('renameBranch', () => {
   })
   ;(process.browser ? xit : it)('rename branch and checkout', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-renameBranch'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-renameBranch')
     // Test
     await renameBranch({
       fs,
@@ -140,9 +133,8 @@ describe('renameBranch', () => {
   })
   ;(process.browser ? xit : it)('rename current branch', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-renameBranch'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-renameBranch')
     // Test
     await renameBranch({
       fs,

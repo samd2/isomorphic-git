@@ -26,9 +26,8 @@ const localhost =
 describe('checkout', () => {
   ;(process.browser ? xit : it)('checkout', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-checkout'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-checkout')
     const onPostCheckout = []
     await checkout({
       fs,
@@ -102,9 +101,8 @@ describe('checkout', () => {
   })
   ;(process.browser ? xit : it)('checkout by tag', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-checkout'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -167,9 +165,8 @@ describe('checkout', () => {
   })
   ;(process.browser ? xit : it)('checkout by SHA', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-checkout'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -502,9 +499,8 @@ describe('checkout', () => {
   ;(process.browser ? xit : it)(
     'should setup the remote tracking branch by default',
     async () => {
-      const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-        'test-fetch-cors'
-      )
+      const { fs, dir, gitdir } =
+        await makeFixtureAsSubmodule('test-fetch-cors')
 
       await setConfig({
         fs,
@@ -553,9 +549,8 @@ describe('checkout', () => {
   ;(process.browser ? xit : it)(
     'should setup the remote tracking branch with `track: true`',
     async () => {
-      const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-        'test-fetch-cors'
-      )
+      const { fs, dir, gitdir } =
+        await makeFixtureAsSubmodule('test-fetch-cors')
 
       await setConfig({
         fs,
@@ -606,9 +601,8 @@ describe('checkout', () => {
   ;(process.browser ? xit : it)(
     'should not setup the remote tracking branch with `track: false`',
     async () => {
-      const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-        'test-fetch-cors'
-      )
+      const { fs, dir, gitdir } =
+        await makeFixtureAsSubmodule('test-fetch-cors')
 
       await setConfig({
         fs,

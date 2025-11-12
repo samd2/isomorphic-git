@@ -405,9 +405,8 @@ describe('merge', () => {
     "merge 'delete-first-half' and 'delete-second-half' (noUpdateBranch)",
     async () => {
       // Setup
-      const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-        'test-merge'
-      )
+      const { fs, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-merge')
       const commit = (
         await log({
           fs,
@@ -686,12 +685,8 @@ describe('merge', () => {
     "merge two branches that modified the same file, no conflict resolver (should conflict)'",
     async () => {
       // Setup
-      const {
-        fs,
-        gitdir,
-        dir,
-        gitdirsmfullpath,
-      } = await makeFixtureAsSubmodule('test-merge')
+      const { fs, gitdir, dir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-merge')
       // Test
       const testFile = `${gitdirsmfullpath}/o.conflict.example`
       const outFile = `${dir}/o.txt`

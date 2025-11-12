@@ -8,9 +8,8 @@ const {
 describe('listObjects', () => {
   ;(process.browser ? xit : it)('listObjects', async () => {
     // Setup
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-listObjects'
-    )
+    const { fs, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-listObjects')
     // Test
     const objects = await listObjects({
       fs,

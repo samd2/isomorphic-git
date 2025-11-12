@@ -10,9 +10,8 @@ const {
 describe('statusMatrix', () => {
   ;(process.browser ? xit : it)('statusMatrix', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-statusMatrix'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-statusMatrix')
     // Test
     let matrix = await statusMatrix({ fs, dir, gitdir })
     expect(matrix).toEqual([

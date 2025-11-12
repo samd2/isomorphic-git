@@ -10,9 +10,8 @@ const {
 describe('invalid .git/index', () => {
   ;(process.browser ? xit : it)('empty file', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-empty'
-    )
+    const { fs, dir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
@@ -32,9 +31,8 @@ describe('invalid .git/index', () => {
   })
   ;(process.browser ? xit : it)('no magic number', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-empty'
-    )
+    const { fs, dir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
@@ -58,9 +56,8 @@ describe('invalid .git/index', () => {
   })
   ;(process.browser ? xit : it)('wrong checksum', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-empty'
-    )
+    const { fs, dir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')

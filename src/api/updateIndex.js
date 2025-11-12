@@ -157,7 +157,7 @@ export async function updateIndex({
 
         index.insert({
           filepath,
-          oid: oid,
+          oid,
           stats,
         })
 

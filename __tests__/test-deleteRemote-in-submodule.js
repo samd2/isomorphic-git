@@ -8,9 +8,8 @@ const {
 describe('deleteRemote', () => {
   ;(process.browser ? xit : it)('deleteRemote', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
-      'test-deleteRemote'
-    )
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-deleteRemote')
     const remote = 'foo'
     // Test
     await deleteRemote({ fs, dir, gitdir, remote })

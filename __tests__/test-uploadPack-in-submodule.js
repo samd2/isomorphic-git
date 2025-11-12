@@ -8,9 +8,8 @@ const {
 describe('uploadPack', () => {
   ;(process.browser ? xit : it)('advertiseRefs: true', async () => {
     // Setup
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-uploadPack'
-    )
+    const { fs, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-uploadPack')
     const res = await uploadPack({
       fs,
       gitdir: gitdirsmfullpath,

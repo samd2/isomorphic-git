@@ -7,9 +7,8 @@ const {
 
 describe('GitRefManager', () => {
   ;(process.browser ? xit : it)('packedRefs', async () => {
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-GitRefManager'
-    )
+    const { fs, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-GitRefManager')
     const refs = await GitRefManager.packedRefs({
       fs,
       gitdir: gitdirsmfullpath,
@@ -90,9 +89,8 @@ describe('GitRefManager', () => {
     `)
   })
   ;(process.browser ? xit : it)('listRefs', async () => {
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-GitRefManager'
-    )
+    const { fs, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-GitRefManager')
     let refs = await GitRefManager.listRefs({
       fs,
       gitdir: gitdirsmfullpath,
@@ -184,9 +182,8 @@ describe('GitRefManager', () => {
     `)
   })
   ;(process.browser ? xit : it)('listBranches', async () => {
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-GitRefManager'
-    )
+    const { fs, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-GitRefManager')
     let refs = await GitRefManager.listBranches({
       fs,
       gitdir: gitdirsmfullpath,
@@ -211,9 +208,8 @@ describe('GitRefManager', () => {
     `)
   })
   ;(process.browser ? xit : it)('listTags', async () => {
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-GitRefManager'
-    )
+    const { fs, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-GitRefManager')
     const refs = await GitRefManager.listTags({ fs, gitdir: gitdirsmfullpath })
     expect(refs).toMatchInlineSnapshot(`
       Array [
@@ -266,9 +262,8 @@ describe('GitRefManager', () => {
     async () => {
       // There are some expect() calls below, but as of 2023-03-15, if this test fails it will do so by logging instances
       // of 'NotFoundError: Could not find myRef', which should not happen.
-      const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-        'test-GitRefManager'
-      )
+      const { fs, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('test-GitRefManager')
       const ref = 'myRef'
       const value = '1234567890123456789012345678901234567890'
       await GitRefManager.writeRef({ fs, gitdir: gitdirsmfullpath, ref, value }) // Guarantee that the file for the ref exists on disk
