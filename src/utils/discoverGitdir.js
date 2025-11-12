@@ -18,9 +18,11 @@
  *
  */
 
-import * as path from 'path'
+// import * as path from 'path'
 
 import { assertParameter } from './assertParameter.js'
+import { dirname } from './dirname.js'
+import { join } from './join.js'
 
 export async function discoverGitdir({ fsp, dotgit }) {
   assertParameter('fsp', fsp)
@@ -36,7 +38,7 @@ export async function discoverGitdir({ fsp, dotgit }) {
       ._readFile(dotgit, 'utf8')
       .then(contents => contents.trimRight().substr(8))
       .then(submoduleGitdir => {
-        const gitdir = path.join(path.dirname(dotgit), submoduleGitdir)
+        const gitdir = join(dirname(dotgit), submoduleGitdir)
         return gitdir
       })
   } else {
