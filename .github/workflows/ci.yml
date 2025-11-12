@@ -5,9 +5,13 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
-      - develop
+      # To facilitate convenient tests:
+      # If you fork this repository and push commits to a branch that
+      # matches the following string, it will trigger jobs.
       - feature/**
+      # Also, if 'main' were added here it would run
+      # github actions jobs on any pushes to 'main'.
+      # Although that's not currently done, it could be.
 
 # Cancel in-progress runs for the current workflow
 concurrency:
@@ -118,7 +122,9 @@ jobs:
       fail-fast: false
       matrix:
         # This is a comma-separated list of Karma launchers
-        karma-launcher: ${{ fromJSON(format('[{0}]', '"ChromeHeadlessNoSandbox","FirefoxHeadless","sl_edge","sl_safari","sl_ios_safari","bs_android_chrome"')) }}
+        # karma-launcher: ${{ fromJSON(format('[{0}]', '"ChromeHeadlessNoSandbox","FirefoxHeadless","sl_edge","sl_safari","sl_ios_safari","bs_android_chrome"')) }}
+        # 2025 reduced matrix. The other browsers need to be re-implemented.
+        karma-launcher: ${{ fromJSON(format('[{0}]', '"ChromeHeadlessNoSandbox"')) }}
 
       # Our BrowserStack plan allows up to 5 parallel tests. We limit each workflow to 2 to avoid the limit.
       max-parallel: 2
@@ -159,8 +165,8 @@ jobs:
           xvfb-run --auto-servernum --server-args='-screen 0, 1920x1080x24' npx nps \
             test.setup \
             test.chrome
-            # test.karma was in the above list also, but has been removed. 
-            # Perhaps return in the future.
+            # 2025 test.karma was in the above list but has been temporarily removed.
+            # Reduced to only test.chrome.
 
         env:
           BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
