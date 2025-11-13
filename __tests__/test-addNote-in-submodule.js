@@ -1,7 +1,7 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, addNote, readBlob, resolveRef, readTree } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('addNote', () => {
   it('to a commit', async () => {

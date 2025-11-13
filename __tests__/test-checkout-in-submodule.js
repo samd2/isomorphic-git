@@ -24,7 +24,8 @@ const localhost =
 describe('checkout', () => {
   it('checkout', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-checkout')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-checkout')
     const onPostCheckout = []
     await checkout({
       fs,
@@ -99,7 +100,8 @@ describe('checkout', () => {
 
   it('checkout by tag', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-checkout')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -163,7 +165,8 @@ describe('checkout', () => {
 
   it('checkout by SHA', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-checkout')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,

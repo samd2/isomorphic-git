@@ -8,7 +8,9 @@ import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 describe('normalizeAuthorObject', () => {
   it('return author if all properties are populated', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     await setConfig({
       fs,
@@ -32,12 +34,16 @@ describe('normalizeAuthorObject', () => {
       timezoneOffset: -120,
     }
 
-    expect(await normalizeAuthorObject({ fs, gitdir: gitdirsmfullpath, author })).toEqual(author)
+    expect(
+      await normalizeAuthorObject({ fs, gitdir: gitdirsmfullpath, author })
+    ).toEqual(author)
   })
 
   it('return commit author when no author was provided', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     await setConfig({
       fs,
@@ -72,14 +78,16 @@ describe('normalizeAuthorObject', () => {
       },
     }
 
-    expect(await normalizeAuthorObject({ fs, gitdir: gitdirsmfullpath, commit })).toEqual(
-      commit.author
-    )
+    expect(
+      await normalizeAuthorObject({ fs, gitdir: gitdirsmfullpath, commit })
+    ).toEqual(commit.author)
   })
 
   it('return config values and new timestamp if no author or commit was provided', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     await setConfig({
       fs,
@@ -105,9 +113,13 @@ describe('normalizeAuthorObject', () => {
 
   it('return undefined if no value can be retrieved', async () => {
     // Setup
-    const { fs, gitdir: gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdir: gitdirsmfullpath } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     // Test
-    expect(await normalizeAuthorObject({ fs, gitdir: gitdirsmfullpath })).toBeUndefined()
+    expect(
+      await normalizeAuthorObject({ fs, gitdir: gitdirsmfullpath })
+    ).toBeUndefined()
   })
 })

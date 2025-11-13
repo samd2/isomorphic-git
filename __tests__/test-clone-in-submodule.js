@@ -24,7 +24,8 @@ describe('clone', () => {
   ;(process.browser ? xit : it)(
     'clone with noTags',
     async () => {
-      const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
+      const { fs, dir, gitdir, gitdirsmfullpath } =
+        await makeFixtureAsSubmodule('isomorphic-git')
       await clone({
         fs,
         http,
@@ -57,7 +58,8 @@ describe('clone', () => {
     30_000
   )
   it('clone with noCheckout', async () => {
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('isomorphic-git')
     await clone({
       fs,
       http,
@@ -72,14 +74,17 @@ describe('clone', () => {
     })
     expect(await fs.exists(`${dir}`)).toBe(true)
     expect(await fs.exists(`${gitdirsmfullpath}/objects`)).toBe(true)
-    expect(await fs.exists(`${gitdirsmfullpath}/refs/remotes/origin/test-branch`)).toBe(
+    expect(
+      await fs.exists(`${gitdirsmfullpath}/refs/remotes/origin/test-branch`)
+    ).toBe(true)
+    expect(await fs.exists(`${gitdirsmfullpath}/refs/heads/test-branch`)).toBe(
       true
     )
-    expect(await fs.exists(`${gitdirsmfullpath}/refs/heads/test-branch`)).toBe(true)
     expect(await fs.exists(`${dir}/package.json`)).toBe(false)
   })
   it('clone a tag', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('isomorphic-git')
     await clone({
       fs,
       http,
@@ -93,15 +98,18 @@ describe('clone', () => {
     })
     expect(await fs.exists(`${dir}`)).toBe(true)
     expect(await fs.exists(`${gitdirsmfullpath}/objects`)).toBe(true)
-    expect(await fs.exists(`${gitdirsmfullpath}/refs/remotes/origin/test-tag`)).toBe(
+    expect(
+      await fs.exists(`${gitdirsmfullpath}/refs/remotes/origin/test-tag`)
+    ).toBe(false)
+    expect(await fs.exists(`${gitdirsmfullpath}/refs/heads/test-tag`)).toBe(
       false
     )
-    expect(await fs.exists(`${gitdirsmfullpath}/refs/heads/test-tag`)).toBe(false)
     expect(await fs.exists(`${gitdirsmfullpath}/refs/tags/test-tag`)).toBe(true)
     expect(await fs.exists(`${dir}/package.json`)).toBe(true)
   })
   it('clone should not peel tag', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('isomorphic-git')
     await clone({
       fs,
       http,
@@ -109,7 +117,10 @@ describe('clone', () => {
       gitdir,
       url: `http://${localhost}:8888/test-git-http-mock-server.git`,
     })
-    const oid = await fs._readFile(`${gitdirsmfullpath}/refs/tags/v1.0.0`, 'utf8')
+    const oid = await fs._readFile(
+      `${gitdirsmfullpath}/refs/tags/v1.0.0`,
+      'utf8'
+    )
     expect(oid.trim()).toBe('db34227a52a6490fc80a13da3916ea91d183fc3f')
   })
   it('clone with an unregistered protocol', async () => {
@@ -137,7 +148,8 @@ describe('clone', () => {
   })
 
   it('clone from git-http-mock-server', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-clone-karma')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-clone-karma')
     await clone({
       fs,
       http,
@@ -401,7 +413,9 @@ describe('clone', () => {
   })
 
   it('create tracking for remote branch', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-clone-branch-with-dot')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
+      'test-clone-branch-with-dot'
+    )
     await clone({
       fs,
       http,
@@ -417,7 +431,8 @@ describe('clone', () => {
   })
 
   it('clone empty repository from git-http-mock-server', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-clone-empty')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-clone-empty')
     await clone({
       fs,
       http,
@@ -427,8 +442,13 @@ describe('clone', () => {
       url: `http://${localhost}:8888/test-empty.git`,
     })
     expect(await fs.exists(`${dir}`)).toBe(true, `'dir' exists`)
-    expect(await fs.exists(`${gitdirsmfullpath}/HEAD`)).toBe(true, `'gitdir/HEAD' exists`)
-    expect((await fs.read(`${gitdirsmfullpath}/HEAD`)).toString('utf-8').trim()).toEqual(
+    expect(await fs.exists(`${gitdirsmfullpath}/HEAD`)).toBe(
+      true,
+      `'gitdir/HEAD' exists`
+    )
+    expect(
+      (await fs.read(`${gitdirsmfullpath}/HEAD`)).toString('utf-8').trim()
+    ).toEqual(
       'ref: refs/heads/master',
       `'gitdir/HEAD' points to refs/heads/master`
     )
@@ -439,7 +459,8 @@ describe('clone', () => {
   })
 
   it('removes the gitdir when clone fails', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
+    const { fs, dir, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('isomorphic-git')
     const url = `foobar://github.com/isomorphic-git/isomorphic-git`
     try {
       await clone({
@@ -455,7 +476,10 @@ describe('clone', () => {
     } catch (err) {
       // Intentionally left blank.
     }
-    expect(await fs.exists(gitdirsmfullpath)).toBe(false, `'gitdir' does not exist`)
+    expect(await fs.exists(gitdirsmfullpath)).toBe(
+      false,
+      `'gitdir' does not exist`
+    )
   })
 
   it('should set up the remote tracking branch by default', async () => {

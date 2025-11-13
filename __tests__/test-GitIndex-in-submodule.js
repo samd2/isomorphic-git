@@ -73,7 +73,8 @@ describe('GitIndex', () => {
   })
 
   it('write unmerged index to disk and read it back', async () => {
-    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule('test-GitIndex')
+    const { gitdirsmfullpath, fs } =
+      await makeFixtureAsSubmodule('test-GitIndex')
     await GitIndexManager.acquire(
       { fs, gitdir: gitdirsmfullpath, cache: {} },
       async function (index) {
@@ -104,7 +105,9 @@ describe('GitIndex', () => {
 
   it('read existing unmerged index', async () => {
     // Setup
-    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule('test-GitIndex-unmerged')
+    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule(
+      'test-GitIndex-unmerged'
+    )
 
     // Test
     await GitIndexManager.acquire(

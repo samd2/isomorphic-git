@@ -13,12 +13,13 @@ import {
 } from 'isomorphic-git'
 import { GitIndexManager, modified } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('abortMerge', () => {
   it('write conflicted files to index at different stages', async () => {
     // Setup
-    const { gitdir, gitdirsmfullpath, dir, fs } = await makeFixtureAsSubmodule('test-abortMerge')
+    const { gitdir, gitdirsmfullpath, dir, fs } =
+      await makeFixtureAsSubmodule('test-abortMerge')
 
     const branchA = await resolveRef({ fs, gitdir, ref: 'a' })
     const branchB = await resolveRef({ fs, gitdir, ref: 'b' })
@@ -298,7 +299,8 @@ describe('abortMerge', () => {
 
   it('uncache a file that has changes in the workdir (throw an error)', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath, dir } = await makeFixtureAsSubmodule('test-abortMerge')
+    const { fs, gitdir, gitdirsmfullpath, dir } =
+      await makeFixtureAsSubmodule('test-abortMerge')
 
     // Test
     let error = null

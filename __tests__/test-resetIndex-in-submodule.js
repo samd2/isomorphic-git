@@ -51,7 +51,9 @@ describe('resetIndex', () => {
   })
   it('new repository', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-resetIndex-new')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(
+      'test-resetIndex-new'
+    )
     // Test
     const before = await listFiles({ fs, gitdir })
     expect(before).toMatchInlineSnapshot(`
@@ -71,7 +73,9 @@ describe('resetIndex', () => {
   })
   it('oid', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-resetIndex-oid')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(
+      'test-resetIndex-oid'
+    )
     // Test
     const before = await statusMatrix({ fs, dir, gitdir })
     expect(before).toMatchInlineSnapshot(`

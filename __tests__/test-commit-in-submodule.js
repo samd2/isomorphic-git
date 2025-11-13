@@ -16,7 +16,9 @@ import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 describe('commit', () => {
   it('prevent commit if index has unmerged paths', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-GitIndex-unmerged')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(
+      'test-GitIndex-unmerged'
+    )
     // Test
     let error = null
     try {
@@ -124,7 +126,8 @@ describe('commit', () => {
 
   it('without updating branch', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const sha = await commit({

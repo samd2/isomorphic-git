@@ -6,7 +6,8 @@ import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 describe('listObjects', () => {
   it('listObjects', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-listObjects')
+    const { fs, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-listObjects')
     // Test
     const objects = await listObjects({
       fs,

@@ -8,7 +8,9 @@ import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 describe('normalizeCommitterObject', () => {
   it('return committer if all properties are populated', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     await setConfig({
       fs,
@@ -46,7 +48,9 @@ describe('normalizeCommitterObject', () => {
 
   it('return author values if no committer was provided', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     await setConfig({
       fs,
@@ -77,7 +81,9 @@ describe('normalizeCommitterObject', () => {
 
   it('return commit committer when no author or committer was provided', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     await setConfig({
       fs,
@@ -119,7 +125,9 @@ describe('normalizeCommitterObject', () => {
 
   it('return config values and new timestamp if no author or committer was provided', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     await setConfig({
       fs,
@@ -136,7 +144,10 @@ describe('normalizeCommitterObject', () => {
     })
 
     // Test
-    const committer = await normalizeCommitterObject({ fs, gitdir: gitdirsmfullpath })
+    const committer = await normalizeCommitterObject({
+      fs,
+      gitdir: gitdirsmfullpath,
+    })
     expect(committer.name).toEqual('user-config')
     expect(committer.email).toEqual('user-config@example.com')
     expect(typeof committer.timestamp).toBe('number')
@@ -145,9 +156,13 @@ describe('normalizeCommitterObject', () => {
 
   it('return undefined if no value can be retrieved', async () => {
     // Setup
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
+      'test-normalizeAuthorObject'
+    )
 
     // Test
-    expect(await normalizeCommitterObject({ fs, gitdir: gitdirsmfullpath })).toBeUndefined()
+    expect(
+      await normalizeCommitterObject({ fs, gitdir: gitdirsmfullpath })
+    ).toBeUndefined()
   })
 })

@@ -32,10 +32,9 @@ describe('huge repo clone and checkout', () => {
       true,
       `'gitdir/objects' exists`
     )
-    expect(await fs.exists(`${gitdirsmfullpath}/refs/heads/${branchName}`)).toBe(
-      true,
-      `'gitdir/refs/heads/${branchName}' exists`
-    )
+    expect(
+      await fs.exists(`${gitdirsmfullpath}/refs/heads/${branchName}`)
+    ).toBe(true, `'gitdir/refs/heads/${branchName}' exists`)
     expect(await fs.exists(`${dir}/package.json`)).toBe(
       true,
       `'package.json' exists`

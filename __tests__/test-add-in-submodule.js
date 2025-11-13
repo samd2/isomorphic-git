@@ -10,7 +10,7 @@ import {
   getConfig,
 } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // NOTE: we cannot actually commit a real .gitignore file in fixtures or fixtures won't be included in this repo
 const writeGitIgnore = async (fs, dir) =>
@@ -237,7 +237,8 @@ describe('add', () => {
     expect((await listFiles({ fs, dir })).length).toEqual(7)
   })
   it('git add . with core.autocrlf=true does not break binary files', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-add-autocrlf')
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-add-autocrlf')
     expect(await getConfig({ fs, dir, gitdir, path: 'core.autocrlf' })).toEqual(
       'true'
     )

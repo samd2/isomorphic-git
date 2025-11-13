@@ -88,7 +88,8 @@ describe('push', () => {
   })
   it('push empty', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-fetch-server')
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-fetch-server')
     await clone({
       fs,
       http,
@@ -703,7 +704,8 @@ describe('push', () => {
 
   it('onPrePush abort', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-fetch-server')
+    const { fs, dir, gitdir } =
+      await makeFixtureAsSubmodule('test-fetch-server')
     await clone({
       fs,
       http,

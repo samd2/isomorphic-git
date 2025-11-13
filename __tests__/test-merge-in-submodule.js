@@ -16,7 +16,9 @@ import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 describe('merge', () => {
   it('prevent merge if index has unmerged paths', async () => {
     // Setup
-    const { gitdir, dir, fs } = await makeFixtureAsSubmodule('test-GitIndex-unmerged')
+    const { gitdir, dir, fs } = await makeFixtureAsSubmodule(
+      'test-GitIndex-unmerged'
+    )
 
     // Test
     let error = null
@@ -390,7 +392,8 @@ describe('merge', () => {
 
   it("merge 'delete-first-half' and 'delete-second-half' (noUpdateBranch)", async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-merge')
+    const { fs, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-merge')
     const commit = (
       await log({
         fs,
@@ -653,7 +656,8 @@ describe('merge', () => {
 
   it("merge two branches that modified the same file, no conflict resolver (should conflict)'", async () => {
     // Setup
-    const { fs, gitdir, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-merge')
+    const { fs, gitdir, dir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-merge')
     // Test
     const testFile = `${gitdirsmfullpath}/o.conflict.example`
     const outFile = `${dir}/o.txt`
@@ -1028,7 +1032,9 @@ describe('merge', () => {
   })
   it('merge two branches where ours adds a new file and theirs deletes a file', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-merge-file-deletion')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(
+      'test-merge-file-deletion'
+    )
 
     const commit = (
       await log({
@@ -1067,7 +1073,9 @@ describe('merge', () => {
   })
   it('merge two branches where ours deletes a file and theirs adds a new file', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-merge-file-deletion')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(
+      'test-merge-file-deletion'
+    )
 
     const commit = (
       await log({
@@ -1106,7 +1114,9 @@ describe('merge', () => {
   })
   it('merge preserves nested directory structure when combining unrelated changes', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-merge-file-deletion')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(
+      'test-merge-file-deletion'
+    )
 
     const commit = (
       await log({
@@ -1145,7 +1155,9 @@ describe('merge', () => {
   })
   it('merge two branches where both ours and theirs delete the same file', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-merge-file-deletion')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(
+      'test-merge-file-deletion'
+    )
 
     const commit = (
       await log({

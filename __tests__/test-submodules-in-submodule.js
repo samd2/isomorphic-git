@@ -10,7 +10,9 @@ const localhost =
 
 describe('submodule "support"', () => {
   it('submodules are still staged after fresh clone', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-submodules')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
+      'test-clone-submodules'
+    )
     await clone({
       fs,
       http,
@@ -23,7 +25,9 @@ describe('submodule "support"', () => {
   })
 
   it('submodules are still staged after making a commit', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-submodules')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
+      'test-clone-submodules'
+    )
     await clone({
       fs,
       http,
@@ -47,7 +51,9 @@ describe('submodule "support"', () => {
   })
 
   it('submodules are staged when switching to a branch that has them', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-submodules')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
+      'test-clone-submodules'
+    )
     await clone({
       fs,
       http,
@@ -67,7 +73,9 @@ describe('submodule "support"', () => {
   })
 
   it("submodules are unstaged when switching to a branch that doesn't have them", async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-submodules')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
+      'test-clone-submodules'
+    )
     await clone({
       fs,
       http,

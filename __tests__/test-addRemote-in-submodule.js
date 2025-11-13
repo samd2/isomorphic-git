@@ -1,7 +1,7 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, addRemote, listRemotes } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('addRemote', () => {
   it('addRemote', async () => {
