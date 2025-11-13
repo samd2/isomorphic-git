@@ -16,7 +16,7 @@
 
 import http from 'isomorphic-git/http'
 
-import { join } from '../utils/join.js'
+import { join } from '../../src/utils/join.js'
 
 const localhost =
   typeof window === 'undefined' ? 'localhost' : window.location.hostname
