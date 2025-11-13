@@ -2,11 +2,11 @@
 // const { pgp } = require('@isomorphic-git/pgp-plugin')
 import { log } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('log', () => {
   it('a newly added file', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-file')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-file')
     const commits = await log({
       fs,
       gitdir,
@@ -80,7 +80,7 @@ describe('log', () => {
     `)
   })
   it('a file only', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-file')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-file')
     const commits = await log({
       fs,
       gitdir,
@@ -229,7 +229,7 @@ describe('log', () => {
     `)
   })
   it('a deleted file without force should throw error', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-file')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-file')
     let err
     try {
       await log({
@@ -245,7 +245,7 @@ describe('log', () => {
     expect(err.message).toMatch('Could not find')
   })
   it('a deleted file forced', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-file')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-file')
     const commits = await log({
       fs,
       gitdir,
@@ -533,7 +533,7 @@ describe('log', () => {
     `)
   })
   it('a rename file with follow', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-file')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-file')
     const commits = await log({
       fs,
       gitdir,
@@ -732,7 +732,7 @@ describe('log', () => {
     `)
   })
   it('a rename file forced without follow', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-file')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-file')
     const commits = await log({
       fs,
       gitdir,
@@ -839,7 +839,7 @@ describe('log', () => {
     `)
   })
   it('a rename file with follow multi same content files', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-file')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-file')
     const commits = await log({
       fs,
       gitdir,
@@ -946,7 +946,7 @@ describe('log', () => {
     `)
   })
   it('a rename file2 with follow multi same content files', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-file')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-file')
     const commits = await log({
       fs,
       gitdir,

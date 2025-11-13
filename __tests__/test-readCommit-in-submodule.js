@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, readCommit } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('readCommit', () => {
   it('test missing', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readCommit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readCommit')
     // Test
     let error = null
     try {
@@ -23,7 +23,7 @@ describe('readCommit', () => {
   })
   it('parsed', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readCommit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readCommit')
     // Test
     const result = await readCommit({
       fs,
@@ -82,7 +82,7 @@ describe('readCommit', () => {
   })
   it('from packfile', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readCommit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readCommit')
     // Test
     const result = await readCommit({
       fs,
@@ -124,7 +124,7 @@ describe('readCommit', () => {
   })
   it('peels tags', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readCommit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readCommit')
     // Test
     const result = await readCommit({
       fs,

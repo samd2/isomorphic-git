@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { listNotes, removeNote } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('removeNote', () => {
   it('from default branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-removeNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-removeNote')
     // Test
     let notes = await listNotes({
       fs,
@@ -33,7 +33,7 @@ describe('removeNote', () => {
   })
   it('from alternate branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-removeNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-removeNote')
     // Test
     let notes = await listNotes({
       fs,

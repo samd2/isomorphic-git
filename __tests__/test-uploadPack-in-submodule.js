@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { uploadPack, collect } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('uploadPack', () => {
   it('advertiseRefs: true', async () => {
     // Setup
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-uploadPack')
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-uploadPack')
     const res = await uploadPack({ fs, gitdir: gitdirsmfullpath, advertiseRefs: true })
     const buffer = Buffer.from(await collect(res))
     expect(buffer.toString('utf8')).toBe(

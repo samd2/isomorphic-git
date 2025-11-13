@@ -4,11 +4,11 @@ import * as path from 'path'
 
 import { GitIndex, GitIndexManager } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('GitIndex', () => {
   it('GitIndex.from(buffer) - Simple', async () => {
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-GitIndex')
     const buffer = await fs.read(path.join(dir, 'simple-index'))
     const index = await GitIndex.from(buffer)
     const rendering = index.render()
@@ -20,7 +20,7 @@ describe('GitIndex', () => {
   })
 
   it('GitIndex.from(buffer)', async () => {
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-GitIndex')
     const buffer = await fs.read(path.join(dir, 'index'))
     const index = await GitIndex.from(buffer)
     const rendering = index.render()
@@ -63,7 +63,7 @@ describe('GitIndex', () => {
   })
 
   it('GitIndex round trip', async () => {
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-GitIndex')
     const buffer = await fs.read(path.join(dir, 'index'))
     const index = await GitIndex.from(buffer)
     const buffer2 = await index.toObject()
@@ -73,7 +73,7 @@ describe('GitIndex', () => {
   })
 
   it('write unmerged index to disk and read it back', async () => {
-    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex')
+    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule('test-GitIndex')
     await GitIndexManager.acquire(
       { fs, gitdir: gitdirsmfullpath, cache: {} },
       async function (index) {
@@ -104,7 +104,7 @@ describe('GitIndex', () => {
 
   it('read existing unmerged index', async () => {
     // Setup
-    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex-unmerged')
+    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule('test-GitIndex-unmerged')
 
     // Test
     await GitIndexManager.acquire(

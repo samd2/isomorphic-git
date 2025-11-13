@@ -3,7 +3,7 @@ import { Errors, setConfig, fetch } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 import { sleep } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
@@ -11,7 +11,7 @@ const localhost =
 
 describe('fetch', () => {
   it('fetch (from Github)', async () => {
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -34,7 +34,7 @@ describe('fetch', () => {
   })
 
   it('shallow fetch (from Github)', async () => {
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -81,7 +81,7 @@ describe('fetch', () => {
   })
 
   it('throws UnknownTransportError if using shorter scp-like syntax', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -108,7 +108,7 @@ describe('fetch', () => {
   })
 
   it('the SSH -> HTTPS UnknownTransportError suggestion feature', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -138,7 +138,7 @@ describe('fetch', () => {
   })
 
   it('shallow fetch single commit by hash (from Github)', async () => {
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -161,7 +161,7 @@ describe('fetch', () => {
   })
 
   it('shallow fetch since (from Github)', async () => {
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -184,7 +184,7 @@ describe('fetch', () => {
   })
 
   it('shallow fetch exclude (from Github)', async () => {
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -207,7 +207,7 @@ describe('fetch', () => {
   })
 
   it('shallow fetch relative (from Github)', async () => {
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-fetch-cors')
     await setConfig({
       fs,
       gitdir,
@@ -244,7 +244,7 @@ describe('fetch', () => {
   })
 
   it('errors if missing refspec', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-issue-84')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-issue-84')
     await setConfig({
       fs,
       gitdir,
@@ -271,7 +271,7 @@ describe('fetch', () => {
   })
 
   it('fetch empty repository from git-http-mock-server', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-empty')
     await fetch({
       fs,
       http,
@@ -289,7 +289,7 @@ describe('fetch', () => {
   })
 
   it('fetch --prune from git-http-mock-server', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-fetch-client')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-fetch-client')
     await setConfig({
       fs,
       gitdir,
@@ -314,7 +314,7 @@ describe('fetch', () => {
   })
 
   it('fetch --prune-tags from git-http-mock-server', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-fetch-client')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-fetch-client')
     await setConfig({
       fs,
       gitdir,

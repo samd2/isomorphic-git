@@ -3,7 +3,7 @@ import * as path from 'path'
 
 import { isBinary } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 const binaryFiles = [
   'browserconfig.gz',
@@ -17,7 +17,7 @@ describe('isBinary', () => {
   for (const file of binaryFiles) {
     it(`${path.extname(file)} is binary`, async () => {
       // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule(('test-isBinary')
+      const { fs, dir } = await makeFixtureAsSubmodule('test-isBinary')
       const buffer = await fs.read(`${dir}/${file}`)
       // Test
       expect(isBinary(buffer)).toEqual(true)
@@ -27,7 +27,7 @@ describe('isBinary', () => {
   for (const file of textFiles) {
     it(`${path.extname(file)} is NOT binary`, async () => {
       // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule(('test-isBinary')
+      const { fs, dir } = await makeFixtureAsSubmodule('test-isBinary')
       const buffer = await fs.read(`${dir}/${file}`)
       // Test
       expect(isBinary(buffer)).toEqual(false)

@@ -9,7 +9,7 @@ import {
 } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
@@ -24,7 +24,7 @@ describe('clone', () => {
   ;(process.browser ? xit : it)(
     'clone with noTags',
     async () => {
-      const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('isomorphic-git')
+      const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
       await clone({
         fs,
         http,
@@ -57,7 +57,7 @@ describe('clone', () => {
     30_000
   )
   it('clone with noCheckout', async () => {
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('isomorphic-git')
+    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
     await clone({
       fs,
       http,
@@ -79,7 +79,7 @@ describe('clone', () => {
     expect(await fs.exists(`${dir}/package.json`)).toBe(false)
   })
   it('clone a tag', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('isomorphic-git')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
     await clone({
       fs,
       http,
@@ -101,7 +101,7 @@ describe('clone', () => {
     expect(await fs.exists(`${dir}/package.json`)).toBe(true)
   })
   it('clone should not peel tag', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('isomorphic-git')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
     await clone({
       fs,
       http,
@@ -113,7 +113,7 @@ describe('clone', () => {
     expect(oid.trim()).toBe('db34227a52a6490fc80a13da3916ea91d183fc3f')
   })
   it('clone with an unregistered protocol', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('isomorphic-git')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('isomorphic-git')
     const url = `foobar://github.com/isomorphic-git/isomorphic-git`
     let error = null
     try {
@@ -137,7 +137,7 @@ describe('clone', () => {
   })
 
   it('clone from git-http-mock-server', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-clone-karma')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-clone-karma')
     await clone({
       fs,
       http,
@@ -161,7 +161,7 @@ describe('clone', () => {
 
   it('should throw error if server resets connection before reading packetlines', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule((
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
       'test-clone-error-before-packetlines'
     )
     const instrumentedHttp = {
@@ -223,7 +223,7 @@ describe('clone', () => {
 
   it('should throw error if server resets connection while reading packetlines', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule((
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
       'test-clone-error-during-packetlines'
     )
     const instrumentedHttp = {
@@ -285,7 +285,7 @@ describe('clone', () => {
 
   it('should throw error if server resets connection before reading packfile', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule((
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
       'test-clone-error-before-packfile'
     )
     const instrumentedHttp = {
@@ -347,7 +347,7 @@ describe('clone', () => {
 
   it('should not throw TypeError error if packfile is empty', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule((
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
       'test-clone-error-empty-packfile'
     )
     const instrumentedHttp = {
@@ -387,7 +387,7 @@ describe('clone', () => {
   })
 
   it('clone default branch with --singleBranch', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-clone-karma')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-karma')
     await clone({
       fs,
       http,
@@ -401,7 +401,7 @@ describe('clone', () => {
   })
 
   it('create tracking for remote branch', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-clone-branch-with-dot')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-clone-branch-with-dot')
     await clone({
       fs,
       http,
@@ -417,7 +417,7 @@ describe('clone', () => {
   })
 
   it('clone empty repository from git-http-mock-server', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-clone-empty')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-clone-empty')
     await clone({
       fs,
       http,
@@ -439,7 +439,7 @@ describe('clone', () => {
   })
 
   it('removes the gitdir when clone fails', async () => {
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('isomorphic-git')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('isomorphic-git')
     const url = `foobar://github.com/isomorphic-git/isomorphic-git`
     try {
       await clone({
@@ -459,7 +459,7 @@ describe('clone', () => {
   })
 
   it('should set up the remote tracking branch by default', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('isomorphic-git')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('isomorphic-git')
     await clone({
       fs,
       http,
@@ -482,7 +482,7 @@ describe('clone', () => {
   })
 
   it('clone with post-checkout hook', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-clone-karma')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-karma')
     const onPostCheckout = []
     await clone({
       fs,
@@ -508,7 +508,7 @@ describe('clone', () => {
 
   if (typeof process === 'object' && (process.versions || {}).node) {
     it('should allow agent to be used with built-in http plugin for Node.js', async () => {
-      const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('isomorphic-git')
+      const { fs, dir, gitdir } = await makeFixtureAsSubmodule('isomorphic-git')
       const connectionLog = []
       const { Agent } = await import('https')
       const httpWithAgent = {

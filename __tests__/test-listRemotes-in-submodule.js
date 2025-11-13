@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { listRemotes } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listRemotes', () => {
   it('listRemotes', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-listRemotes')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-listRemotes')
     // Test
     const a = await listRemotes({ fs, dir, gitdir })
     expect(a).toEqual([

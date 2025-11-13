@@ -1,14 +1,14 @@
 /* eslint-env node, browser, jasmine */
 import { findMergeBase } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // These have been checked with
 // GIT_DIR=__tests__/__fixtures__/test-findMergeBase.git git merge-base -a --octopus COMMITS
 describe('findMergeBase', () => {
   it('silly edge cases', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
     let base
     // Test
     base = await findMergeBase({
@@ -30,7 +30,7 @@ describe('findMergeBase', () => {
   })
   it('no common ancestor scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
     // Test
     const base = await findMergeBase({
       fs,
@@ -44,7 +44,7 @@ describe('findMergeBase', () => {
   })
   it('fast-forward scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
     let base
     // Test
     base = await findMergeBase({
@@ -90,7 +90,7 @@ describe('findMergeBase', () => {
   })
   it('diverging scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
     let base
     // Test
     base = await findMergeBase({
@@ -158,7 +158,7 @@ describe('findMergeBase', () => {
   })
   it('merge commit scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
     let base
     // Test
     base = await findMergeBase({
@@ -214,7 +214,7 @@ describe('findMergeBase', () => {
   })
   it('recursive merge base scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
     // Test
     const base = await findMergeBase({
       fs,
@@ -232,7 +232,7 @@ describe('findMergeBase', () => {
 
   it('fork & rejoin in one branch base scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
     // Test
     const base = await findMergeBase({
       fs,

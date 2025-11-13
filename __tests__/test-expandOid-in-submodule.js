@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, expandOid } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('expandOid', () => {
   it('expand short oid', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-expandOid')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-expandOid')
     let oid = '033417ae'
     // Test
     oid = await expandOid({ fs, gitdir, oid })
@@ -15,7 +15,7 @@ describe('expandOid', () => {
 
   it('expand short oid (not found)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-expandOid')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-expandOid')
     const oid = '01234567'
     // Test
     let error = null
@@ -30,7 +30,7 @@ describe('expandOid', () => {
 
   it('expand short oid (ambiguous)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-expandOid')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-expandOid')
     const oid = '033417a'
     // Test
     let error = null
@@ -45,7 +45,7 @@ describe('expandOid', () => {
 
   it('expand short oid from packfile', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-expandOid')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-expandOid')
     let oid = '5f1f014'
     // Test
     oid = await expandOid({ fs, gitdir, oid })
@@ -54,7 +54,7 @@ describe('expandOid', () => {
 
   it('expand short oid from packfile and loose', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-expandOid')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-expandOid')
     // This object is in the pack file as well as being available loose
     let oid = '0001c3'
     // Test

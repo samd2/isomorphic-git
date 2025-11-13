@@ -1,13 +1,13 @@
 /* eslint-env node, browser, jasmine */
 import { writeObject } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // NOTE: These are mostly the `readObject` tests but in reverse
 describe('writeObject', () => {
   it('parsed', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -53,7 +53,7 @@ Qixh2bmPgr3h9nxq2Dmn
   })
   it('content', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -69,7 +69,7 @@ Qixh2bmPgr3h9nxq2Dmn
   })
   it('wrapped', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -84,7 +84,7 @@ Qixh2bmPgr3h9nxq2Dmn
   })
   it('deflated', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -100,7 +100,7 @@ Qixh2bmPgr3h9nxq2Dmn
   })
   it('blob with encoding', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -141,7 +141,7 @@ minimisted(async function ({ _: [command, ...args], ...opts }) {
   })
   it('tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -263,7 +263,7 @@ minimisted(async function ({ _: [command, ...args], ...opts }) {
   })
   it('tree entries sorted correctly', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -307,7 +307,7 @@ minimisted(async function ({ _: [command, ...args], ...opts }) {
   })
   it('annotated tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,

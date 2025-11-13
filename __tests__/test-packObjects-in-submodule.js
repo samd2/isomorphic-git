@@ -4,12 +4,12 @@ import * as path from 'path'
 import { packObjects, indexPack, readObject } from 'isomorphic-git'
 import { readObjectPacked } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('packObjects', () => {
   it('makes a packfile', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-packObjects')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-packObjects')
     const { filename, packfile } = await packObjects({
       fs,
       gitdir,
@@ -35,7 +35,7 @@ describe('packObjects', () => {
   })
   it('save packfile', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-packObjects')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-packObjects')
     const oids = [
       '5a9da3272badb2d3c8dbab463aed5741acb15a33',
       '0bfe8fa3764089465235461624f2ede1533e74ec',

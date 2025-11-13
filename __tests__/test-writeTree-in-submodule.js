@@ -1,13 +1,13 @@
 /* eslint-env node, browser, jasmine */
 import { writeTree } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // NOTE: These are mostly the `readObject` tests but in reverse
 describe('writeTree', () => {
   it('tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeTree')
     // Test
     const oid = await writeTree({
       fs,
@@ -127,7 +127,7 @@ describe('writeTree', () => {
   })
   it('tree entries sorted correctly', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeTree')
     // Test
     const oid = await writeTree({
       fs,

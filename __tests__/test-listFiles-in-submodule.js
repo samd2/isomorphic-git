@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { listFiles } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listFiles', () => {
   it('index', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listFiles')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listFiles')
     // Test
     const files = await listFiles({ fs, gitdir })
     expect(files).toMatchInlineSnapshot(`
@@ -48,7 +48,7 @@ describe('listFiles', () => {
   })
   it('ref', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     // Test
     const files = await listFiles({ fs, gitdir, ref: 'test-branch' })
     expect(files).toMatchInlineSnapshot(`

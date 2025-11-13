@@ -3,12 +3,12 @@ import * as path from 'path'
 
 import { Errors, status, add } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('invalid .git/index', () => {
   it('empty file', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
@@ -29,7 +29,7 @@ describe('invalid .git/index', () => {
 
   it('no magic number', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
@@ -50,7 +50,7 @@ describe('invalid .git/index', () => {
 
   it('wrong checksum', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')

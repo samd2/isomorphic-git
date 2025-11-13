@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, readBlob } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('readBlob', () => {
   it('test missing', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     let error = null
     try {
@@ -23,7 +23,7 @@ describe('readBlob', () => {
   })
   it('blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     const { blob } = await readBlob({
       fs,
@@ -63,7 +63,7 @@ describe('readBlob', () => {
   })
   it('peels tags', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     const { oid } = await readBlob({
       fs,
@@ -74,7 +74,7 @@ describe('readBlob', () => {
   })
   it('with simple filepath to blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     const { oid, blob } = await readBlob({
       fs,
@@ -89,7 +89,7 @@ describe('readBlob', () => {
   })
   it('with deep filepath to blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     const { oid, blob } = await readBlob({
       fs,
@@ -104,7 +104,7 @@ describe('readBlob', () => {
   })
   it('with simple filepath to tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     let error = null
     try {
@@ -122,7 +122,7 @@ describe('readBlob', () => {
   })
   it('with erroneous filepath (directory is a file)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     let error = null
     try {
@@ -140,7 +140,7 @@ describe('readBlob', () => {
   })
   it('with erroneous filepath (no such directory)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     let error = null
     try {
@@ -158,7 +158,7 @@ describe('readBlob', () => {
   })
   it('with erroneous filepath (leading slash)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     let error = null
     try {
@@ -177,7 +177,7 @@ describe('readBlob', () => {
   })
   it('with erroneous filepath (trailing slash)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readBlob')
     // Test
     let error = null
     try {

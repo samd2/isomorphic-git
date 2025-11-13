@@ -2,11 +2,11 @@
 import { pgp } from '@isomorphic-git/pgp-plugin'
 import { log } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('log', () => {
   it('HEAD', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log')
     const commits = await log({ fs, gitdir, ref: 'HEAD' })
     expect(commits.length).toBe(5)
     expect(commits).toMatchInlineSnapshot(`
@@ -247,12 +247,12 @@ describe('log', () => {
     `)
   })
   it('HEAD depth', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log')
     const commits = await log({ fs, gitdir, ref: 'HEAD', depth: 1 })
     expect(commits.length).toBe(1)
   })
   it('HEAD since', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log')
     const commits = await log({
       fs,
       gitdir,
@@ -262,7 +262,7 @@ describe('log', () => {
     expect(commits.length).toBe(2)
   })
   it('shallow branch', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log')
     const commits = await log({ fs, gitdir, ref: 'origin/shallow-branch' })
     expect(commits).toMatchInlineSnapshot(`
       [
@@ -318,7 +318,7 @@ describe('log', () => {
   })
   it('has correct payloads and gpgsig', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log')
     // Test
     const commits = await log({ fs, gitdir, ref: 'HEAD' })
     expect(commits.length).toBe(5)
@@ -383,7 +383,7 @@ dGs=
     }
   })
   it('with complex merging history', async () => {
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-log-complex')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-log-complex')
     const commits = await log({ fs, gitdir, ref: 'master' })
     expect(commits).toMatchInlineSnapshot(`
       [

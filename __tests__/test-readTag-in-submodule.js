@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { readTag } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('readTag', () => {
   it('annotated tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTag')
     // Test
     const tag = await readTag({
       fs,

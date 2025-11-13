@@ -9,7 +9,7 @@ import {
 } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
@@ -18,7 +18,7 @@ const localhost =
 describe('push', () => {
   it('push', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -88,7 +88,7 @@ describe('push', () => {
   })
   it('push empty', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-fetch-server')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-fetch-server')
     await clone({
       fs,
       http,
@@ -108,7 +108,7 @@ describe('push', () => {
   })
   it('push without ref', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -128,7 +128,7 @@ describe('push', () => {
   })
   it('push with ref !== remoteRef', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -172,7 +172,7 @@ describe('push', () => {
   })
   it('push with lightweight tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -216,7 +216,7 @@ describe('push', () => {
   })
   it('push with annotated tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -241,7 +241,7 @@ describe('push', () => {
   })
   it('push delete', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -296,7 +296,7 @@ describe('push', () => {
   })
   it('throws UnknownTransportError if using shorter scp-like syntax', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -322,7 +322,7 @@ describe('push', () => {
 
   it('push with Basic Auth', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -344,7 +344,7 @@ describe('push', () => {
   })
   it('push with Basic Auth credentials in the URL', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -365,7 +365,7 @@ describe('push', () => {
   })
   it('throws an Error if no credentials supplied', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -389,7 +389,7 @@ describe('push', () => {
   })
   it('throws an Error if invalid credentials supplied', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -415,7 +415,7 @@ describe('push', () => {
 
   it('onAuthSuccess', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -468,7 +468,7 @@ describe('push', () => {
 
   it('onAuthFailure', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -565,7 +565,7 @@ describe('push', () => {
 
   it('onAuthFailure then onAuthSuccess', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -651,7 +651,7 @@ describe('push', () => {
 
   it('onAuth + cancel', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -703,7 +703,7 @@ describe('push', () => {
 
   it('onPrePush abort', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-fetch-server')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-fetch-server')
     await clone({
       fs,
       http,

@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, readObject } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('readObject', () => {
   it('test missing', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     let error = null
     try {
@@ -23,7 +23,7 @@ describe('readObject', () => {
   })
   it('parsed', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -80,7 +80,7 @@ describe('readObject', () => {
   })
   it('content', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -98,7 +98,7 @@ describe('readObject', () => {
   })
   it('wrapped', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -116,7 +116,7 @@ describe('readObject', () => {
   })
   it('deflated', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -134,7 +134,7 @@ describe('readObject', () => {
   })
   it('from packfile deflated', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -155,7 +155,7 @@ describe('readObject', () => {
   })
   it('from packfile wrapped', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -176,7 +176,7 @@ describe('readObject', () => {
   })
   it('from packfile content', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -196,7 +196,7 @@ describe('readObject', () => {
   })
   it('blob with encoding', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -243,7 +243,7 @@ describe('readObject', () => {
   })
   it('with simple filepath to blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -265,7 +265,7 @@ describe('readObject', () => {
   })
   it('with deep filepath to blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -284,7 +284,7 @@ describe('readObject', () => {
   })
   it('with simple filepath to tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -414,7 +414,7 @@ describe('readObject', () => {
   })
   it('with deep filepath to tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     const ref = await readObject({
       fs,
@@ -547,7 +547,7 @@ describe('readObject', () => {
   })
   it('with erroneous filepath (directory is a file)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     let error = null
     try {
@@ -566,7 +566,7 @@ describe('readObject', () => {
   })
   it('with erroneous filepath (no such directory)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     let error = null
     try {
@@ -585,7 +585,7 @@ describe('readObject', () => {
   })
   it('with erroneous filepath (leading slash)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     let error = null
     try {
@@ -605,7 +605,7 @@ describe('readObject', () => {
   })
   it('with erroneous filepath (trailing slash)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readObject')
     // Test
     let error = null
     try {

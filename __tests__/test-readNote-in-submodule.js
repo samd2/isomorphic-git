@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { readNote } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('readNote', () => {
   it('to a commit', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readNote')
     // Test
     const note = await readNote({
       fs,
@@ -19,7 +19,7 @@ describe('readNote', () => {
   })
   it('to a tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readNote')
     // Test
     const note = await readNote({
       fs,
@@ -32,7 +32,7 @@ describe('readNote', () => {
   })
   it('to a blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readNote')
     // Test
     const note = await readNote({
       fs,
@@ -45,7 +45,7 @@ describe('readNote', () => {
   })
   it('from an alternate branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readNote')
     // Test
     const note = await readNote({
       fs,

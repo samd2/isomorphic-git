@@ -3,7 +3,7 @@ import * as path from 'path'
 
 import { findRoot } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // NOTE: Because ".git" is not allowed as a path name in git,
 // we can't actually store the ".git" folders in our fixture,
@@ -11,7 +11,7 @@ import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmo
 describe('findRoot', () => {
   it('filepath has its own .git folder', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-findRoot')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-findRoot')
     await fs.mkdir(path.join(dir, 'foobar', '.git'))
     await fs.mkdir(path.join(dir, 'foobar/bar', '.git'))
     // Test
@@ -23,7 +23,7 @@ describe('findRoot', () => {
   })
   it('filepath has ancestor with a .git folder', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-findRoot')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-findRoot')
     await fs.mkdir(path.join(dir, 'foobar', '.git'))
     await fs.mkdir(path.join(dir, 'foobar/bar', '.git'))
     // Test

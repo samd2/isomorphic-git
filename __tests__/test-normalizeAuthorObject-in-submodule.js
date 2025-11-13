@@ -3,12 +3,12 @@
 import { setConfig } from 'isomorphic-git'
 import { normalizeAuthorObject } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('normalizeAuthorObject', () => {
   it('return author if all properties are populated', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-normalizeAuthorObject')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
 
     await setConfig({
       fs,
@@ -37,7 +37,7 @@ describe('normalizeAuthorObject', () => {
 
   it('return commit author when no author was provided', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-normalizeAuthorObject')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
 
     await setConfig({
       fs,
@@ -79,7 +79,7 @@ describe('normalizeAuthorObject', () => {
 
   it('return config values and new timestamp if no author or commit was provided', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-normalizeAuthorObject')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
 
     await setConfig({
       fs,
@@ -105,7 +105,7 @@ describe('normalizeAuthorObject', () => {
 
   it('return undefined if no value can be retrieved', async () => {
     // Setup
-    const { fs, gitdir: gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-normalizeAuthorObject')
+    const { fs, gitdir: gitdirsmfullpath } = await makeFixtureAsSubmodule('test-normalizeAuthorObject')
 
     // Test
     expect(await normalizeAuthorObject({ fs, gitdir: gitdirsmfullpath })).toBeUndefined()

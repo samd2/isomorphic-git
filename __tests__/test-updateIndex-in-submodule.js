@@ -3,12 +3,12 @@ import * as path from 'path'
 
 import { writeBlob, updateIndex, status, add } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('updateIndex', () => {
   it('should be possible to add a file on disk to the index', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     // Test
     const oid = await updateIndex({
@@ -28,7 +28,7 @@ describe('updateIndex', () => {
 
   it('should be possible to remove a file from the index which is not present in the workdir', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     await add({
       fs,
@@ -59,7 +59,7 @@ describe('updateIndex', () => {
 
   it('should not remove file from index by default if file still exists in workdir', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     await add({
       fs,
@@ -89,7 +89,7 @@ describe('updateIndex', () => {
 
   it('should remove file from index which exists on disk if force is used', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     await add({
       fs,
@@ -120,7 +120,7 @@ describe('updateIndex', () => {
 
   it('should be possible to add a file from the object database to the index', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     const oid = await writeBlob({
       fs,
       dir,
@@ -145,7 +145,7 @@ describe('updateIndex', () => {
 
   it('should be possible to update a file', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     await add({
       fs,
@@ -176,7 +176,7 @@ describe('updateIndex', () => {
 
   it('should throw if we try to update a new file without providing `add`', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     // Test
     let error = null
@@ -207,7 +207,7 @@ describe('updateIndex', () => {
 
   it('should throw if we try to update a file which does not exist on disk', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     // Test
     let error = null
     try {
@@ -237,7 +237,7 @@ describe('updateIndex', () => {
 
   it('should throw if we try to add a directory', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.mkdir(path.join(dir, 'hello-world'))
     // Test
     let error = null
@@ -268,7 +268,7 @@ describe('updateIndex', () => {
 
   it('should throw if we try to remove a directory', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.mkdir(path.join(dir, 'hello-world'))
     await fs.write(path.join(dir, 'hello-world/a'), 'a')
     await add({
@@ -306,7 +306,7 @@ describe('updateIndex', () => {
 
   it('should not throw if we force remove a directory', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-empty')
     await fs.mkdir(path.join(dir, 'hello-world'))
     await fs.write(path.join(dir, 'hello-world/a'), 'a')
     await add({

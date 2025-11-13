@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { deleteRef, listTags } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('deleteRef', () => {
   it('deletes a loose tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteRef')
     // Test
     await deleteRef({
       fs,
@@ -18,7 +18,7 @@ describe('deleteRef', () => {
   })
   it('deletes a packed tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteRef')
     // Test
     await deleteRef({
       fs,
@@ -30,7 +30,7 @@ describe('deleteRef', () => {
   })
   it('deletes a packed and loose tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteRef')
     // Test
     await deleteRef({
       fs,

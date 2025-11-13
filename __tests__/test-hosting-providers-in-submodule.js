@@ -2,7 +2,7 @@
 import { fetch, push } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
@@ -20,7 +20,7 @@ describe('Hosting Providers', () => {
     const username = 'tester-at-260687965765'
     it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -37,7 +37,7 @@ describe('Hosting Providers', () => {
     })
     it('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await push({
         fs,
@@ -63,7 +63,7 @@ describe('Hosting Providers', () => {
 
     it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -82,7 +82,7 @@ describe('Hosting Providers', () => {
     // Disabled as part of https://github.com/isomorphic-git/isomorphic-git/issues/1876.
     xit('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await push({
         fs,
@@ -109,7 +109,7 @@ describe('Hosting Providers', () => {
     const username = 'isomorphic-git'
     it('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await push({
         fs,
@@ -127,7 +127,7 @@ describe('Hosting Providers', () => {
     })
     it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -153,7 +153,7 @@ describe('Hosting Providers', () => {
     const username = 'isomorphic-git-test-push'
     it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -170,7 +170,7 @@ describe('Hosting Providers', () => {
     })
     it('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await push({
         fs,
@@ -197,7 +197,7 @@ describe('Hosting Providers', () => {
     const username = 'isomorphic-git-test-push'
     it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -214,7 +214,7 @@ describe('Hosting Providers', () => {
     })
     it('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
+      const { fs, gitdir } = await makeFixtureAsSubmodule('test-hosting-providers')
       // Test
       const res = await push({
         fs,

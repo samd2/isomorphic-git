@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, addRemote, listRemotes } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 describe('addRemote', () => {
   it('addRemote', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addRemote')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-addRemote')
     const remote = 'baz'
     const url = 'git@github.com:baz/baz.git'
     // Test
@@ -20,7 +20,7 @@ describe('addRemote', () => {
   })
   it('missing argument', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addRemote')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-addRemote')
     const remote = 'baz'
     const url = undefined
     // Test
@@ -42,7 +42,7 @@ describe('addRemote', () => {
   })
   it('invalid remote name', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addRemote')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-addRemote')
     const remote = '@{HEAD~1}'
     const url = 'git@github.com:baz/baz.git'
     // Test

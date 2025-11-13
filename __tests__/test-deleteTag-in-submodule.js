@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, deleteTag, listTags } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('deleteTag', () => {
   it('deletes the latest tag to HEAD', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteTag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteTag')
     // Test
     await deleteTag({
       fs,
@@ -22,7 +22,7 @@ describe('deleteTag', () => {
 
   it('missing ref argument', async () => {
     // Setup
-    const { dir, gitdir } = await makeFixtureAsSubmodule(('test-deleteTag')
+    const { dir, gitdir } = await makeFixtureAsSubmodule('test-deleteTag')
     let error = null
     // Test
     try {

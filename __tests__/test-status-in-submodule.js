@@ -3,12 +3,12 @@ import * as path from 'path'
 
 import { status, add, remove } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('status', () => {
   it('status', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-status')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-status')
     // Test
     const a = await status({ fs, dir, gitdir, filepath: 'a.txt' })
     const b = await status({ fs, dir, gitdir, filepath: 'b.txt' })
@@ -68,7 +68,7 @@ describe('status', () => {
 
   it('status in an fresh git repo with no commits', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, 'a.txt'), 'Hi')
     await fs.write(path.join(dir, 'b.txt'), 'Hi')
     await add({ fs, dir, gitdir, filepath: 'b.txt' })

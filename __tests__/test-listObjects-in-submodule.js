@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { listObjects } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listObjects', () => {
   it('listObjects', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-listObjects')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-listObjects')
     // Test
     const objects = await listObjects({
       fs,

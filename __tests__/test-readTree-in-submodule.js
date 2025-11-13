@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, readTree } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('readTree', () => {
   it('read a tree directly', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTree')
     // Test
     const { oid, tree } = await readTree({
       fs,
@@ -129,7 +129,7 @@ describe('readTree', () => {
   })
   it('peels tags', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTree')
     // Test
     const { oid, tree } = await readTree({
       fs,
@@ -252,7 +252,7 @@ describe('readTree', () => {
   })
   it('with simple filepath to tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTree')
     // Test
     const { oid, tree } = await readTree({
       fs,
@@ -376,7 +376,7 @@ describe('readTree', () => {
   })
   it('with deep filepath to tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTree')
     // Test
     const { oid, tree } = await readTree({
       fs,
@@ -506,7 +506,7 @@ describe('readTree', () => {
   })
   it('with erroneous filepath (directory is a file)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTree')
     // Test
     let error = null
     try {
@@ -524,7 +524,7 @@ describe('readTree', () => {
   })
   it('with erroneous filepath (no such directory)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTree')
     // Test
     let error = null
     try {
@@ -542,7 +542,7 @@ describe('readTree', () => {
   })
   it('with erroneous filepath (leading slash)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTree')
     // Test
     let error = null
     try {
@@ -561,7 +561,7 @@ describe('readTree', () => {
   })
   it('with erroneous filepath (trailing slash)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-readTree')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-readTree')
     // Test
     let error = null
     try {

@@ -11,12 +11,12 @@ import {
   add,
 } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('commit', () => {
   it('prevent commit if index has unmerged paths', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-GitIndex-unmerged')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-GitIndex-unmerged')
     // Test
     let error = null
     try {
@@ -39,7 +39,7 @@ describe('commit', () => {
   })
   it('commit', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const author = {
@@ -69,7 +69,7 @@ describe('commit', () => {
 
   it('Initial commit', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-init')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-init')
     await init({ fs, dir })
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     await add({ fs, dir, filepath: 'hello.md' })
@@ -97,7 +97,7 @@ describe('commit', () => {
 
   it('Cannot commit without message', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     // Test
     const author = {
       name: 'Mr. Test',
@@ -124,7 +124,7 @@ describe('commit', () => {
 
   it('without updating branch', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const sha = await commit({
@@ -154,7 +154,7 @@ describe('commit', () => {
 
   it('dry run', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const sha = await commit({
@@ -184,7 +184,7 @@ describe('commit', () => {
 
   it('custom ref', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const sha = await commit({
@@ -218,7 +218,7 @@ describe('commit', () => {
 
   it('custom parents and tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const parent = [
@@ -256,7 +256,7 @@ describe('commit', () => {
 
   it('throw error if missing author', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     // Test
     let error = null
     try {
@@ -280,7 +280,7 @@ describe('commit', () => {
   it('create signed commit', async () => {
     // Setup
     const { pgp } = await import('@isomorphic-git/pgp-plugin')
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     // Test
     const { privateKey, publicKey } = await import('./__fixtures__/pgp-keys.js')
     const oid = await commit({
@@ -312,7 +312,7 @@ describe('commit', () => {
 
   it('with timezone', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     let commits
     // Test
     await commit({
@@ -376,7 +376,7 @@ describe('commit', () => {
 
   it('commit amend (new message)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     const author = {
       name: 'Mr. Test',
       email: 'mrtest@example.com',
@@ -414,7 +414,7 @@ describe('commit', () => {
 
   it('commit amend (change author, keep message)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
     const author = {
       name: 'Mr. Test',
       email: 'mrtest@example.com',
@@ -459,7 +459,7 @@ describe('commit', () => {
 
   it('Cannot amend without an initial commit', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(('test-init')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-init')
     await init({ fs, dir })
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     await add({ fs, dir, filepath: 'hello.md' })

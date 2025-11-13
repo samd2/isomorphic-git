@@ -5,7 +5,7 @@ import * as path from 'path'
 import { setConfig, pull, log, add, commit, Errors } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
@@ -14,7 +14,7 @@ const localhost =
 describe('pull', () => {
   it('pull', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-pull')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-pull')
     await setConfig({
       fs,
       gitdir,
@@ -55,7 +55,7 @@ describe('pull', () => {
       timestamp: 1262356920,
       timezoneOffset: -0,
     }
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-pull-no-ff')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-pull-no-ff')
     await setConfig({
       fs,
       gitdir,
@@ -96,7 +96,7 @@ describe('pull', () => {
   })
   it('pull no fast-forward', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-pull-no-ff')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-pull-no-ff')
     await setConfig({
       fs,
       gitdir,

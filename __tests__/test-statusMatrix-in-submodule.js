@@ -3,12 +3,12 @@ import * as path from 'path'
 
 import { statusMatrix, add, remove } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('statusMatrix', () => {
   it('statusMatrix', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-statusMatrix')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-statusMatrix')
     // Test
     let matrix = await statusMatrix({ fs, dir, gitdir })
     expect(matrix).toEqual([
@@ -51,7 +51,7 @@ describe('statusMatrix', () => {
 
   it('statusMatrix in an fresh git repo with no commits', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, 'a.txt'), 'Hi')
     await fs.write(path.join(dir, 'b.txt'), 'Hi')
     await add({ fs, dir, gitdir, filepath: 'b.txt' })
@@ -64,7 +64,7 @@ describe('statusMatrix', () => {
 
   it('statusMatrix in an fresh git repo with no commits and .gitignore', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, '.gitignore'), 'ignoreme.txt\n')
     await fs.write(path.join(dir, 'ignoreme.txt'), 'ignored')
     await add({ fs, dir, gitdir, filepath: '.' })
@@ -75,7 +75,7 @@ describe('statusMatrix', () => {
 
   it('does not return ignored files already in the index', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, '.gitignore'), 'ignoreme.txt\n')
     await add({ fs, dir, gitdir, filepath: '.' })
     await fs.write(path.join(dir, 'ignoreme.txt'), 'ignored')
@@ -87,7 +87,7 @@ describe('statusMatrix', () => {
 
   it('returns ignored files already in the index if ignored:true', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, '.gitignore'), 'ignoreme.txt\n')
     await add({ fs, dir, gitdir, filepath: '.' })
     await fs.write(path.join(dir, 'ignoreme.txt'), 'ignored')
@@ -102,7 +102,7 @@ describe('statusMatrix', () => {
 
   it('ignored:true works with multiple added files ', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(
       path.join(dir, '.gitignore'),
       'ignoreme.txt\nignoreme2.txt\n'
@@ -127,7 +127,7 @@ describe('statusMatrix', () => {
 
     beforeAll(async () => {
       // Setup
-      const output = await makeFixtureAsSubmodule(('test-empty')
+      const output = await makeFixtureAsSubmodule('test-empty')
       fs = output.fs
       dir = output.dir
       gitdir = output.gitdir
@@ -244,7 +244,7 @@ describe('statusMatrix', () => {
   })
   it('ignored: true has no impact when file is already in index', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-empty')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-empty')
     await fs.write(path.join(dir, '.gitignore'), 'ignoreme.txt\n')
     await fs.write(path.join(dir, 'ignoreme.txt'), 'ignored')
     await add({ fs, dir, gitdir, filepath: '.', force: true })
@@ -264,7 +264,7 @@ describe('statusMatrix', () => {
 
   it('statusMatrix with filepaths', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-statusMatrix-filepath')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-statusMatrix-filepath')
     // Test
     let matrix = await statusMatrix({ fs, dir, gitdir })
     expect(matrix).toEqual([
@@ -297,7 +297,7 @@ describe('statusMatrix', () => {
 
   it('statusMatrix with filter', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-statusMatrix-filepath')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-statusMatrix-filepath')
     // Test
     let matrix = await statusMatrix({
       fs,
@@ -332,7 +332,7 @@ describe('statusMatrix', () => {
 
   it('statusMatrix with removed folder and created file with same name', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule((
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
       'test-statusMatrix-tree-blob-collision'
     )
     // Test
@@ -364,7 +364,7 @@ describe('statusMatrix', () => {
 
   it('statusMatrix with removed file and created folder with same name', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule((
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(
       'test-statusMatrix-blob-tree-collision'
     )
     // Test

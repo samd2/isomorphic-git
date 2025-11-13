@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { annotatedTag, resolveRef, readTag } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('annotatedTag', () => {
   it('creates an annotated tag to HEAD', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-annotatedTag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-annotatedTag')
     // Test
     await annotatedTag({
       fs,
@@ -24,7 +24,7 @@ describe('annotatedTag', () => {
   })
   it('creates an annotated tag pointing to a blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-annotatedTag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-annotatedTag')
     // Test
     await annotatedTag({
       fs,
@@ -48,7 +48,7 @@ describe('annotatedTag', () => {
   it('creates a signed tag to HEAD', async () => {
     // Setup
     const { pgp } = await import('@isomorphic-git/pgp-plugin')
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-annotatedTag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-annotatedTag')
     // Test
     const { privateKey, publicKey } = await import('./__fixtures__/pgp-keys.js')
     await annotatedTag({

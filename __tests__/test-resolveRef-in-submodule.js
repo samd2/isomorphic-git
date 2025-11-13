@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { resolveRef } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('resolveRef', () => {
   it('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -17,7 +17,7 @@ describe('resolveRef', () => {
   })
   it('test-branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -28,7 +28,7 @@ describe('resolveRef', () => {
   })
   it('config', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -39,7 +39,7 @@ describe('resolveRef', () => {
   })
   it('test-tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -50,7 +50,7 @@ describe('resolveRef', () => {
   })
   it('HEAD', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -61,7 +61,7 @@ describe('resolveRef', () => {
   })
   it('HEAD depth', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -73,7 +73,7 @@ describe('resolveRef', () => {
   })
   it('packed-refs', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -84,7 +84,7 @@ describe('resolveRef', () => {
   })
   it('non-existant refs', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
     // Test
     let error = {}
     try {

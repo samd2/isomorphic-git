@@ -8,12 +8,12 @@ import {
   getConfig,
 } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('deleteBranch', () => {
   it('delete branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteBranch')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteBranch')
     // Test
     await deleteBranch({ fs, gitdir, ref: 'test' })
     const branches = await listBranches({ fs, gitdir })
@@ -22,7 +22,7 @@ describe('deleteBranch', () => {
 
   it('deletes the branch when an identically named tag exists', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteBranch')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteBranch')
     // Test
     await deleteBranch({ fs, gitdir, ref: 'collision' })
     const branches = await listBranches({ fs, gitdir })
@@ -33,7 +33,7 @@ describe('deleteBranch', () => {
 
   it('branch not exist', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteBranch')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteBranch')
     let error = null
     // Test
     try {
@@ -47,7 +47,7 @@ describe('deleteBranch', () => {
 
   it('missing ref argument', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteBranch')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteBranch')
     let error = null
     // Test
     try {
@@ -62,7 +62,7 @@ describe('deleteBranch', () => {
 
   it('checked out branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteBranch')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteBranch')
     // Test
     await deleteBranch({ fs, gitdir, ref: 'master' })
     const head = await currentBranch({ fs, gitdir })
@@ -73,7 +73,7 @@ describe('deleteBranch', () => {
 
   it('delete branch and its entry in config', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteBranch')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteBranch')
     // Test
     await deleteBranch({ fs, gitdir, ref: 'remote' })
     const branches = await listBranches({ fs, gitdir })

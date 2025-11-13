@@ -1,7 +1,7 @@
 /* eslint-env node, browser, jasmine */
 import { isIgnored } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // NOTE: we cannot actually commit a real .gitignore file in fixtures or fixtures won't be included in this repo
 const writeGitIgnore = async (fs, dir, patterns) =>
@@ -10,7 +10,7 @@ const writeGitIgnore = async (fs, dir, patterns) =>
 describe('isIgnored', () => {
   it('should check .gitignore', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-isIgnored')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-isIgnored')
     await writeGitIgnore(fs, dir, ['a.txt', 'c/*', '!c/d.txt', 'd/'])
     // Test
     expect(await isIgnored({ fs, gitdir, dir, filepath: 'a.txt' })).toBe(true)
@@ -23,7 +23,7 @@ describe('isIgnored', () => {
   })
   it('should check .gitignore in sub directory', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-isIgnored')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-isIgnored')
     await writeGitIgnore(fs, dir, ['a.txt'])
     await writeGitIgnore(fs, dir + '/c', ['d.txt'])
     // Test

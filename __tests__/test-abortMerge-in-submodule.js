@@ -13,12 +13,12 @@ import {
 } from 'isomorphic-git'
 import { GitIndexManager, modified } from 'isomorphic-git/internal-apis'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 describe('abortMerge', () => {
   it('write conflicted files to index at different stages', async () => {
     // Setup
-    const { gitdir, gitdirsmfullpath, dir, fs } = await makeFixtureAsSubmodule(AsSubmodule('test-abortMerge')
+    const { gitdir, gitdirsmfullpath, dir, fs } = await makeFixtureAsSubmodule('test-abortMerge')
 
     const branchA = await resolveRef({ fs, gitdir, ref: 'a' })
     const branchB = await resolveRef({ fs, gitdir, ref: 'b' })
@@ -111,7 +111,7 @@ describe('abortMerge', () => {
 
   it('abort merge without touching anything', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-abortMerge')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-abortMerge')
 
     // Test
     let error = null
@@ -173,7 +173,7 @@ describe('abortMerge', () => {
 
   it('abort merge after modifying files in a directory', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-abortMerge')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-abortMerge')
 
     // Test
     let error = null
@@ -236,7 +236,7 @@ describe('abortMerge', () => {
 
   it('abort merge after modifying files', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-abortMerge')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-abortMerge')
 
     // Test
     let error = null
@@ -298,7 +298,7 @@ describe('abortMerge', () => {
 
   it('uncache a file that has changes in the workdir (throw an error)', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-abortMerge')
+    const { fs, gitdir, gitdirsmfullpath, dir } = await makeFixtureAsSubmodule('test-abortMerge')
 
     // Test
     let error = null
@@ -371,7 +371,7 @@ describe('abortMerge', () => {
 
   it('workdir != index && index != head [stage a file and them modify in workdir] (throw an error)', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-abortMerge')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-abortMerge')
 
     // Test
     let error = null
@@ -437,7 +437,7 @@ describe('abortMerge', () => {
 
   it('workdir != index && index === head (keep our changes)', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-abortMerge')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-abortMerge')
 
     const head = await resolveRef({ fs, gitdir, ref: 'HEAD' })
 

@@ -3,12 +3,12 @@ import * as path from 'path'
 
 import { Errors, branch, init, currentBranch, listFiles } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('branch', () => {
   it('branch', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-branch')
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch' })
     const files = await fs.readdir(path.resolve(gitdirsmfullpath, 'refs', 'heads'))
@@ -18,7 +18,7 @@ describe('branch', () => {
 
   it('branch with start point', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch-start-point')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-branch-start-point')
     // Test
     let files = await fs.readdir(path.resolve(gitdirsmfullpath, 'refs', 'heads'))
     expect(files).toEqual(['main', 'start-point'])
@@ -45,7 +45,7 @@ describe('branch', () => {
 
   it('branch force', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-branch')
     let error = null
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch' })
@@ -63,7 +63,7 @@ describe('branch', () => {
 
   it('branch with start point force', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch-start-point')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-branch-start-point')
     let error = null
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch', object: 'start-point' })
@@ -84,7 +84,7 @@ describe('branch', () => {
 
   it('branch --checkout', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-branch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-branch')
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch', checkout: true })
     expect(await currentBranch({ fs, dir, gitdir })).toEqual('test-branch')
@@ -92,7 +92,7 @@ describe('branch', () => {
 
   it('invalid branch name', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-branch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-branch')
     let error = null
     // Test
     try {
@@ -106,7 +106,7 @@ describe('branch', () => {
 
   it('missing ref argument', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-branch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-branch')
     let error = null
     // Test
     try {
@@ -121,7 +121,7 @@ describe('branch', () => {
 
   it('empty repo', async () => {
     // Setup
-    const { dir, fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch-empty-repo')
+    const { dir, fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-branch-empty-repo')
     await init({ fs, dir, gitdir })
     let error = null
     // Test
@@ -137,7 +137,7 @@ describe('branch', () => {
 
   it('create branch with same name as a remote', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-branch')
     let error = null
     // Test
     try {
@@ -153,7 +153,7 @@ describe('branch', () => {
 
   it('create branch named "HEAD"', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-branch')
     let error = null
     // Test
     try {

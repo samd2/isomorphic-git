@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { writeCommit } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('writeCommit', () => {
   it('parsed', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeCommit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeCommit')
     // Test
     const oid = await writeCommit({
       fs,

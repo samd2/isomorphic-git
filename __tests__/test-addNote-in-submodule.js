@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, addNote, readBlob, resolveRef, readTree } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 describe('addNote', () => {
   it('to a commit', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
     // Test
     const oid = await addNote({
       fs,
@@ -35,7 +35,7 @@ describe('addNote', () => {
   })
   it('to a tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
     // Test
     const oid = await addNote({
       fs,
@@ -64,7 +64,7 @@ describe('addNote', () => {
   })
   it('to a blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
     // Test
     const oid = await addNote({
       fs,
@@ -93,7 +93,7 @@ describe('addNote', () => {
   })
   it('consecutive notes accumulate', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
     // Test
     {
       const oid = await addNote({
@@ -146,7 +146,7 @@ describe('addNote', () => {
   })
   it('can add a note to a different branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
     // Test
     const oid = await addNote({
       fs,
@@ -176,7 +176,7 @@ describe('addNote', () => {
   })
   it('throws if note already exists', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
     await addNote({
       fs,
       gitdir,
@@ -212,7 +212,7 @@ describe('addNote', () => {
   })
   it('replaces existing note with --force', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
     await addNote({
       fs,
       gitdir,

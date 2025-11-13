@@ -15,7 +15,7 @@ import http from 'isomorphic-git/http'
 
 /* eslint-env node, browser, jasmine */
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
@@ -24,7 +24,7 @@ const localhost =
 describe('checkout', () => {
   it('checkout', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-checkout')
     const onPostCheckout = []
     await checkout({
       fs,
@@ -99,7 +99,7 @@ describe('checkout', () => {
 
   it('checkout by tag', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -163,7 +163,7 @@ describe('checkout', () => {
 
   it('checkout by SHA', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -227,7 +227,7 @@ describe('checkout', () => {
 
   it('checkout unfetched branch', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     let error = null
     try {
       await checkout({ fs, dir, gitdir, ref: 'missing-branch' })
@@ -253,7 +253,7 @@ describe('checkout', () => {
   })
 
   it('checkout file permissions', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await branch({ fs, dir, gitdir, ref: 'other', checkout: true })
     await checkout({ fs, dir, gitdir, ref: 'test-branch' })
     await fs.write(dir + '/regular-file.txt', 'regular file', {
@@ -289,7 +289,7 @@ describe('checkout', () => {
 
   it('checkout changing file permissions', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
 
     await fs.write(dir + '/regular-file.txt', 'regular file', {
       mode: 0o666,
@@ -316,7 +316,7 @@ describe('checkout', () => {
 
   it('checkout directories using filepaths', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -349,7 +349,7 @@ describe('checkout', () => {
 
   it('checkout files using filepaths', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -375,7 +375,7 @@ describe('checkout', () => {
 
   it('checkout detects conflicts', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await fs.write(`${dir}/README.md`, 'Hello world', 'utf8')
     // Test
     let error = null
@@ -396,7 +396,7 @@ describe('checkout', () => {
 
   it('checkout files ignoring conflicts dry run', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await fs.write(`${dir}/README.md`, 'Hello world', 'utf8')
     // Test
     let error = null
@@ -418,7 +418,7 @@ describe('checkout', () => {
 
   it('checkout files ignoring conflicts', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await fs.write(`${dir}/README.md`, 'Hello world', 'utf8')
     // Test
     let error = null
@@ -439,7 +439,7 @@ describe('checkout', () => {
 
   it('restore files to HEAD state by not providing a ref', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -465,7 +465,7 @@ describe('checkout', () => {
 
   it('checkout files should not delete other files', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -485,7 +485,7 @@ describe('checkout', () => {
   })
 
   it('should setup the remote tracking branch by default', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-fetch-cors')
 
     await setConfig({
       fs,
@@ -532,7 +532,7 @@ describe('checkout', () => {
   })
 
   it('should setup the remote tracking branch with `track: true`', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-fetch-cors')
 
     await setConfig({
       fs,
@@ -581,7 +581,7 @@ describe('checkout', () => {
   })
 
   it('should not setup the remote tracking branch with `track: false`', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-fetch-cors')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-fetch-cors')
 
     await setConfig({
       fs,
@@ -630,7 +630,7 @@ describe('checkout', () => {
   })
 
   it('onPostCheckout dry run', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     const onPostCheckout = []
     await checkout({
       fs,
@@ -654,7 +654,7 @@ describe('checkout', () => {
 
   it('onPostCheckout with specified filepaths', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
     await checkout({
       fs,
       dir,
@@ -685,7 +685,7 @@ describe('checkout', () => {
 
   it('checkout should not delete ignored files', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-checkout')
 
     // Checkout the test-branch
     await checkout({

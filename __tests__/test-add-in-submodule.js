@@ -10,7 +10,7 @@ import {
   getConfig,
 } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 // NOTE: we cannot actually commit a real .gitignore file in fixtures or fixtures won't be included in this repo
 const writeGitIgnore = async (fs, dir) =>
@@ -26,7 +26,7 @@ const writeSymlink = async (fs, dir) =>
 describe('add', () => {
   it('file', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     await add({ fs, dir, filepath: 'a.txt' })
@@ -40,7 +40,7 @@ describe('add', () => {
   })
   it('multiple files', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     await add({ fs, dir, filepath: ['a.txt', 'a-copy.txt', 'b.txt'] })
@@ -48,7 +48,7 @@ describe('add', () => {
   })
   it('multiple files with parallel=false', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     await add({
@@ -61,7 +61,7 @@ describe('add', () => {
   })
   it('multiple files with one failure (normal error)', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     let err = null
@@ -75,7 +75,7 @@ describe('add', () => {
   })
   it('multiple files with 2 failures (MultipleGitError) and an ignored file', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
 
     // Test
@@ -99,7 +99,7 @@ describe('add', () => {
   })
   it('multiple files with 1 ignored', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
 
     // Test
@@ -112,7 +112,7 @@ describe('add', () => {
   })
   it('multiple files with 1 ignored and force:true', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
 
     // Test
@@ -128,7 +128,7 @@ describe('add', () => {
   })
   it('symlink', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     // it's not currently possible to tests symlinks in the browser since there's no way to create them
     const symlinkCreated = await writeSymlink(fs, dir)
       .then(() => true)
@@ -158,7 +158,7 @@ describe('add', () => {
   })
   it('ignored file', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -167,7 +167,7 @@ describe('add', () => {
   })
   it('ignored file but with force=true', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -176,7 +176,7 @@ describe('add', () => {
   })
   it('non-existant file', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     let err = null
@@ -189,7 +189,7 @@ describe('add', () => {
   })
   it('folder', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     expect((await listFiles({ fs, dir })).length).toEqual(0)
@@ -198,7 +198,7 @@ describe('add', () => {
   })
   it('folder with .gitignore', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -208,7 +208,7 @@ describe('add', () => {
   })
   it('folder with .gitignore and force', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -218,7 +218,7 @@ describe('add', () => {
   })
   it('git add .', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -228,7 +228,7 @@ describe('add', () => {
   })
   it('git add . with parallel=false', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -237,7 +237,7 @@ describe('add', () => {
     expect((await listFiles({ fs, dir })).length).toEqual(7)
   })
   it('git add . with core.autocrlf=true does not break binary files', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-add-autocrlf')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-add-autocrlf')
     expect(await getConfig({ fs, dir, gitdir, path: 'core.autocrlf' })).toEqual(
       'true'
     )

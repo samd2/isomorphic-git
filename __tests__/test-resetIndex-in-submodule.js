@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { resetIndex, listFiles, statusMatrix } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('resetIndex', () => {
   it('modified', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-resetIndex')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-resetIndex')
     // Test
     const before = await listFiles({ fs, gitdir })
     expect(before).toMatchInlineSnapshot(`
@@ -29,7 +29,7 @@ describe('resetIndex', () => {
   })
   it('new file', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-resetIndex')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-resetIndex')
     // Test
     const before = await listFiles({ fs, gitdir })
     expect(before).toMatchInlineSnapshot(`
@@ -51,7 +51,7 @@ describe('resetIndex', () => {
   })
   it('new repository', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-resetIndex-new')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-resetIndex-new')
     // Test
     const before = await listFiles({ fs, gitdir })
     expect(before).toMatchInlineSnapshot(`
@@ -71,7 +71,7 @@ describe('resetIndex', () => {
   })
   it('oid', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-resetIndex-oid')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-resetIndex-oid')
     // Test
     const before = await statusMatrix({ fs, dir, gitdir })
     expect(before).toMatchInlineSnapshot(`

@@ -2,7 +2,7 @@
 import { clone, checkout, listFiles, commit } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
@@ -10,7 +10,7 @@ const localhost =
 
 describe('submodule "support"', () => {
   it('submodules are still staged after fresh clone', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-clone-submodules')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-submodules')
     await clone({
       fs,
       http,
@@ -23,7 +23,7 @@ describe('submodule "support"', () => {
   })
 
   it('submodules are still staged after making a commit', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-clone-submodules')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-submodules')
     await clone({
       fs,
       http,
@@ -47,7 +47,7 @@ describe('submodule "support"', () => {
   })
 
   it('submodules are staged when switching to a branch that has them', async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-clone-submodules')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-submodules')
     await clone({
       fs,
       http,
@@ -67,7 +67,7 @@ describe('submodule "support"', () => {
   })
 
   it("submodules are unstaged when switching to a branch that doesn't have them", async () => {
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-clone-submodules')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-clone-submodules')
     await clone({
       fs,
       http,

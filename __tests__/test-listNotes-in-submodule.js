@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { listNotes } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listNotes', () => {
   it('from default branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listNotes')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listNotes')
     // Test
     const notes = await listNotes({
       fs,
@@ -30,7 +30,7 @@ describe('listNotes', () => {
   })
   it('from alternate branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listNotes')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listNotes')
     // Test
     const notes = await listNotes({
       fs,
@@ -47,7 +47,7 @@ describe('listNotes', () => {
   })
   it('from non-existant branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listNotes')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listNotes')
     // Test
     const notes = await listNotes({
       fs,

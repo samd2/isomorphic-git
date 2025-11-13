@@ -1,12 +1,12 @@
 /* eslint-env node, browser, jasmine */
 import { Errors, tag, resolveRef } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('tag', () => {
   it('creates a lightweight tag to HEAD', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-tag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-tag')
     // Test
     await tag({ fs, gitdir, ref: 'latest' })
     const ref = await resolveRef({ fs, gitdir, ref: 'refs/tags/latest' })
@@ -14,7 +14,7 @@ describe('tag', () => {
   })
   it('fails if tag already exists', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-tag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-tag')
     // Test
     let error = null
     try {
@@ -27,7 +27,7 @@ describe('tag', () => {
   })
   it('fails if tag already exists (packed)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-tag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-tag')
     // Test
     let error = null
     try {
@@ -40,7 +40,7 @@ describe('tag', () => {
   })
   it('force overwrite', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-tag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-tag')
     // Test
     let error = null
     try {
@@ -52,7 +52,7 @@ describe('tag', () => {
   })
   it('force overwrite (packed)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-tag')
+    const { fs, gitdir } = await makeFixtureAsSubmodule('test-tag')
     // Test
     let error = null
     try {

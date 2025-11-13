@@ -11,11 +11,11 @@ import {
   readCommit,
 } from 'isomorphic-git'
 
-import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
+import { makeFixtureAsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 const makeFixtureAsSubmodule(Stash = async testDir => {
   const fixtureDir = 'test-stash'
-  let { fs, dir, gitdir } = await makeFixtureAsSubmodule((fixtureDir)
+  let { fs, dir, gitdir } = await makeFixtureAsSubmodule(fixtureDir)
   if (process.browser && testDir) {
     const targetDir = dir.replace(fixtureDir, `${fixtureDir}-${testDir}`)
     // copy all files from dirName to targetDir
