@@ -14,19 +14,19 @@
 // That's what discoverGitdir.js solves for. The way to run git
 // commands inside a submodule is to be aware of the remote location of the .git folder.
 
+import { spawnSync } from 'child_process'
+
+import { clone } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 
 import { join } from '../../src/utils/join.js'
 
+import { makeFixture } from './FixtureFS.js'
+
 const localhost =
   typeof window === 'undefined' ? 'localhost' : window.location.hostname
 
-const { clone } = require('isomorphic-git')
-
-const { makeFixture } = require('./FixtureFS.js')
-
 const copyRecursiveSyncShell = async function (src, dest) {
-  const { spawnSync } = require('child_process')
   spawnSync('cp -rp ' + String(src) + ' ' + String(dest) + ' ', {
     shell: '/bin/bash',
   })
