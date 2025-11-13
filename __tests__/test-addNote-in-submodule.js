@@ -1,20 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const {
-  Errors,
-  addNote,
-  readBlob,
-  resolveRef,
-  readTree,
-} = require('isomorphic-git')
+import { Errors, addNote, readBlob, resolveRef, readTree } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 describe('addNote', () => {
-  ;(process.browser ? xit : it)('to a commit', async () => {
+  it('to a commit', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
     // Test
     const oid = await addNote({
       fs,
@@ -41,9 +33,9 @@ describe('addNote', () => {
       'This is a note about a commit.'
     )
   })
-  ;(process.browser ? xit : it)('to a tree', async () => {
+  it('to a tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
     // Test
     const oid = await addNote({
       fs,
@@ -70,9 +62,9 @@ describe('addNote', () => {
       'This is a note about a tree.'
     )
   })
-  ;(process.browser ? xit : it)('to a blob', async () => {
+  it('to a blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
     // Test
     const oid = await addNote({
       fs,
@@ -99,9 +91,9 @@ describe('addNote', () => {
       'This is a note about a blob.'
     )
   })
-  ;(process.browser ? xit : it)('consecutive notes accumulate', async () => {
+  it('consecutive notes accumulate', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
     // Test
     {
       const oid = await addNote({
@@ -152,42 +144,39 @@ describe('addNote', () => {
       expect(tree.length).toBe(3)
     }
   })
-  ;(process.browser ? xit : it)(
-    'can add a note to a different branch',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
-      // Test
-      const oid = await addNote({
-        fs,
-        gitdir,
-        ref: 'refs/notes/alt',
-        author: {
-          name: 'William Hilton',
-          email: 'wmhilton@gmail.com',
-          timestamp: 1578937310,
-          timezoneOffset: 300,
-        },
-        oid: '68aba62e560c0ebc3396e8ae9335232cd93a3f60',
-        note: 'This is a note about a blob.',
-      })
-      const commit = await resolveRef({ fs, gitdir, ref: 'refs/notes/alt' })
-      expect(commit).toEqual('6428616e2600d3cd4b66059d5c561a85ce4b33ff')
-      expect(oid).toEqual('6428616e2600d3cd4b66059d5c561a85ce4b33ff')
-      const { blob } = await readBlob({
-        fs,
-        gitdir,
-        oid: '6428616e2600d3cd4b66059d5c561a85ce4b33ff',
-        filepath: '68aba62e560c0ebc3396e8ae9335232cd93a3f60',
-      })
-      expect(Buffer.from(blob).toString('utf8')).toEqual(
-        'This is a note about a blob.'
-      )
-    }
-  )
-  ;(process.browser ? xit : it)('throws if note already exists', async () => {
+  it('can add a note to a different branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    // Test
+    const oid = await addNote({
+      fs,
+      gitdir,
+      ref: 'refs/notes/alt',
+      author: {
+        name: 'William Hilton',
+        email: 'wmhilton@gmail.com',
+        timestamp: 1578937310,
+        timezoneOffset: 300,
+      },
+      oid: '68aba62e560c0ebc3396e8ae9335232cd93a3f60',
+      note: 'This is a note about a blob.',
+    })
+    const commit = await resolveRef({ fs, gitdir, ref: 'refs/notes/alt' })
+    expect(commit).toEqual('6428616e2600d3cd4b66059d5c561a85ce4b33ff')
+    expect(oid).toEqual('6428616e2600d3cd4b66059d5c561a85ce4b33ff')
+    const { blob } = await readBlob({
+      fs,
+      gitdir,
+      oid: '6428616e2600d3cd4b66059d5c561a85ce4b33ff',
+      filepath: '68aba62e560c0ebc3396e8ae9335232cd93a3f60',
+    })
+    expect(Buffer.from(blob).toString('utf8')).toEqual(
+      'This is a note about a blob.'
+    )
+  })
+  it('throws if note already exists', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
     await addNote({
       fs,
       gitdir,
@@ -221,46 +210,43 @@ describe('addNote', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.AlreadyExistsError).toBe(true)
   })
-  ;(process.browser ? xit : it)(
-    'replaces existing note with --force',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-addNote')
-      await addNote({
-        fs,
-        gitdir,
-        author: {
-          name: 'William Hilton',
-          email: 'wmhilton@gmail.com',
-          timestamp: 1578937310,
-          timezoneOffset: 300,
-        },
-        oid: 'f6d51b1f9a449079f6999be1fb249c359511f164',
-        note: 'This is a note about a commit.',
-      })
-      // Test
-      const oid = await addNote({
-        fs,
-        gitdir,
-        author: {
-          name: 'William Hilton',
-          email: 'wmhilton@gmail.com',
-          timestamp: 1578937310,
-          timezoneOffset: 300,
-        },
-        oid: 'f6d51b1f9a449079f6999be1fb249c359511f164',
-        note: 'This is the newer note about a commit.',
-        force: true,
-      })
-      const { blob } = await readBlob({
-        fs,
-        gitdir,
-        oid,
-        filepath: 'f6d51b1f9a449079f6999be1fb249c359511f164',
-      })
-      expect(Buffer.from(blob).toString('utf8')).toEqual(
-        'This is the newer note about a commit.'
-      )
-    }
-  )
+  it('replaces existing note with --force', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addNote')
+    await addNote({
+      fs,
+      gitdir,
+      author: {
+        name: 'William Hilton',
+        email: 'wmhilton@gmail.com',
+        timestamp: 1578937310,
+        timezoneOffset: 300,
+      },
+      oid: 'f6d51b1f9a449079f6999be1fb249c359511f164',
+      note: 'This is a note about a commit.',
+    })
+    // Test
+    const oid = await addNote({
+      fs,
+      gitdir,
+      author: {
+        name: 'William Hilton',
+        email: 'wmhilton@gmail.com',
+        timestamp: 1578937310,
+        timezoneOffset: 300,
+      },
+      oid: 'f6d51b1f9a449079f6999be1fb249c359511f164',
+      note: 'This is the newer note about a commit.',
+      force: true,
+    })
+    const { blob } = await readBlob({
+      fs,
+      gitdir,
+      oid,
+      filepath: 'f6d51b1f9a449079f6999be1fb249c359511f164',
+    })
+    expect(Buffer.from(blob).toString('utf8')).toEqual(
+      'This is the newer note about a commit.'
+    )
+  })
 })

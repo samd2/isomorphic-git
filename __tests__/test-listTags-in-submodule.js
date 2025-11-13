@@ -1,21 +1,19 @@
 /* eslint-env node, browser, jasmine */
-const { listTags } = require('isomorphic-git')
+import { listTags } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listTags', () => {
-  ;(process.browser ? xit : it)('listTags', async () => {
+  it('listTags', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listTags')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listTags')
     // Test
     const refs = await listTags({
       fs,
       gitdir,
     })
     expect(refs).toMatchInlineSnapshot(`
-      Array [
+      [
         "local-tag",
         "test-tag",
         "v0.0.1",

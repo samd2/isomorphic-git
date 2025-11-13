@@ -1,18 +1,15 @@
 /* eslint-env node, browser, jasmine */
 
-const { Errors } = require('isomorphic-git')
+import { Errors } from 'isomorphic-git'
 
 describe('Errors', () => {
-  ;(process.browser ? xit : it)(
-    'have the correct value for their static property code',
-    async () => {
-      for (const [name, Value] of Object.entries(Errors)) {
-        // @ts-ignore
-        expect(name).toBe(Value.code)
-      }
+  it('have the correct value for their static property code', async () => {
+    for (const [name, Value] of Object.entries(Errors)) {
+      // @ts-ignore
+      expect(name).toBe(Value.code)
     }
-  )
-  ;(process.browser ? xit : it)('create a NotFoundError', async () => {
+  })
+  it('create a NotFoundError', async () => {
     let e = null
     try {
       throw new Errors.NotFoundError('foobar.txt')
@@ -26,10 +23,10 @@ describe('Errors', () => {
     e = e.toJSON()
     delete e.stack
     expect(e).toMatchInlineSnapshot(`
-      Object {
+      {
         "caller": "",
         "code": "NotFoundError",
-        "data": Object {
+        "data": {
           "what": "foobar.txt",
         },
         "message": "Could not find foobar.txt.",

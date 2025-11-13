@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { listNotes, removeNote } = require('isomorphic-git')
+import { listNotes, removeNote } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('removeNote', () => {
-  ;(process.browser ? xit : it)('from default branch', async () => {
+  it('from default branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-removeNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-removeNote')
     // Test
     let notes = await listNotes({
       fs,
@@ -33,9 +31,9 @@ describe('removeNote', () => {
     expect(notes.length).toBe(2)
     expect(oid).toBe('96cc0598c9f2eaac733d0817981039596c0c410f')
   })
-  ;(process.browser ? xit : it)('from alternate branch', async () => {
+  it('from alternate branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-removeNote')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-removeNote')
     // Test
     let notes = await listNotes({
       fs,

@@ -1,15 +1,13 @@
 /* eslint-env node, browser, jasmine */
-const { writeObject } = require('isomorphic-git')
+import { writeObject } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // NOTE: These are mostly the `readObject` tests but in reverse
 describe('writeObject', () => {
-  ;(process.browser ? xit : it)('parsed', async () => {
+  it('parsed', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -53,9 +51,9 @@ Qixh2bmPgr3h9nxq2Dmn
     })
     expect(oid).toEqual('e10ebb90d03eaacca84de1af0a59b444232da99e')
   })
-  ;(process.browser ? xit : it)('content', async () => {
+  it('content', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -69,9 +67,9 @@ Qixh2bmPgr3h9nxq2Dmn
     })
     expect(oid).toBe('e10ebb90d03eaacca84de1af0a59b444232da99e')
   })
-  ;(process.browser ? xit : it)('wrapped', async () => {
+  it('wrapped', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -84,9 +82,9 @@ Qixh2bmPgr3h9nxq2Dmn
     })
     expect(oid).toBe('e10ebb90d03eaacca84de1af0a59b444232da99e')
   })
-  ;(process.browser ? xit : it)('deflated', async () => {
+  it('deflated', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -100,9 +98,9 @@ Qixh2bmPgr3h9nxq2Dmn
     })
     expect(oid).toEqual('e10ebb90d03eaacca84de1af0a59b444232da99e')
   })
-  ;(process.browser ? xit : it)('blob with encoding', async () => {
+  it('blob with encoding', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -141,9 +139,9 @@ minimisted(async function ({ _: [command, ...args], ...opts }) {
     })
     expect(oid).toEqual('4551a1856279dde6ae9d65862a1dff59a5f199d8')
   })
-  ;(process.browser ? xit : it)('tree', async () => {
+  it('tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -263,9 +261,9 @@ minimisted(async function ({ _: [command, ...args], ...opts }) {
     })
     expect(oid).toEqual('6257985e3378ec42a03a57a7dc8eb952d69a5ff3')
   })
-  ;(process.browser ? xit : it)('tree entries sorted correctly', async () => {
+  it('tree entries sorted correctly', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,
@@ -307,9 +305,9 @@ minimisted(async function ({ _: [command, ...args], ...opts }) {
     })
     expect(oid).toEqual('c8a72f5bd8633663210490897b798ddc3ff9ca64')
   })
-  ;(process.browser ? xit : it)('annotated tag', async () => {
+  it('annotated tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeObject')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeObject')
     // Test
     const oid = await writeObject({
       fs,

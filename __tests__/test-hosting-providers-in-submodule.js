@@ -1,11 +1,8 @@
 /* eslint-env node, browser, jasmine */
+import { fetch, push } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 
-const { fetch, push } = require('isomorphic-git')
-
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
@@ -21,11 +18,9 @@ describe('Hosting Providers', () => {
     // It is stored reversed because the GitHub one is stored reversed and I like being consistent.
     const password = reverse('=cYfZKeyeW3ig0yZrkzkd9ElDKYctLgV2WNOZ1Ctntnt')
     const username = 'tester-at-260687965765'
-    ;(process.browser ? xit : it)('fetch', async () => {
+    it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -40,11 +35,9 @@ describe('Hosting Providers', () => {
       expect(res.defaultBranch).toBe('refs/heads/master')
       expect(res.fetchHead).toBe('c03e131196f43a78888415924bcdcbf3090f3316')
     })
-    ;(process.browser ? xit : it)('push', async () => {
+    it('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await push({
         fs,
@@ -68,11 +61,9 @@ describe('Hosting Providers', () => {
     const password = reverse('ez8dMKyRfWpzMkhg3QJb5m')
     const username = 'isomorphicgittestpush'
 
-    ;(process.browser ? xit : it)('fetch', async () => {
+    it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -91,9 +82,7 @@ describe('Hosting Providers', () => {
     // Disabled as part of https://github.com/isomorphic-git/isomorphic-git/issues/1876.
     xit('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await push({
         fs,
@@ -118,11 +107,9 @@ describe('Hosting Providers', () => {
     // It is stored reversed because the GitHub one is stored reversed and I like being consistent.
     const password = reverse('TqSWhF3xLxEEXKQtZTwn')
     const username = 'isomorphic-git'
-    ;(process.browser ? xit : it)('push', async () => {
+    it('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await push({
         fs,
@@ -138,11 +125,9 @@ describe('Hosting Providers', () => {
       expect(res.ok).toBe(true)
       expect(res.refs['refs/heads/master'].ok).toBe(true)
     })
-    ;(process.browser ? xit : it)('fetch', async () => {
+    it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -166,11 +151,9 @@ describe('Hosting Providers', () => {
     // It is stored reversed to avoid Github's auto-revoking feature.
     const password = reverse('e8df25b340c98b7eec57a4976bd9074b93a7dc1c')
     const username = 'isomorphic-git-test-push'
-    ;(process.browser ? xit : it)('fetch', async () => {
+    it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -185,11 +168,9 @@ describe('Hosting Providers', () => {
       expect(res.defaultBranch).toBe('refs/heads/test')
       expect(res.fetchHead).toBe('c03e131196f43a78888415924bcdcbf3090f3316')
     })
-    ;(process.browser ? xit : it)('push', async () => {
+    it('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await push({
         fs,
@@ -214,11 +195,9 @@ describe('Hosting Providers', () => {
     // It is stored reversed because the GitHub one is stored reversed and I like being consistent.
     const password = reverse('vjNzgKP7acS6e6vb2Q6g')
     const username = 'isomorphic-git-test-push'
-    ;(process.browser ? xit : it)('fetch', async () => {
+    it('fetch', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await fetch({
         fs,
@@ -233,11 +212,9 @@ describe('Hosting Providers', () => {
       expect(res.defaultBranch).toBe('refs/heads/master')
       expect(res.fetchHead).toBe('c03e131196f43a78888415924bcdcbf3090f3316')
     })
-    ;(process.browser ? xit : it)('push', async () => {
+    it('push', async () => {
       // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-hosting-providers'
-      )
+      const { fs, gitdir } = await makeFixtureAsSubmodule(('test-hosting-providers')
       // Test
       const res = await push({
         fs,

@@ -1,7 +1,7 @@
 /* eslint-env node, browser, jasmine */
-const path = require('path')
+import * as path from 'path'
 
-const {
+import {
   Errors,
   readCommit,
   commit,
@@ -9,44 +9,37 @@ const {
   resolveRef,
   init,
   add,
-} = require('isomorphic-git')
+} from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('commit', () => {
-  ;(process.browser ? xit : it)(
-    'prevent commit if index has unmerged paths',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule(
-        'test-GitIndex-unmerged'
-      )
-      // Test
-      let error = null
-      try {
-        await commit({
-          fs,
-          gitdir,
-          author: {
-            name: 'Mr. Test',
-            email: 'mrtest@example.com',
-            timestamp: 1262356920,
-            timezoneOffset: -0,
-          },
-          message: 'Initial commit',
-        })
-      } catch (e) {
-        error = e
-      }
-      expect(error).not.toBeNull()
-      expect(error.code).toBe(Errors.UnmergedPathsError.code)
-    }
-  )
-  ;(process.browser ? xit : it)('commit', async () => {
+  it('prevent commit if index has unmerged paths', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-GitIndex-unmerged')
+    // Test
+    let error = null
+    try {
+      await commit({
+        fs,
+        gitdir,
+        author: {
+          name: 'Mr. Test',
+          email: 'mrtest@example.com',
+          timestamp: 1262356920,
+          timezoneOffset: -0,
+        },
+        message: 'Initial commit',
+      })
+    } catch (e) {
+      error = e
+    }
+    expect(error).not.toBeNull()
+    expect(error.code).toBe(Errors.UnmergedPathsError.code)
+  })
+  it('commit', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const author = {
@@ -73,9 +66,10 @@ describe('commit', () => {
     expect(currentOid).not.toEqual(originalOid)
     expect(currentOid).toEqual(sha)
   })
-  ;(process.browser ? xit : it)('Initial commit', async () => {
+
+  it('Initial commit', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-init')
+    const { fs, dir } = await makeFixtureAsSubmodule(('test-init')
     await init({ fs, dir })
     await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
     await add({ fs, dir, filepath: 'hello.md' })
@@ -100,9 +94,10 @@ describe('commit', () => {
     expect(commits[0].commit.parent).toEqual([])
     expect(await resolveRef({ fs, dir, ref: 'HEAD' })).toEqual(commits[0].oid)
   })
-  ;(process.browser ? xit : it)('Cannot commit without message', async () => {
+
+  it('Cannot commit without message', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     // Test
     const author = {
       name: 'Mr. Test',
@@ -126,10 +121,10 @@ describe('commit', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.MissingParameterError).toBe(true)
   })
-  ;(process.browser ? xit : it)('without updating branch', async () => {
+
+  it('without updating branch', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const sha = await commit({
@@ -156,9 +151,10 @@ describe('commit', () => {
       )
     ).toBe(true)
   })
-  ;(process.browser ? xit : it)('dry run', async () => {
+
+  it('dry run', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const sha = await commit({
@@ -185,9 +181,10 @@ describe('commit', () => {
       )
     ).toBe(false)
   })
-  ;(process.browser ? xit : it)('custom ref', async () => {
+
+  it('custom ref', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const sha = await commit({
@@ -218,9 +215,10 @@ describe('commit', () => {
     )[0]
     expect(sha).toEqual(copyOid)
   })
-  ;(process.browser ? xit : it)('custom parents and tree', async () => {
+
+  it('custom parents and tree', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const parent = [
@@ -255,9 +253,10 @@ describe('commit', () => {
     expect(parents).toEqual(parent)
     expect(_tree).toEqual(tree)
   })
-  ;(process.browser ? xit : it)('throw error if missing author', async () => {
+
+  it('throw error if missing author', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     // Test
     let error = null
     try {
@@ -277,12 +276,13 @@ describe('commit', () => {
     expect(error).not.toBeNull()
     expect(error.code).toBe(Errors.MissingNameError.code)
   })
-  ;(process.browser ? xit : it)('create signed commit', async () => {
+
+  it('create signed commit', async () => {
     // Setup
-    const { pgp } = require('@isomorphic-git/pgp-plugin')
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { pgp } = await import('@isomorphic-git/pgp-plugin')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     // Test
-    const { privateKey, publicKey } = require('./__fixtures__/pgp-keys.js')
+    const { privateKey, publicKey } = await import('./__fixtures__/pgp-keys.js')
     const oid = await commit({
       fs,
       gitdir,
@@ -309,9 +309,10 @@ describe('commit', () => {
     expect(invalid).toEqual([])
     expect(valid).toEqual(['f2f0ced8a52613c4'])
   })
-  ;(process.browser ? xit : it)('with timezone', async () => {
+
+  it('with timezone', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     let commits
     // Test
     await commit({
@@ -372,9 +373,10 @@ describe('commit', () => {
       Object.is(commits[0].commit.author.timezoneOffset, -240)
     ).toBeTruthy()
   })
-  ;(process.browser ? xit : it)('commit amend (new message)', async () => {
+
+  it('commit amend (new message)', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
     const author = {
       name: 'Mr. Test',
       email: 'mrtest@example.com',
@@ -409,84 +411,80 @@ describe('commit', () => {
     expect(amendedCommit.parent).toEqual(originalCommit.parent)
     expect(await resolveRef({ fs, gitdir, ref: 'HEAD' })).toEqual(amendedOid)
   })
-  ;(process.browser ? xit : it)(
-    'commit amend (change author, keep message)',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
-      const author = {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0,
-      }
+
+  it('commit amend (change author, keep message)', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-commit')
+    const author = {
+      name: 'Mr. Test',
+      email: 'mrtest@example.com',
+      timestamp: 1262356920,
+      timezoneOffset: -0,
+    }
+    await commit({
+      fs,
+      gitdir,
+      author,
+      message: 'Initial commit',
+    })
+
+    // Test
+    const { oid: originalOid, commit: originalCommit } = (
+      await log({ fs, gitdir, depth: 1 })
+    )[0]
+
+    const newAuthor = {
+      name: 'Mr. Test 2',
+      email: 'mrtest2@example.com',
+      timestamp: 1262356921,
+      timezoneOffset: -0,
+    }
+    await commit({
+      fs,
+      gitdir,
+      author: newAuthor,
+      amend: true,
+    })
+    const { oid: amendedOid, commit: amendedCommit } = (
+      await log({ fs, gitdir, depth: 1 })
+    )[0]
+
+    expect(amendedOid).not.toEqual(originalOid)
+    expect(amendedCommit.author).toEqual(newAuthor)
+    expect(amendedCommit.committer).toEqual(newAuthor)
+    expect(amendedCommit.message).toEqual(originalCommit.message)
+    expect(amendedCommit.parent).toEqual(originalCommit.parent)
+    expect(await resolveRef({ fs, gitdir, ref: 'HEAD' })).toEqual(amendedOid)
+  })
+
+  it('Cannot amend without an initial commit', async () => {
+    // Setup
+    const { fs, dir } = await makeFixtureAsSubmodule(('test-init')
+    await init({ fs, dir })
+    await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
+    await add({ fs, dir, filepath: 'hello.md' })
+
+    // Test
+    const author = {
+      name: 'Mr. Test',
+      email: 'mrtest@example.com',
+      timestamp: 1262356920,
+      timezoneOffset: -0,
+    }
+
+    let error = null
+    try {
       await commit({
         fs,
-        gitdir,
+        dir,
         author,
         message: 'Initial commit',
-      })
-
-      // Test
-      const { oid: originalOid, commit: originalCommit } = (
-        await log({ fs, gitdir, depth: 1 })
-      )[0]
-
-      const newAuthor = {
-        name: 'Mr. Test 2',
-        email: 'mrtest2@example.com',
-        timestamp: 1262356921,
-        timezoneOffset: -0,
-      }
-      await commit({
-        fs,
-        gitdir,
-        author: newAuthor,
         amend: true,
       })
-      const { oid: amendedOid, commit: amendedCommit } = (
-        await log({ fs, gitdir, depth: 1 })
-      )[0]
-
-      expect(amendedOid).not.toEqual(originalOid)
-      expect(amendedCommit.author).toEqual(newAuthor)
-      expect(amendedCommit.committer).toEqual(newAuthor)
-      expect(amendedCommit.message).toEqual(originalCommit.message)
-      expect(amendedCommit.parent).toEqual(originalCommit.parent)
-      expect(await resolveRef({ fs, gitdir, ref: 'HEAD' })).toEqual(amendedOid)
+    } catch (err) {
+      error = err
     }
-  )
-  ;(process.browser ? xit : it)(
-    'Cannot amend without an initial commit',
-    async () => {
-      // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule('test-init')
-      await init({ fs, dir })
-      await fs.write(path.join(dir, 'hello.md'), 'Hello, World!')
-      await add({ fs, dir, filepath: 'hello.md' })
-
-      // Test
-      const author = {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
-        timestamp: 1262356920,
-        timezoneOffset: -0,
-      }
-
-      let error = null
-      try {
-        await commit({
-          fs,
-          dir,
-          author,
-          message: 'Initial commit',
-          amend: true,
-        })
-      } catch (err) {
-        error = err
-      }
-      expect(error).not.toBeNull()
-      expect(error instanceof Errors.NoCommitError).toBe(true)
-    }
-  )
+    expect(error).not.toBeNull()
+    expect(error instanceof Errors.NoCommitError).toBe(true)
+  })
 })

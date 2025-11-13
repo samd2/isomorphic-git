@@ -1,6 +1,6 @@
 /* eslint-env node, browser, jasmine */
 
-const { hashBlob } = require('isomorphic-git')
+import { hashBlob } from 'isomorphic-git'
 
 const string = `#!/usr/bin/env node
 const minimisted = require('minimisted')
@@ -39,7 +39,7 @@ const wrapped = Buffer.concat([
 ])
 
 describe('hashBlob', () => {
-  ;(process.browser ? xit : it)('object as Uint8Array', async () => {
+  it('object as Uint8Array', async () => {
     // Test
     const { oid, object, format } = await hashBlob({
       object: buffer,
@@ -48,7 +48,8 @@ describe('hashBlob', () => {
     expect(format).toEqual('wrapped')
     expect(Buffer.compare(Buffer.from(object), wrapped) === 0).toBe(true)
   })
-  ;(process.browser ? xit : it)('object as String', async () => {
+
+  it('object as String', async () => {
     // Test
     const { oid, object, format } = await hashBlob({
       object: string,

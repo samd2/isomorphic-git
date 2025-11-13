@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { writeRef, resolveRef, currentBranch } = require('isomorphic-git')
+import { writeRef, resolveRef, currentBranch } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('writeRef', () => {
-  ;(process.browser ? xit : it)('writes a tag ref to HEAD', async () => {
+  it('writes a tag ref to HEAD', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeRef')
     // Test
     await writeRef({
       fs,
@@ -19,9 +17,9 @@ describe('writeRef', () => {
     const ref = await resolveRef({ fs, gitdir, ref: 'refs/tags/latest' })
     expect(ref).toBe('cfc039a0acb68bee8bb4f3b13b6b211dbb8c1a69')
   })
-  ;(process.browser ? xit : it)('sets current branch to another', async () => {
+  it('sets current branch to another', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeRef')
     // Test
     await writeRef({
       fs,

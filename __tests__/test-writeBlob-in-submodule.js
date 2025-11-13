@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { writeBlob } = require('isomorphic-git')
+import { writeBlob } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('writeBlob', () => {
-  ;(process.browser ? xit : it)('empty blob', async () => {
+  it('empty blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeBlob')
     // Test
     const oid = await writeBlob({
       fs,
@@ -17,9 +15,9 @@ describe('writeBlob', () => {
     })
     expect(oid).toEqual('e69de29bb2d1d6434b8b29ae775ad8c2e48c5391')
   })
-  ;(process.browser ? xit : it)('blob', async () => {
+  it('blob', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-writeBlob')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-writeBlob')
     // Test
     const oid = await writeBlob({
       fs,

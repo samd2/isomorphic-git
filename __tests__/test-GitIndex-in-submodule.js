@@ -1,16 +1,14 @@
 /* eslint-env node, browser, jasmine */
 
-const path = require('path')
+import * as path from 'path'
 
-const { GitIndex, GitIndexManager } = require('isomorphic-git/internal-apis')
+import { GitIndex, GitIndexManager } from 'isomorphic-git/internal-apis'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('GitIndex', () => {
-  ;(process.browser ? xit : it)('GitIndex.from(buffer) - Simple', async () => {
-    const { fs, dir } = await makeFixtureAsSubmodule('test-GitIndex')
+  it('GitIndex.from(buffer) - Simple', async () => {
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex')
     const buffer = await fs.read(path.join(dir, 'simple-index'))
     const index = await GitIndex.from(buffer)
     const rendering = index.render()
@@ -20,8 +18,9 @@ describe('GitIndex', () => {
     const buffer2 = await index.toObject()
     expect(buffer.slice(0, buffer2.length - 20)).toEqual(buffer2.slice(0, -20))
   })
-  ;(process.browser ? xit : it)('GitIndex.from(buffer)', async () => {
-    const { fs, dir } = await makeFixtureAsSubmodule('test-GitIndex')
+
+  it('GitIndex.from(buffer)', async () => {
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex')
     const buffer = await fs.read(path.join(dir, 'index'))
     const index = await GitIndex.from(buffer)
     const rendering = index.render()
@@ -62,8 +61,9 @@ describe('GitIndex', () => {
     const buffer2 = await index.toObject()
     expect(buffer.slice(0, buffer2.length - 20)).toEqual(buffer2.slice(0, -20))
   })
-  ;(process.browser ? xit : it)('GitIndex round trip', async () => {
-    const { fs, dir } = await makeFixtureAsSubmodule('test-GitIndex')
+
+  it('GitIndex round trip', async () => {
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex')
     const buffer = await fs.read(path.join(dir, 'index'))
     const index = await GitIndex.from(buffer)
     const buffer2 = await index.toObject()
@@ -71,44 +71,40 @@ describe('GitIndex', () => {
     const buffer3 = await index2.toObject()
     expect(buffer2.buffer).toEqual(buffer3.buffer)
   })
-  ;(process.browser ? xit : it)(
-    'write unmerged index to disk and read it back',
-    async () => {
-      const { fs, gitdirsmfullpath } =
-        await makeFixtureAsSubmodule('test-GitIndex')
-      await GitIndexManager.acquire(
-        { fs, gitdir: gitdirsmfullpath, cache: {} },
-        async function (index) {
-          expect(index.entries.length).toBe(0)
-          expect(index.entriesFlat.length).toBe(0)
-          index.insert({ filepath: 'a', oid: '01', stage: 1 })
-          index.insert({ filepath: 'a', oid: '10', stage: 2 })
-          index.insert({ filepath: 'a', oid: '11', stage: 3 })
-          expect(index.unmergedPaths).toContain('a')
-        }
-      )
-      await GitIndexManager.acquire(
-        { fs, gitdir: gitdirsmfullpath, cache: {} },
-        async function (index) {
-          expect(index.entries.length).toBe(1)
-          expect(index.entriesFlat.length).toBe(3)
-          expect(index.unmergedPaths).toContain('a')
 
-          const entryA = index.entriesMap.get('a')
-
-          expect(entryA.stages.length).toBe(4)
-          expect(entryA.stages[1]).toBe(index.entriesFlat[0])
-          expect(entryA.stages[2]).toBe(index.entriesFlat[1])
-          expect(entryA.stages[3]).toBe(index.entriesFlat[2])
-        }
-      )
-    }
-  )
-  ;(process.browser ? xit : it)('read existing unmerged index', async () => {
-    // Setup
-    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-GitIndex-unmerged'
+  it('write unmerged index to disk and read it back', async () => {
+    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex')
+    await GitIndexManager.acquire(
+      { fs, gitdir: gitdirsmfullpath, cache: {} },
+      async function (index) {
+        expect(index.entries.length).toBe(0)
+        expect(index.entriesFlat.length).toBe(0)
+        index.insert({ filepath: 'a', oid: '01', stage: 1 })
+        index.insert({ filepath: 'a', oid: '10', stage: 2 })
+        index.insert({ filepath: 'a', oid: '11', stage: 3 })
+        expect(index.unmergedPaths).toContain('a')
+      }
     )
+    await GitIndexManager.acquire(
+      { fs, gitdir: gitdirsmfullpath, cache: {} },
+      async function (index) {
+        expect(index.entries.length).toBe(1)
+        expect(index.entriesFlat.length).toBe(3)
+        expect(index.unmergedPaths).toContain('a')
+
+        const entryA = index.entriesMap.get('a')
+
+        expect(entryA.stages.length).toBe(4)
+        expect(entryA.stages[1]).toBe(index.entriesFlat[0])
+        expect(entryA.stages[2]).toBe(index.entriesFlat[1])
+        expect(entryA.stages[3]).toBe(index.entriesFlat[2])
+      }
+    )
+  })
+
+  it('read existing unmerged index', async () => {
+    // Setup
+    const { gitdirsmfullpath, fs } = await makeFixtureAsSubmodule(AsSubmodule('test-GitIndex-unmerged')
 
     // Test
     await GitIndexManager.acquire(

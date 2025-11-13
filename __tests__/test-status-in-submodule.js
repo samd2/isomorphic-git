@@ -1,16 +1,14 @@
 /* eslint-env node, browser, jasmine */
-const path = require('path')
+import * as path from 'path'
 
-const { status, add, remove } = require('isomorphic-git')
+import { status, add, remove } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('status', () => {
-  ;(process.browser ? xit : it)('status', async () => {
+  it('status', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-status')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-status')
     // Test
     const a = await status({ fs, dir, gitdir, filepath: 'a.txt' })
     const b = await status({ fs, dir, gitdir, filepath: 'b.txt' })
@@ -67,19 +65,17 @@ describe('status', () => {
     expect(h).toEqual('ignored')
     expect(i).toEqual('*added')
   })
-  ;(process.browser ? xit : it)(
-    'status in an fresh git repo with no commits',
-    async () => {
-      // Setup
-      const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-empty')
-      await fs.write(path.join(dir, 'a.txt'), 'Hi')
-      await fs.write(path.join(dir, 'b.txt'), 'Hi')
-      await add({ fs, dir, gitdir, filepath: 'b.txt' })
-      // Test
-      const a = await status({ fs, dir, gitdir, filepath: 'a.txt' })
-      expect(a).toEqual('*added')
-      const b = await status({ fs, dir, gitdir, filepath: 'b.txt' })
-      expect(b).toEqual('added')
-    }
-  )
+
+  it('status in an fresh git repo with no commits', async () => {
+    // Setup
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-empty')
+    await fs.write(path.join(dir, 'a.txt'), 'Hi')
+    await fs.write(path.join(dir, 'b.txt'), 'Hi')
+    await add({ fs, dir, gitdir, filepath: 'b.txt' })
+    // Test
+    const a = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(a).toEqual('*added')
+    const b = await status({ fs, dir, gitdir, filepath: 'b.txt' })
+    expect(b).toEqual('added')
+  })
 })

@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { deleteRef, listTags } = require('isomorphic-git')
+import { deleteRef, listTags } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('deleteRef', () => {
-  ;(process.browser ? xit : it)('deletes a loose tag', async () => {
+  it('deletes a loose tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteRef')
     // Test
     await deleteRef({
       fs,
@@ -18,9 +16,9 @@ describe('deleteRef', () => {
     const refs = await listTags({ fs, gitdir })
     expect(refs.includes('latest')).toEqual(false)
   })
-  ;(process.browser ? xit : it)('deletes a packed tag', async () => {
+  it('deletes a packed tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteRef')
     // Test
     await deleteRef({
       fs,
@@ -30,9 +28,9 @@ describe('deleteRef', () => {
     const refs = await listTags({ fs, gitdir })
     expect(refs.includes('packed-tag')).toEqual(false)
   })
-  ;(process.browser ? xit : it)('deletes a packed and loose tag', async () => {
+  it('deletes a packed and loose tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-deleteRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-deleteRef')
     // Test
     await deleteRef({
       fs,

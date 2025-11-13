@@ -1,15 +1,16 @@
 /* eslint-env node, browser, jasmine */
-const { GitPktLine } = require('isomorphic-git/internal-apis')
+import { GitPktLine } from 'isomorphic-git/internal-apis'
 
 describe('GitPktLine', () => {
-  ;(process.browser ? xit : it)('read stream - simple', async () => {
+  it('read stream - simple', async () => {
     const stream = [Buffer.from('0010hello world\n')]
     const read = GitPktLine.streamReader(stream)
     expect(typeof read === 'function').toBe(true)
     expect((await read()).toString('utf8') === 'hello world\n').toBe(true)
     expect(await read()).toBe(true)
   })
-  ;(process.browser ? xit : it)('read stream - realistic', async () => {
+
+  it('read stream - realistic', async () => {
     const buffer = Buffer.from(
       `001e# service=git-upload-pack
 000001059ea43b479f5fedc679e3eb37803275d727bf51b7 HEAD\0multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed no-done symref=HEAD:refs/heads/master agent=git/github-g91c094cac
@@ -63,14 +64,16 @@ describe('GitPktLine', () => {
     expect((await read()) === null).toBe(true)
     expect(await read()).toBe(true)
   })
-  ;(process.browser ? xit : it)('encode string', async () => {
+
+  it('encode string', async () => {
     const foo = GitPktLine.encode('hello world\n')
     expect(foo).toBeTruthy()
     expect(Buffer.compare(foo, Buffer.from('0010hello world\n')) === 0).toBe(
       true
     )
   })
-  ;(process.browser ? xit : it)('read stream - with error', async () => {
+
+  it('read stream - with error', async () => {
     const hookStream = (subject, fn) => {
       const unhook = function (write) {
         this.write = write
@@ -100,12 +103,14 @@ describe('GitPktLine', () => {
       if (unhook) unhook()
     }
   })
-  ;(process.browser ? xit : it)('encode empty string', async () => {
+
+  it('encode empty string', async () => {
     const foo = GitPktLine.encode('')
     expect(foo).toBeTruthy()
     expect(Buffer.compare(foo, Buffer.from('0004')) === 0).toBe(true)
   })
-  ;(process.browser ? xit : it)('encode flush', async () => {
+
+  it('encode flush', async () => {
     const foo = GitPktLine.flush()
     expect(foo).toBeTruthy()
     expect(Buffer.compare(foo, Buffer.from('0000')) === 0).toBe(true)

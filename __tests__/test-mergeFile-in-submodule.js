@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { mergeFile } = require('isomorphic-git/internal-apis')
+import { mergeFile } from 'isomorphic-git/internal-apis'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('mergeFile', () => {
-  ;(process.browser ? xit : it)('mergeFile a o b', async () => {
+  it('mergeFile a o b', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-mergeFile')
+    const { fs, dir } = await makeFixtureAsSubmodule(('test-mergeFile')
     // Test
     const ourContent = await fs.read(`${dir}/a.txt`, 'utf8')
     const baseContent = await fs.read(`${dir}/o.txt`, 'utf8')
@@ -21,9 +19,10 @@ describe('mergeFile', () => {
     expect(cleanMerge).toBe(true)
     expect(mergedText).toEqual(await fs.read(`${dir}/aob.txt`, 'utf8'))
   })
-  ;(process.browser ? xit : it)('mergeFile a o c', async () => {
+
+  it('mergeFile a o c', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-mergeFile')
+    const { fs, dir } = await makeFixtureAsSubmodule(('test-mergeFile')
     // Test
     const ourContent = await fs.read(`${dir}/a.txt`, 'utf8')
     const baseContent = await fs.read(`${dir}/o.txt`, 'utf8')

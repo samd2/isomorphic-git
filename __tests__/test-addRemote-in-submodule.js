@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { Errors, addRemote, listRemotes } = require('isomorphic-git')
+import { Errors, addRemote, listRemotes } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 describe('addRemote', () => {
-  ;(process.browser ? xit : it)('addRemote', async () => {
+  it('addRemote', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-addRemote')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addRemote')
     const remote = 'baz'
     const url = 'git@github.com:baz/baz.git'
     // Test
@@ -20,9 +18,9 @@ describe('addRemote', () => {
       { remote: 'baz', url: 'git@github.com:baz/baz.git' },
     ])
   })
-  ;(process.browser ? xit : it)('missing argument', async () => {
+  it('missing argument', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-addRemote')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addRemote')
     const remote = 'baz'
     const url = undefined
     // Test
@@ -42,9 +40,9 @@ describe('addRemote', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.MissingParameterError).toBe(true)
   })
-  ;(process.browser ? xit : it)('invalid remote name', async () => {
+  it('invalid remote name', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-addRemote')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-addRemote')
     const remote = '@{HEAD~1}'
     const url = 'git@github.com:baz/baz.git'
     // Test

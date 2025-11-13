@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { getConfig, getConfigAll, setConfig } = require('isomorphic-git')
+import { getConfig, getConfigAll, setConfig } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('config', () => {
-  ;(process.browser ? xit : it)('getting', async () => {
+  it('getting', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-config')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-config')
     // Test
     const sym = await getConfig({ fs, gitdir, path: 'core.symlinks' })
     const rfv = await getConfig({
@@ -33,9 +31,10 @@ describe('config', () => {
       'refs/heads/qa/*:refs/remotes/upstream/qa/*',
     ])
   })
-  ;(process.browser ? xit : it)('setting', async () => {
+
+  it('setting', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-config')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-config')
     // Test
     let bare
     // set to true

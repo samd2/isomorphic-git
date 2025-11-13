@@ -1,18 +1,16 @@
 /* eslint-env node, browser, jasmine */
-const { listBranches } = require('isomorphic-git')
+import { listBranches } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listBranches', () => {
-  ;(process.browser ? xit : it)('listBranches', async () => {
+  it('listBranches', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listBranches')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listBranches')
     // Test
     const commits = await listBranches({ fs, gitdir })
     expect(commits).toMatchInlineSnapshot(`
-      Array [
+      [
         "feature/supercool",
         "greenkeeper/initial",
         "master",
@@ -20,9 +18,9 @@ describe('listBranches', () => {
       ]
     `)
   })
-  ;(process.browser ? xit : it)('remote', async () => {
+  it('remote', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listBranches')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listBranches')
     // Test
     const commits = await listBranches({
       fs,
@@ -30,7 +28,7 @@ describe('listBranches', () => {
       remote: 'origin',
     })
     expect(commits).toMatchInlineSnapshot(`
-      Array [
+      [
         "HEAD",
         "master",
       ]

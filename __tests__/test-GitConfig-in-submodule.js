@@ -1,9 +1,9 @@
 /* eslint-env node, browser, jasmine */
-const { GitConfig } = require('isomorphic-git/internal-apis')
+import { GitConfig } from 'isomorphic-git/internal-apis'
 
 describe('GitConfig', () => {
   describe('get value', () => {
-    ;(process.browser ? xit : it)('simple (foo)', async () => {
+    it('simple (foo)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valfoo
       [bar]
@@ -11,7 +11,8 @@ describe('GitConfig', () => {
       const a = await config.get('foo.keyaaa')
       expect(a).toEqual('valfoo')
     })
-    ;(process.browser ? xit : it)('simple (bar)', async () => {
+
+    it('simple (bar)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valfoo
       [bar]
@@ -19,7 +20,8 @@ describe('GitConfig', () => {
       const a = await config.get('bar.keyaaa')
       expect(a).toEqual('valbar')
     })
-    ;(process.browser ? xit : it)('implicit boolean value', async () => {
+
+    it('implicit boolean value', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb
@@ -27,13 +29,15 @@ describe('GitConfig', () => {
       const a = await config.get('foo.keybbb')
       expect(a).toEqual('true')
     })
-    ;(process.browser ? xit : it)('section case insensitive', async () => {
+
+    it('section case insensitive', async () => {
       const config = GitConfig.from(`[Foo]
       keyaaa = valaaa`)
       const a = await config.get('FOO.keyaaa')
       expect(a).toEqual('valaaa')
     })
-    ;(process.browser ? xit : it)('subsection case sensitive', async () => {
+
+    it('subsection case sensitive', async () => {
       const config = GitConfig.from(`[Foo "BAR"]
       keyaaa = valaaa`)
       const a = await config.get('Foo.bar.keyaaa')
@@ -41,13 +45,15 @@ describe('GitConfig', () => {
       const b = await config.get('Foo.BAR.keyaaa')
       expect(b).toBe('valaaa')
     })
-    ;(process.browser ? xit : it)('variable name insensitive', async () => {
+
+    it('variable name insensitive', async () => {
       const config = GitConfig.from(`[foo]
       KeyAaa = valaaa`)
       const a = await config.get('foo.KEYaaa')
       expect(a).toEqual('valaaa')
     })
-    ;(process.browser ? xit : it)('last (when several)', async () => {
+
+    it('last (when several)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb = valbbb
@@ -55,7 +61,8 @@ describe('GitConfig', () => {
       const a = await config.get('foo.keybbb')
       expect(a).toEqual('valBBB')
     })
-    ;(process.browser ? xit : it)('multiple', async () => {
+
+    it('multiple', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb = valbbb
@@ -63,7 +70,8 @@ describe('GitConfig', () => {
       const a = await config.getall('foo.keybbb')
       expect(a).toEqual(['valbbb', 'valBBB'])
     })
-    ;(process.browser ? xit : it)('multiple (case insensitive)', async () => {
+
+    it('multiple (case insensitive)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb = valbbb
@@ -73,7 +81,8 @@ describe('GitConfig', () => {
       const b = await config.getall('foo.KEYBBB')
       expect(b).toEqual(['valbbb', 'valBBB'])
     })
-    ;(process.browser ? xit : it)('subsection', async () => {
+
+    it('subsection', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git
       [remote "bar"]
@@ -84,7 +93,7 @@ describe('GitConfig', () => {
   })
 
   describe('handle comments', () => {
-    ;(process.browser ? xit : it)('lines starting with # or ;', async () => {
+    it('lines starting with # or ;', async () => {
       const config = GitConfig.from(`[foo]
       #keyaaa = valaaa
       ;keybbb = valbbb
@@ -94,35 +103,32 @@ describe('GitConfig', () => {
       const b = await config.get('foo.;keybbb')
       expect(b).toBeUndefined()
     })
-    ;(process.browser ? xit : it)(
-      'variable lines with # or ; at the end (get)',
-      async () => {
-        const config = GitConfig.from(`[foo]
+
+    it('variable lines with # or ; at the end (get)', async () => {
+      const config = GitConfig.from(`[foo]
       keyaaa = valaaa #comment #aaa
       keybbb = valbbb ;comment ;bbb
       keyccc = valccc`)
-        const a = await config.get('foo.keyaaa')
-        expect(a).toEqual('valaaa')
-        const b = await config.get('foo.keybbb')
-        expect(b).toEqual('valbbb')
-      }
-    )
-    ;(process.browser ? xit : it)(
-      'variable lines with # or ; at the end (set)',
-      async () => {
-        const config = GitConfig.from(`[foo]
+      const a = await config.get('foo.keyaaa')
+      expect(a).toEqual('valaaa')
+      const b = await config.get('foo.keybbb')
+      expect(b).toEqual('valbbb')
+    })
+
+    it('variable lines with # or ; at the end (set)', async () => {
+      const config = GitConfig.from(`[foo]
       keyaaa = valaaa #comment #aaa
       keybbb = valbbb ;comment ;bbb
       keyccc = valccc`)
-        await config.set('foo.keyaaa', 'newvalaaa')
-        await config.set('foo.keybbb', 'newvalbbb')
-        expect(config.toString()).toEqual(`[foo]
+      await config.set('foo.keyaaa', 'newvalaaa')
+      await config.set('foo.keybbb', 'newvalbbb')
+      expect(config.toString()).toEqual(`[foo]
 \tkeyaaa = newvalaaa
 \tkeybbb = newvalbbb
       keyccc = valccc`)
-      }
-    )
-    ;(process.browser ? xit : it)('ignore quoted # or ;', async () => {
+    })
+
+    it('ignore quoted # or ;', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa " #commentaaa"
       keybbb = valbbb " ;commentbbb"
@@ -135,19 +141,21 @@ describe('GitConfig', () => {
   })
 
   describe('handle quotes', () => {
-    ;(process.browser ? xit : it)('simple', async () => {
+    it('simple', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = "valaaa"`)
       const a = await config.get('foo.keyaaa')
       expect(a).toEqual('valaaa')
     })
-    ;(process.browser ? xit : it)('escaped', async () => {
+
+    it('escaped', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = \\"valaaa`)
       const a = await config.get('foo.keyaaa')
       expect(a).toEqual('"valaaa')
     })
-    ;(process.browser ? xit : it)('multiple', async () => {
+
+    it('multiple', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = "val" aaa
       keybbb = val "a" a"a"`)
@@ -156,31 +164,36 @@ describe('GitConfig', () => {
       const b = await config.get('foo.keybbb')
       expect(b).toEqual('val a aa')
     })
-    ;(process.browser ? xit : it)('odd number of quotes', async () => {
+
+    it('odd number of quotes', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = "val" a "aa`)
       const a = await config.get('foo.keybbb')
       expect(a).toBeUndefined()
     })
-    ;(process.browser ? xit : it)('# in quoted values', async () => {
+
+    it('# in quoted values', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = "#valaaa"`)
       const a = await config.get('foo.keyaaa')
       expect(a).toEqual('#valaaa')
     })
-    ;(process.browser ? xit : it)('; in quoted values', async () => {
+
+    it('; in quoted values', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = "val;a;a;a"`)
       const a = await config.get('foo.keyaaa')
       expect(a).toEqual('val;a;a;a')
     })
-    ;(process.browser ? xit : it)('# after quoted values', async () => {
+
+    it('# after quoted values', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = "valaaa" # comment`)
       const a = await config.get('foo.keyaaa')
       expect(a).toEqual('valaaa')
     })
-    ;(process.browser ? xit : it)('; after quoted values', async () => {
+
+    it('; after quoted values', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = "valaaa" ; comment`)
       const a = await config.get('foo.keyaaa')
@@ -189,7 +202,7 @@ describe('GitConfig', () => {
   })
 
   describe('get cast value', () => {
-    ;(process.browser ? xit : it)('using schema', async () => {
+    it('using schema', async () => {
       const config = GitConfig.from(`[core]
       repositoryformatversion = 0
       filemode = true
@@ -213,7 +226,8 @@ describe('GitConfig', () => {
       expect(f).toEqual(true)
       expect(g).toEqual(2)
     })
-    ;(process.browser ? xit : it)('special boolean', async () => {
+
+    it('special boolean', async () => {
       const config = GitConfig.from(`[core]
       filemode = off
       bare = on
@@ -228,7 +242,8 @@ describe('GitConfig', () => {
       expect(c).toEqual(false)
       expect(d).toEqual(true)
     })
-    ;(process.browser ? xit : it)('numeric suffix', async () => {
+
+    it('numeric suffix', async () => {
       const configA = GitConfig.from(`[core]
       bigFileThreshold = 2k`)
       const configB = GitConfig.from(`[core]
@@ -245,7 +260,7 @@ describe('GitConfig', () => {
   })
 
   describe('insert new value', () => {
-    ;(process.browser ? xit : it)('existing section', async () => {
+    it('existing section', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa`)
       await config.set('foo.keybbb', 'valbbb')
@@ -253,18 +268,17 @@ describe('GitConfig', () => {
 \tkeybbb = valbbb
       keyaaa = valaaa`)
     })
-    ;(process.browser ? xit : it)(
-      'existing section (case insensitive)',
-      async () => {
-        const config = GitConfig.from(`[foo]
+
+    it('existing section (case insensitive)', async () => {
+      const config = GitConfig.from(`[foo]
       keyaaa = valaaa`)
-        await config.set('FOO.keybbb', 'valbbb')
-        expect(config.toString()).toEqual(`[foo]
+      await config.set('FOO.keybbb', 'valbbb')
+      expect(config.toString()).toEqual(`[foo]
 \tkeybbb = valbbb
       keyaaa = valaaa`)
-      }
-    )
-    ;(process.browser ? xit : it)('existing subsection', async () => {
+    })
+
+    it('existing subsection', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git`)
       await config.set('remote.foo.fetch', 'foo')
@@ -272,28 +286,25 @@ describe('GitConfig', () => {
 \tfetch = foo
       url = https://foo.com/project.git`)
     })
-    ;(process.browser ? xit : it)(
-      'existing subsection (case insensitive)',
-      async () => {
-        const config = GitConfig.from(`[remote "foo"]
+
+    it('existing subsection (case insensitive)', async () => {
+      const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git`)
-        await config.set('REMOTE.foo.fetch', 'foo')
-        expect(config.toString()).toEqual(`[remote "foo"]
+      await config.set('REMOTE.foo.fetch', 'foo')
+      expect(config.toString()).toEqual(`[remote "foo"]
 \tfetch = foo
       url = https://foo.com/project.git`)
-      }
-    )
-    ;(process.browser ? xit : it)(
-      'existing subsection with dots in key',
-      async () => {
-        const config = GitConfig.from(`[remote "foo.bar"]
+    })
+
+    it('existing subsection with dots in key', async () => {
+      const config = GitConfig.from(`[remote "foo.bar"]
       url = https://foo.com/project.git`)
-        await config.set('remote.foo.bar.url', 'https://bar.com/project.git')
-        expect(config.toString()).toEqual(`[remote "foo.bar"]
+      await config.set('remote.foo.bar.url', 'https://bar.com/project.git')
+      expect(config.toString()).toEqual(`[remote "foo.bar"]
 \turl = https://bar.com/project.git`)
-      }
-    )
-    ;(process.browser ? xit : it)('new section', async () => {
+    })
+
+    it('new section', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa`)
       await config.set('bar.keyaaa', 'valaaa')
@@ -302,7 +313,8 @@ describe('GitConfig', () => {
 [bar]
 \tkeyaaa = valaaa`)
     })
-    ;(process.browser ? xit : it)('new subsection', async () => {
+
+    it('new subsection', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git`)
       await config.set('remote.bar.url', 'https://bar.com/project.git')
@@ -311,19 +323,18 @@ describe('GitConfig', () => {
 [remote "bar"]
 \turl = https://bar.com/project.git`)
     })
-    ;(process.browser ? xit : it)(
-      'new subsection with dots in key',
-      async () => {
-        const config = GitConfig.from(`[remote "foo"]
+
+    it('new subsection with dots in key', async () => {
+      const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git`)
-        await config.set('remote.bar.baz.url', 'https://bar.com/project.git')
-        expect(config.toString()).toEqual(`[remote "foo"]
+      await config.set('remote.bar.baz.url', 'https://bar.com/project.git')
+      expect(config.toString()).toEqual(`[remote "foo"]
       url = https://foo.com/project.git
 [remote "bar.baz"]
 \turl = https://bar.com/project.git`)
-      }
-    )
-    ;(process.browser ? xit : it)('new value with #', async () => {
+    })
+
+    it('new value with #', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git`)
       await config.set('remote.foo.bar', 'hello#world')
@@ -331,7 +342,8 @@ describe('GitConfig', () => {
 \tbar = "hello#world"
       url = https://foo.com/project.git`)
     })
-    ;(process.browser ? xit : it)('new value with ;', async () => {
+
+    it('new value with ;', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git`)
       await config.set('remote.foo.bar', 'hello;world')
@@ -342,7 +354,7 @@ describe('GitConfig', () => {
   })
 
   describe('replace value', () => {
-    ;(process.browser ? xit : it)('simple', async () => {
+    it('simple', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valfoo
       [bar]
@@ -355,7 +367,8 @@ describe('GitConfig', () => {
 \tkeyaaa = newvalbar
       keybbb = valbbb`)
     })
-    ;(process.browser ? xit : it)('simple (case insensitive)', async () => {
+
+    it('simple (case insensitive)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valfoo
       [bar]
@@ -368,7 +381,8 @@ describe('GitConfig', () => {
 \tkeyaaa = newvalbar
       keybbb = valbbb`)
     })
-    ;(process.browser ? xit : it)('simple (case sensitive key)', async () => {
+
+    it('simple (case sensitive key)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valfoo
       [bar]
@@ -381,7 +395,8 @@ describe('GitConfig', () => {
 \tKEYAAA = newvalbar
       keybbb = valbbb`)
     })
-    ;(process.browser ? xit : it)('last (when several)', async () => {
+
+    it('last (when several)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb = valbbb
@@ -392,7 +407,8 @@ describe('GitConfig', () => {
       keybbb = valbbb
 \tkeybbb = newvalBBB`)
     })
-    ;(process.browser ? xit : it)('subsection', async () => {
+
+    it('subsection', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git
       [remote "bar"]
@@ -406,7 +422,7 @@ describe('GitConfig', () => {
   })
 
   describe('append a value to existing key', () => {
-    ;(process.browser ? xit : it)('simple', async () => {
+    it('simple', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valfoo
       [bar]
@@ -420,7 +436,8 @@ describe('GitConfig', () => {
 \tkeyaaa = newvalbar
       keybbb = valbbb`)
     })
-    ;(process.browser ? xit : it)('simple (case insensitive)', async () => {
+
+    it('simple (case insensitive)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valfoo
       [bar]
@@ -434,7 +451,8 @@ describe('GitConfig', () => {
 \tKEYAAA = newvalbar
       keybbb = valbbb`)
     })
-    ;(process.browser ? xit : it)('subsection', async () => {
+
+    it('subsection', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git
       [remote "bar"]
@@ -450,7 +468,7 @@ describe('GitConfig', () => {
   })
 
   describe('remove value', () => {
-    ;(process.browser ? xit : it)('simple', async () => {
+    it('simple', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb = valbbb`)
@@ -458,7 +476,8 @@ describe('GitConfig', () => {
       expect(config.toString()).toEqual(`[foo]
       keybbb = valbbb`)
     })
-    ;(process.browser ? xit : it)('simple (case insensitive)', async () => {
+
+    it('simple (case insensitive)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb = valbbb`)
@@ -466,7 +485,8 @@ describe('GitConfig', () => {
       expect(config.toString()).toEqual(`[foo]
       keybbb = valbbb`)
     })
-    ;(process.browser ? xit : it)('last (when several)', async () => {
+
+    it('last (when several)', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valone
       keyaaa = valtwo`)
@@ -474,7 +494,8 @@ describe('GitConfig', () => {
       expect(config.toString()).toEqual(`[foo]
       keyaaa = valone`)
     })
-    ;(process.browser ? xit : it)('subsection', async () => {
+
+    it('subsection', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git
       [remote "bar"]
@@ -487,21 +508,23 @@ describe('GitConfig', () => {
   })
 
   describe('handle errors', () => {
-    ;(process.browser ? xit : it)('get unknown key', async () => {
+    it('get unknown key', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb = valbbb`)
       const a = await config.get('foo.unknown')
       expect(a).toBeUndefined()
     })
-    ;(process.browser ? xit : it)('get unknown section', async () => {
+
+    it('get unknown section', async () => {
       const config = GitConfig.from(`[foo]
       keyaaa = valaaa
       keybbb = valbbb`)
       const a = await config.get('bar.keyaaa')
       expect(a).toBeUndefined()
     })
-    ;(process.browser ? xit : it)('get unknown subsection', async () => {
+
+    it('get unknown subsection', async () => {
       const config = GitConfig.from(`[remote "foo"]
       url = https://foo.com/project.git
       [remote "bar"]
@@ -509,67 +532,59 @@ describe('GitConfig', () => {
       const a = await config.get('remote.unknown.url')
       expect(a).toBeUndefined()
     })
-    ;(process.browser ? xit : it)(
-      'section is only alphanum _ and . (get)',
-      async () => {
-        const config = GitConfig.from(`[fo o]
+
+    it('section is only alphanum _ and . (get)', async () => {
+      const config = GitConfig.from(`[fo o]
       keyaaa = valaaa
       [ba~r]
       keyaaa = valaaa
       [ba?z]
       keyaaa = valaaa`)
-        const a = await config.get('fo o.keyaaa')
-        expect(a).toBeUndefined()
-        const b = await config.get('ba~r.keyaaa')
-        expect(b).toBeUndefined()
-        const c = await config.get('ba?z.keyaaa')
-        expect(c).toBeUndefined()
-      }
-    )
-    ;(process.browser ? xit : it)(
-      'section is only alphanum _ and . (set)',
-      async () => {
-        const config = GitConfig.from(`[foo]
+      const a = await config.get('fo o.keyaaa')
+      expect(a).toBeUndefined()
+      const b = await config.get('ba~r.keyaaa')
+      expect(b).toBeUndefined()
+      const c = await config.get('ba?z.keyaaa')
+      expect(c).toBeUndefined()
+    })
+
+    it('section is only alphanum _ and . (set)', async () => {
+      const config = GitConfig.from(`[foo]
       keyaaa = valfoo`)
-        await config.set('ba?r.keyaaa', 'valbar')
-        expect(config.toString()).toEqual(`[foo]
+      await config.set('ba?r.keyaaa', 'valbar')
+      expect(config.toString()).toEqual(`[foo]
       keyaaa = valfoo`)
-      }
-    )
-    ;(process.browser ? xit : it)(
-      'variable name is only alphanum _ (get)',
-      async () => {
-        const config = GitConfig.from(`[foo]
+    })
+
+    it('variable name is only alphanum _ (get)', async () => {
+      const config = GitConfig.from(`[foo]
       key aaa = valaaa
       key?bbb = valbbb
       key%ccc = valccc
       key.ddd = valddd`)
-        const a = await config.get('foo.key aaa')
-        expect(a).toBeUndefined()
-        const b = await config.get('foo.key?bbb')
-        expect(b).toBeUndefined()
-        const c = await config.get('foo.key%ccc')
-        expect(c).toBeUndefined()
-        const d = await config.get('foo.key.ddd')
-        expect(d).toBeUndefined()
-      }
-    )
-    ;(process.browser ? xit : it)(
-      'variable name is only alphanum _ (set)',
-      async () => {
-        const config = GitConfig.from(`[foo]
+      const a = await config.get('foo.key aaa')
+      expect(a).toBeUndefined()
+      const b = await config.get('foo.key?bbb')
+      expect(b).toBeUndefined()
+      const c = await config.get('foo.key%ccc')
+      expect(c).toBeUndefined()
+      const d = await config.get('foo.key.ddd')
+      expect(d).toBeUndefined()
+    })
+
+    it('variable name is only alphanum _ (set)', async () => {
+      const config = GitConfig.from(`[foo]
       keyaaa = valaaa`)
-        await config.set('foo.key bbb', 'valbbb')
-        await config.set('foo.key?ccc', 'valccc')
-        await config.set('foo.key%ddd', 'valddd')
-        expect(config.toString()).toEqual(`[foo]
+      await config.set('foo.key bbb', 'valbbb')
+      await config.set('foo.key?ccc', 'valccc')
+      await config.set('foo.key%ddd', 'valddd')
+      expect(config.toString()).toEqual(`[foo]
       keyaaa = valaaa`)
-      }
-    )
+    })
   })
 
   describe('get subsections', () => {
-    ;(process.browser ? xit : it)('simple', async () => {
+    it('simple', async () => {
       const config = GitConfig.from(`[one]
       keyaaa = valaaa
           
@@ -587,7 +602,7 @@ describe('GitConfig', () => {
   })
 
   describe('delete section', () => {
-    ;(process.browser ? xit : it)('simple', async () => {
+    it('simple', async () => {
       const config = GitConfig.from(`[one]
       keyaaa = valaaa
 [two]
@@ -596,7 +611,8 @@ describe('GitConfig', () => {
       expect(config.toString()).toEqual(`[two]
       keybbb = valbbb`)
     })
-    ;(process.browser ? xit : it)('subsection', async () => {
+
+    it('subsection', async () => {
       const config = GitConfig.from(`[one]
       keyaaa = valaaa
       

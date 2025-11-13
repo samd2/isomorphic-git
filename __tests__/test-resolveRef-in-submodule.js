@@ -1,28 +1,23 @@
 /* eslint-env node, browser, jasmine */
-const { resolveRef } = require('isomorphic-git')
+import { resolveRef } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('resolveRef', () => {
-  ;(process.browser ? xit : it)(
-    '1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
-      // Test
-      const ref = await resolveRef({
-        fs,
-        gitdir,
-        ref: '1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9',
-      })
-      expect(ref).toBe('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9')
-    }
-  )
-  ;(process.browser ? xit : it)('test-branch', async () => {
+  it('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
+    // Test
+    const ref = await resolveRef({
+      fs,
+      gitdir,
+      ref: '1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9',
+    })
+    expect(ref).toBe('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9')
+  })
+  it('test-branch', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -31,9 +26,9 @@ describe('resolveRef', () => {
     })
     expect(ref).toBe('e10ebb90d03eaacca84de1af0a59b444232da99e')
   })
-  ;(process.browser ? xit : it)('config', async () => {
+  it('config', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -42,9 +37,9 @@ describe('resolveRef', () => {
     })
     expect(ref).toBe('e10ebb90d03eaacca84de1af0a59b444232da99e')
   })
-  ;(process.browser ? xit : it)('test-tag', async () => {
+  it('test-tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -53,9 +48,9 @@ describe('resolveRef', () => {
     })
     expect(ref).toBe('1e40fdfba1cf17f3c9f9f3d6b392b1865e5147b9')
   })
-  ;(process.browser ? xit : it)('HEAD', async () => {
+  it('HEAD', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -64,9 +59,9 @@ describe('resolveRef', () => {
     })
     expect(ref).toBe('033417ae18b174f078f2f44232cb7a374f4c60ce')
   })
-  ;(process.browser ? xit : it)('HEAD depth', async () => {
+  it('HEAD depth', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -76,9 +71,9 @@ describe('resolveRef', () => {
     })
     expect(ref).toBe('refs/heads/master')
   })
-  ;(process.browser ? xit : it)('packed-refs', async () => {
+  it('packed-refs', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
     // Test
     const ref = await resolveRef({
       fs,
@@ -87,9 +82,9 @@ describe('resolveRef', () => {
     })
     expect(ref).toBe('1a2149e96a9767b281a8f10fd014835322da2d14')
   })
-  ;(process.browser ? xit : it)('non-existant refs', async () => {
+  it('non-existant refs', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-resolveRef')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-resolveRef')
     // Test
     let error = {}
     try {

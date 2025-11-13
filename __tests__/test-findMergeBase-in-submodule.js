@@ -1,16 +1,14 @@
 /* eslint-env node, browser, jasmine */
-const { findMergeBase } = require('isomorphic-git')
+import { findMergeBase } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // These have been checked with
 // GIT_DIR=__tests__/__fixtures__/test-findMergeBase.git git merge-base -a --octopus COMMITS
 describe('findMergeBase', () => {
-  ;(process.browser ? xit : it)('silly edge cases', async () => {
+  it('silly edge cases', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
     let base
     // Test
     base = await findMergeBase({
@@ -30,9 +28,9 @@ describe('findMergeBase', () => {
     })
     expect(base).toEqual(['9ec6646dd454e8f530c478c26f8b06e57f880bd6'])
   })
-  ;(process.browser ? xit : it)('no common ancestor scenarios', async () => {
+  it('no common ancestor scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
     // Test
     const base = await findMergeBase({
       fs,
@@ -44,9 +42,9 @@ describe('findMergeBase', () => {
     })
     expect(base).toEqual([])
   })
-  ;(process.browser ? xit : it)('fast-forward scenarios', async () => {
+  it('fast-forward scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
     let base
     // Test
     base = await findMergeBase({
@@ -90,9 +88,9 @@ describe('findMergeBase', () => {
     })
     expect(base).toEqual(['f79577b91d302d87e310c8b5af8c274bbf45502f'])
   })
-  ;(process.browser ? xit : it)('diverging scenarios', async () => {
+  it('diverging scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
     let base
     // Test
     base = await findMergeBase({
@@ -158,9 +156,9 @@ describe('findMergeBase', () => {
     })
     expect(base).toEqual(['0526923cafece3d898dbe55ee2c2d69bfcc54c60'])
   })
-  ;(process.browser ? xit : it)('merge commit scenarios', async () => {
+  it('merge commit scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
     let base
     // Test
     base = await findMergeBase({
@@ -214,9 +212,9 @@ describe('findMergeBase', () => {
     })
     expect(base).toEqual(['21605c3fda133ae46f000a375c92c889fa0688ba'])
   })
-  ;(process.browser ? xit : it)('recursive merge base scenarios', async () => {
+  it('recursive merge base scenarios', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
     // Test
     const base = await findMergeBase({
       fs,
@@ -231,21 +229,19 @@ describe('findMergeBase', () => {
       '17b2c7d8ba9756c6c28e4d8cfdbed11793952270',
     ])
   })
-  ;(process.browser ? xit : it)(
-    'fork & rejoin in one branch base scenarios',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-findMergeBase')
-      // Test
-      const base = await findMergeBase({
-        fs,
-        gitdir,
-        oids: [
-          '815474b6e581921cbe05825631decac922803d28', // issue819-upstream
-          '83ad8e1ec6f21f8d0d74587b6a8021fec1a165e1', // isse819
-        ],
-      })
-      expect(base).toEqual(['2316ae441d2c72d8d15673beb81390272671c526'])
-    }
-  )
+
+  it('fork & rejoin in one branch base scenarios', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-findMergeBase')
+    // Test
+    const base = await findMergeBase({
+      fs,
+      gitdir,
+      oids: [
+        '815474b6e581921cbe05825631decac922803d28', // issue819-upstream
+        '83ad8e1ec6f21f8d0d74587b6a8021fec1a165e1', // isse819
+      ],
+    })
+    expect(base).toEqual(['2316ae441d2c72d8d15673beb81390272671c526'])
+  })
 })

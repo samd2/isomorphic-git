@@ -1,18 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { GitRefManager } = require('isomorphic-git/internal-apis')
+import { GitRefManager } from 'isomorphic-git/internal-apis'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 describe('GitRefManager', () => {
-  ;(process.browser ? xit : it)('packedRefs', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitRefManager')
-    const refs = await GitRefManager.packedRefs({
-      fs,
-      gitdir: gitdirsmfullpath,
-    })
+  it('packedRefs', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitRefManager')
+    const refs = await GitRefManager.packedRefs({ fs, gitdir: gitdirsmfullpath })
     expect(refs).toMatchInlineSnapshot(`
       Map {
         "refs/remotes/origin/develop" => "dba5b92408549e55c36e16c89e2b4a4e4cbc8c8f",
@@ -88,16 +82,15 @@ describe('GitRefManager', () => {
       }
     `)
   })
-  ;(process.browser ? xit : it)('listRefs', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitRefManager')
+  it('listRefs', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitRefManager')
     let refs = await GitRefManager.listRefs({
       fs,
       gitdir: gitdirsmfullpath,
       filepath: 'refs/remotes/origin',
     })
     expect(refs).toMatchInlineSnapshot(`
-      Array [
+      [
         "develop",
         "dist",
         "gh-pages",
@@ -114,7 +107,7 @@ describe('GitRefManager', () => {
       filepath: 'refs/tags',
     })
     expect(refs).toMatchInlineSnapshot(`
-      Array [
+      [
         "local-tag",
         "test-tag",
         "v0.0.1",
@@ -181,13 +174,9 @@ describe('GitRefManager', () => {
       ]
     `)
   })
-  ;(process.browser ? xit : it)('listBranches', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitRefManager')
-    let refs = await GitRefManager.listBranches({
-      fs,
-      gitdir: gitdirsmfullpath,
-    })
+  it('listBranches', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitRefManager')
+    let refs = await GitRefManager.listBranches({ fs, gitdir: gitdirsmfullpath })
     expect(refs).toEqual([])
     refs = await GitRefManager.listBranches({
       fs,
@@ -195,7 +184,7 @@ describe('GitRefManager', () => {
       remote: 'origin',
     })
     expect(refs).toMatchInlineSnapshot(`
-      Array [
+      [
         "develop",
         "dist",
         "gh-pages",
@@ -207,12 +196,11 @@ describe('GitRefManager', () => {
       ]
     `)
   })
-  ;(process.browser ? xit : it)('listTags', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitRefManager')
+  it('listTags', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitRefManager')
     const refs = await GitRefManager.listTags({ fs, gitdir: gitdirsmfullpath })
     expect(refs).toMatchInlineSnapshot(`
-      Array [
+      [
         "local-tag",
         "test-tag",
         "v0.0.1",
@@ -257,58 +245,41 @@ describe('GitRefManager', () => {
       ]
     `)
   })
-  ;(process.browser ? xit : it)(
-    'concurrently reading/writing a ref should not cause a NotFoundError resolving it',
-    async () => {
-      // There are some expect() calls below, but as of 2023-03-15, if this test fails it will do so by logging instances
-      // of 'NotFoundError: Could not find myRef', which should not happen.
-      const { fs, gitdirsmfullpath } =
-        await makeFixtureAsSubmodule('test-GitRefManager')
-      const ref = 'myRef'
-      const value = '1234567890123456789012345678901234567890'
-      await GitRefManager.writeRef({ fs, gitdir: gitdirsmfullpath, ref, value }) // Guarantee that the file for the ref exists on disk
+  it('concurrently reading/writing a ref should not cause a NotFoundError resolving it', async () => {
+    // There are some expect() calls below, but as of 2023-03-15, if this test fails it will do so by logging instances
+    // of 'NotFoundError: Could not find myRef', which should not happen.
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitRefManager')
+    const ref = 'myRef'
+    const value = '1234567890123456789012345678901234567890'
+    await GitRefManager.writeRef({ fs, gitdir: gitdirsmfullpath, ref, value }) // Guarantee that the file for the ref exists on disk
 
-      const writePromises = []
-      const resolvePromises = []
-      // Some arbitrary number of iterations that seems to guarantee that the error (pre-fix) is hit.
-      // With 100 the test *mostly* failed but still passed every now and then.
-      const iterations = 500
+    const writePromises = []
+    const resolvePromises = []
+    // Some arbitrary number of iterations that seems to guarantee that the error (pre-fix) is hit.
+    // With 100 the test *mostly* failed but still passed every now and then.
+    const iterations = 500
 
-      for (let i = 0; i < iterations; i++) {
-        // I was only able to cause the error to reproduce consistently by mixing awaited and non-awaited versions of the
-        // calls to writeRef() and resolve(). I tried several variations of the combination but none of them caused the
-        // error to happen as consistently.
-        if (Math.random() < 0.5) {
-          await GitRefManager.writeRef({
-            fs,
-            gitdir: gitdirsmfullpath,
-            ref,
-            value,
-          })
-        } else {
-          writePromises.push(
-            GitRefManager.writeRef({ fs, gitdir: gitdirsmfullpath, ref, value })
-          )
-        }
-        if (Math.random() < 0.5) {
-          const resolvedRef = await GitRefManager.resolve({
-            fs,
-            gitdir: gitdirsmfullpath,
-            ref,
-          })
-          expect(resolvedRef).toMatch(value)
-        } else {
-          resolvePromises.push(
-            GitRefManager.resolve({ fs, gitdir: gitdirsmfullpath, ref })
-          )
-        }
+    for (let i = 0; i < iterations; i++) {
+      // I was only able to cause the error to reproduce consistently by mixing awaited and non-awaited versions of the
+      // calls to writeRef() and resolve(). I tried several variations of the combination but none of them caused the
+      // error to happen as consistently.
+      if (Math.random() < 0.5) {
+        await GitRefManager.writeRef({ fs, gitdir: gitdirsmfullpath, ref, value })
+      } else {
+        writePromises.push(GitRefManager.writeRef({ fs, gitdir: gitdirsmfullpath, ref, value }))
       }
-
-      const resolvedRefs = await Promise.all(resolvePromises)
-      for (const resolvedRef of resolvedRefs) {
+      if (Math.random() < 0.5) {
+        const resolvedRef = await GitRefManager.resolve({ fs, gitdir: gitdirsmfullpath, ref })
         expect(resolvedRef).toMatch(value)
+      } else {
+        resolvePromises.push(GitRefManager.resolve({ fs, gitdir: gitdirsmfullpath, ref }))
       }
-      await Promise.all(writePromises)
     }
-  )
+
+    const resolvedRefs = await Promise.all(resolvePromises)
+    for (const resolvedRef of resolvedRefs) {
+      expect(resolvedRef).toMatch(value)
+    }
+    await Promise.all(writePromises)
+  })
 })

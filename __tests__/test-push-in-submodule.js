@@ -1,27 +1,24 @@
 /* eslint-env node, browser, jasmine */
-import http from 'isomorphic-git/http'
-
-const {
+import {
   Errors,
   clone,
   setConfig,
   push,
   listBranches,
   resolveRef,
-} = require('isomorphic-git')
+} from 'isomorphic-git'
+import http from 'isomorphic-git/http'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
   typeof window === 'undefined' ? 'localhost' : window.location.hostname
 
 describe('push', () => {
-  ;(process.browser ? xit : it)('push', async () => {
+  it('push', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -49,7 +46,7 @@ describe('push', () => {
     expect(res.ok).toBe(true)
     expect(res.refs['refs/heads/master'].ok).toBe(true)
     expect(output).toMatchInlineSnapshot(`
-      Array [
+      [
         "build started...
       ",
         "build completed...
@@ -89,10 +86,9 @@ describe('push', () => {
       await resolveRef({ fs, gitdir, ref: 'refs/remotes/karma/master' })
     ).toEqual('c03e131196f43a78888415924bcdcbf3090f3316')
   })
-  ;(process.browser ? xit : it)('push empty', async () => {
+  it('push empty', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-fetch-server')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-fetch-server')
     await clone({
       fs,
       http,
@@ -110,9 +106,9 @@ describe('push', () => {
     expect(res.ok).toBe(true)
     expect(res.refs['refs/heads/master'].ok).toBe(true)
   })
-  ;(process.browser ? xit : it)('push without ref', async () => {
+  it('push without ref', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -130,9 +126,9 @@ describe('push', () => {
     expect(res.ok).toBe(true)
     expect(res.refs['refs/heads/master'].ok).toBe(true)
   })
-  ;(process.browser ? xit : it)('push with ref !== remoteRef', async () => {
+  it('push with ref !== remoteRef', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -174,9 +170,9 @@ describe('push', () => {
       },
     ])
   })
-  ;(process.browser ? xit : it)('push with lightweight tag', async () => {
+  it('push with lightweight tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -218,9 +214,9 @@ describe('push', () => {
       false
     )
   })
-  ;(process.browser ? xit : it)('push with annotated tag', async () => {
+  it('push with annotated tag', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -243,9 +239,9 @@ describe('push', () => {
       false
     )
   })
-  ;(process.browser ? xit : it)('push delete', async () => {
+  it('push delete', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -298,37 +294,35 @@ describe('push', () => {
       },
     ])
   })
-  ;(process.browser ? xit : it)(
-    'throws UnknownTransportError if using shorter scp-like syntax',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
-      await setConfig({
-        fs,
-        gitdir,
-        path: 'remote.ssh.url',
-        value: `git@${localhost}:8888/test-push-server.git`,
-      })
-      // Test
-      let err
-      try {
-        await push({
-          fs,
-          http,
-          gitdir,
-          remote: 'ssh',
-          ref: 'master',
-        })
-      } catch (e) {
-        err = e
-      }
-      expect(err).toBeDefined()
-      expect(err.code).toEqual(Errors.UnknownTransportError.code)
-    }
-  )
-  ;(process.browser ? xit : it)('push with Basic Auth', async () => {
+  it('throws UnknownTransportError if using shorter scp-like syntax', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    await setConfig({
+      fs,
+      gitdir,
+      path: 'remote.ssh.url',
+      value: `git@${localhost}:8888/test-push-server.git`,
+    })
+    // Test
+    let err
+    try {
+      await push({
+        fs,
+        http,
+        gitdir,
+        remote: 'ssh',
+        ref: 'master',
+      })
+    } catch (e) {
+      err = e
+    }
+    expect(err).toBeDefined()
+    expect(err.code).toEqual(Errors.UnknownTransportError.code)
+  })
+
+  it('push with Basic Auth', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -348,88 +342,80 @@ describe('push', () => {
     expect(res.ok).toBe(true)
     expect(res.refs['refs/heads/master'].ok).toBe(true)
   })
-  ;(process.browser ? xit : it)(
-    'push with Basic Auth credentials in the URL',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
-      await setConfig({
-        fs,
-        gitdir,
-        path: 'remote.url.url',
-        value: `http://testuser:testpassword@${localhost}:8888/test-push-server-auth.git`,
-      })
-      // Test
-      const res = await push({
+  it('push with Basic Auth credentials in the URL', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    await setConfig({
+      fs,
+      gitdir,
+      path: 'remote.url.url',
+      value: `http://testuser:testpassword@${localhost}:8888/test-push-server-auth.git`,
+    })
+    // Test
+    const res = await push({
+      fs,
+      http,
+      gitdir,
+      remote: 'url',
+      ref: 'master',
+    })
+    expect(res).toBeTruthy()
+    expect(res.ok).toBe(true)
+    expect(res.refs['refs/heads/master'].ok).toBe(true)
+  })
+  it('throws an Error if no credentials supplied', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    await setConfig({
+      fs,
+      gitdir,
+      path: 'remote.auth.url',
+      value: `http://${localhost}:8888/test-push-server-auth.git`,
+    })
+    // Test
+    let error = null
+    try {
+      await push({
         fs,
         http,
         gitdir,
-        remote: 'url',
+        remote: 'auth',
         ref: 'master',
       })
-      expect(res).toBeTruthy()
-      expect(res.ok).toBe(true)
-      expect(res.refs['refs/heads/master'].ok).toBe(true)
+    } catch (err) {
+      error = err.message
     }
-  )
-  ;(process.browser ? xit : it)(
-    'throws an Error if no credentials supplied',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
-      await setConfig({
-        fs,
-        gitdir,
-        path: 'remote.auth.url',
-        value: `http://${localhost}:8888/test-push-server-auth.git`,
-      })
-      // Test
-      let error = null
-      try {
-        await push({
-          fs,
-          http,
-          gitdir,
-          remote: 'auth',
-          ref: 'master',
-        })
-      } catch (err) {
-        error = err.message
-      }
-      expect(error).toContain('401')
-    }
-  )
-  ;(process.browser ? xit : it)(
-    'throws an Error if invalid credentials supplied',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
-      await setConfig({
-        fs,
-        gitdir,
-        path: 'remote.auth.url',
-        value: `http://${localhost}:8888/test-push-server-auth.git`,
-      })
-      // Test
-      let error = null
-      try {
-        await push({
-          fs,
-          http,
-          gitdir,
-          remote: 'auth',
-          ref: 'master',
-          onAuth: () => ({ username: 'test', password: 'test' }),
-        })
-      } catch (err) {
-        error = err.message
-      }
-      expect(error).toContain('401')
-    }
-  )
-  ;(process.browser ? xit : it)('onAuthSuccess', async () => {
+    expect(error).toContain('401')
+  })
+  it('throws an Error if invalid credentials supplied', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    await setConfig({
+      fs,
+      gitdir,
+      path: 'remote.auth.url',
+      value: `http://${localhost}:8888/test-push-server-auth.git`,
+    })
+    // Test
+    let error = null
+    try {
+      await push({
+        fs,
+        http,
+        gitdir,
+        remote: 'auth',
+        ref: 'master',
+        onAuth: () => ({ username: 'test', password: 'test' }),
+      })
+    } catch (err) {
+      error = err.message
+    }
+    expect(error).toContain('401')
+  })
+
+  it('onAuthSuccess', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -479,9 +465,10 @@ describe('push', () => {
     ])
     expect(onAuthFailureArgs).toEqual([])
   })
-  ;(process.browser ? xit : it)('onAuthFailure', async () => {
+
+  it('onAuthFailure', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -575,97 +562,96 @@ describe('push', () => {
       ],
     ])
   })
-  ;(process.browser ? xit : it)(
-    'onAuthFailure then onAuthSuccess',
-    async () => {
-      // Setup
-      const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
-      await setConfig({
-        fs,
-        gitdir,
-        path: 'remote.auth.url',
-        value: `http://${localhost}:8888/test-push-server-auth.git`,
-      })
-      // Test
-      const onAuthArgs = []
-      const onAuthSuccessArgs = []
-      const onAuthFailureArgs = []
-      await push({
-        fs,
-        http,
-        gitdir,
-        remote: 'auth',
-        ref: 'master',
-        async onAuth(...args) {
-          onAuthArgs.push(args)
-          return {
-            username: 'testuser',
-            password: 'NoT_rIgHt',
-          }
-        },
-        async onAuthSuccess(...args) {
-          onAuthSuccessArgs.push(args)
-        },
-        async onAuthFailure(...args) {
-          onAuthFailureArgs.push(args)
-          switch (onAuthFailureArgs.length) {
-            case 1:
-              return {
-                username: 'testuser',
-                password: 'St1ll_NoT_rIgHt',
-              }
-            case 2:
-              return {
-                username: 'testuser',
-                password: 'testpassword',
-              }
-          }
-        },
-      })
-      expect(onAuthArgs).toEqual([
-        [
-          `http://${localhost}:8888/test-push-server-auth.git`,
-          {
-            headers: {},
-          },
-        ],
-      ])
-      expect(onAuthSuccessArgs).toEqual([
-        [
-          `http://${localhost}:8888/test-push-server-auth.git`,
-          {
-            username: 'testuser',
-            password: 'testpassword',
-          },
-        ],
-      ])
-      expect(onAuthFailureArgs).toEqual([
-        [
-          `http://${localhost}:8888/test-push-server-auth.git`,
-          {
-            headers: {
-              Authorization: 'Basic dGVzdHVzZXI6Tm9UX3JJZ0h0',
-            },
-            username: 'testuser',
-            password: 'NoT_rIgHt',
-          },
-        ],
-        [
-          `http://${localhost}:8888/test-push-server-auth.git`,
-          {
-            headers: {
-              Authorization: 'Basic dGVzdHVzZXI6U3QxbGxfTm9UX3JJZ0h0',
-            },
-            username: 'testuser',
-            password: 'St1ll_NoT_rIgHt',
-          },
-        ],
-      ])
-    }
-  )
-  ;(process.browser ? xit : it)('onAuth + cancel', async () => {
+
+  it('onAuthFailure then onAuthSuccess', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-push')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
+    await setConfig({
+      fs,
+      gitdir,
+      path: 'remote.auth.url',
+      value: `http://${localhost}:8888/test-push-server-auth.git`,
+    })
+    // Test
+    const onAuthArgs = []
+    const onAuthSuccessArgs = []
+    const onAuthFailureArgs = []
+    await push({
+      fs,
+      http,
+      gitdir,
+      remote: 'auth',
+      ref: 'master',
+      async onAuth(...args) {
+        onAuthArgs.push(args)
+        return {
+          username: 'testuser',
+          password: 'NoT_rIgHt',
+        }
+      },
+      async onAuthSuccess(...args) {
+        onAuthSuccessArgs.push(args)
+      },
+      async onAuthFailure(...args) {
+        onAuthFailureArgs.push(args)
+        switch (onAuthFailureArgs.length) {
+          case 1:
+            return {
+              username: 'testuser',
+              password: 'St1ll_NoT_rIgHt',
+            }
+          case 2:
+            return {
+              username: 'testuser',
+              password: 'testpassword',
+            }
+        }
+      },
+    })
+    expect(onAuthArgs).toEqual([
+      [
+        `http://${localhost}:8888/test-push-server-auth.git`,
+        {
+          headers: {},
+        },
+      ],
+    ])
+    expect(onAuthSuccessArgs).toEqual([
+      [
+        `http://${localhost}:8888/test-push-server-auth.git`,
+        {
+          username: 'testuser',
+          password: 'testpassword',
+        },
+      ],
+    ])
+    expect(onAuthFailureArgs).toEqual([
+      [
+        `http://${localhost}:8888/test-push-server-auth.git`,
+        {
+          headers: {
+            Authorization: 'Basic dGVzdHVzZXI6Tm9UX3JJZ0h0',
+          },
+          username: 'testuser',
+          password: 'NoT_rIgHt',
+        },
+      ],
+      [
+        `http://${localhost}:8888/test-push-server-auth.git`,
+        {
+          headers: {
+            Authorization: 'Basic dGVzdHVzZXI6U3QxbGxfTm9UX3JJZ0h0',
+          },
+          username: 'testuser',
+          password: 'St1ll_NoT_rIgHt',
+        },
+      ],
+    ])
+  })
+
+  it('onAuth + cancel', async () => {
+    // Setup
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-push')
     await setConfig({
       fs,
       gitdir,
@@ -714,10 +700,10 @@ describe('push', () => {
     expect(onAuthSuccessArgs).toEqual([])
     expect(onAuthFailureArgs).toEqual([])
   })
-  ;(process.browser ? xit : it)('onPrePush abort', async () => {
+
+  it('onPrePush abort', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-fetch-server')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-fetch-server')
     await clone({
       fs,
       http,

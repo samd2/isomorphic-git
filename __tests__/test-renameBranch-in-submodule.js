@@ -1,17 +1,14 @@
 /* eslint-env node, browser, jasmine */
-const path = require('path')
+import * as path from 'path'
 
-const { Errors, renameBranch, currentBranch } = require('isomorphic-git')
+import { Errors, renameBranch, currentBranch } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('renameBranch', () => {
-  ;(process.browser ? xit : it)('branch already exists', async () => {
+  it('branch already exists', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-renameBranch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-renameBranch')
     let error = null
     // Test
     try {
@@ -28,10 +25,10 @@ describe('renameBranch', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.AlreadyExistsError).toBe(true)
   })
-  ;(process.browser ? xit : it)('invalid new branch name', async () => {
+
+  it('invalid new branch name', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-renameBranch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-renameBranch')
     let error = null
     // Test
     try {
@@ -48,10 +45,10 @@ describe('renameBranch', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.InvalidRefNameError).toBe(true)
   })
-  ;(process.browser ? xit : it)('invalid old branch name', async () => {
+
+  it('invalid old branch name', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-renameBranch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-renameBranch')
     let error = null
     // Test
     try {
@@ -68,10 +65,10 @@ describe('renameBranch', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.InvalidRefNameError).toBe(true)
   })
-  ;(process.browser ? xit : it)('missing ref argument', async () => {
+
+  it('missing ref argument', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-renameBranch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-renameBranch')
     let error = null
     // Test
     try {
@@ -83,10 +80,10 @@ describe('renameBranch', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.MissingParameterError).toBe(true)
   })
-  ;(process.browser ? xit : it)('missing oldref argument', async () => {
+
+  it('missing oldref argument', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-renameBranch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-renameBranch')
     let error = null
     // Test
     try {
@@ -98,10 +95,10 @@ describe('renameBranch', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.MissingParameterError).toBe(true)
   })
-  ;(process.browser ? xit : it)('rename branch', async () => {
+
+  it('rename branch', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-renameBranch')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-renameBranch')
     // Test
     await renameBranch({
       fs,
@@ -110,16 +107,14 @@ describe('renameBranch', () => {
       oldref: 'test-branch',
       ref: 'other-branch',
     })
-    const files = await fs.readdir(
-      path.resolve(gitdirsmfullpath, 'refs', 'heads')
-    )
+    const files = await fs.readdir(path.resolve(gitdirsmfullpath, 'refs', 'heads'))
     expect(files.includes('test-branch')).toBe(false)
     expect(await currentBranch({ fs, dir, gitdir })).toEqual('master')
   })
-  ;(process.browser ? xit : it)('rename branch and checkout', async () => {
+
+  it('rename branch and checkout', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-renameBranch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-renameBranch')
     // Test
     await renameBranch({
       fs,
@@ -131,10 +126,10 @@ describe('renameBranch', () => {
     })
     expect(await currentBranch({ fs, dir, gitdir })).toEqual('other-branch-2')
   })
-  ;(process.browser ? xit : it)('rename current branch', async () => {
+
+  it('rename current branch', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-renameBranch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-renameBranch')
     // Test
     await renameBranch({
       fs,

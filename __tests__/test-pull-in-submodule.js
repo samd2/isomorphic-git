@@ -1,22 +1,20 @@
 /* eslint-env node, browser, jasmine */
+
+import * as path from 'path'
+
+import { setConfig, pull, log, add, commit, Errors } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
 
-const path = require('path')
-
-const { setConfig, pull, log, add, commit, Errors } = require('isomorphic-git')
-
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 // this is so it works with either Node local tests or Browser WAN tests
 const localhost =
   typeof window === 'undefined' ? 'localhost' : window.location.hostname
 
 describe('pull', () => {
-  ;(process.browser ? xit : it)('pull', async () => {
+  it('pull', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-pull')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-pull')
     await setConfig({
       fs,
       gitdir,
@@ -49,7 +47,7 @@ describe('pull', () => {
       'Initial commit\n',
     ])
   })
-  ;(process.browser ? xit : it)('pull fast-forward only', async () => {
+  it('pull fast-forward only', async () => {
     // Setup
     const author = {
       name: 'Mr. Test',
@@ -57,7 +55,7 @@ describe('pull', () => {
       timestamp: 1262356920,
       timezoneOffset: -0,
     }
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-pull-no-ff')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-pull-no-ff')
     await setConfig({
       fs,
       gitdir,
@@ -96,9 +94,9 @@ describe('pull', () => {
     expect(err.caller).toBe('git.pull')
     expect(err.code).toBe(Errors.FastForwardError.code)
   })
-  ;(process.browser ? xit : it)('pull no fast-forward', async () => {
+  it('pull no fast-forward', async () => {
     // Setup
-    const { fs, gitdir, dir } = await makeFixtureAsSubmodule('test-pull-no-ff')
+    const { fs, gitdir, dir } = await makeFixtureAsSubmodule(('test-pull-no-ff')
     await setConfig({
       fs,
       gitdir,

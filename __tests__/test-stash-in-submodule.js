@@ -1,22 +1,21 @@
 // @ts-nocheck
 /* eslint-env node, browser, jasmine */
 
-const {
+import {
   stash,
   Errors,
   setConfig,
   add,
   status,
   commit,
-} = require('isomorphic-git')
+  readCommit,
+} from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
-const makeFixtureStash = async testDir => {
+const makeFixtureAsSubmodule(Stash = async testDir => {
   const fixtureDir = 'test-stash'
-  let { fs, dir, gitdir } = await makeFixtureAsSubmodule(fixtureDir)
+  let { fs, dir, gitdir } = await makeFixtureAsSubmodule((fixtureDir)
   if (process.browser && testDir) {
     const targetDir = dir.replace(fixtureDir, `${fixtureDir}-${testDir}`)
     // copy all files from dirName to targetDir
@@ -112,8 +111,8 @@ const stashChanges = async (
 }
 
 describe('abort stash', () => {
-  ;(process.browser ? xit : it)('stash without user', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+  it('stash without user', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     let error = null
     try {
@@ -127,8 +126,9 @@ describe('abort stash', () => {
     expect(error.code).toEqual(Errors.MissingNameError.code)
     expect(error.data.role).toEqual('author')
   })
-  ;(process.browser ? xit : it)('stash with no changes', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+
+  it('stash with no changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     // add user to config
     await addUserConfig(fs, dir, gitdir)
@@ -145,92 +145,507 @@ describe('abort stash', () => {
     expect(error.code).toEqual(Errors.NotFoundError.code)
     expect(error.data.what).toEqual('changes, nothing to stash')
   })
-  ;(process.browser ? xit : it)(
-    'stash with untracked files - no other changes',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('pushUntracked')
 
-      const cContentBeforeStash = 'untracked file - c'
-      const dContentBeforeStash = 'untracked file - d'
+  it('stash with untracked files - no other changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('pushUntracked')
 
-      // Create untracked files
-      await fs.write(`${dir}/c.txt`, cContentBeforeStash)
-      await fs.write(`${dir}/d.js`, dContentBeforeStash)
+    const cContentBeforeStash = 'untracked file - c'
+    const dContentBeforeStash = 'untracked file - d'
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'push' })
-      } catch (e) {
-        error = e // should come here since no changes to stash
-      }
+    // Create untracked files
+    await fs.write(`${dir}/c.txt`, cContentBeforeStash)
+    await fs.write(`${dir}/d.js`, dContentBeforeStash)
 
-      expect(error).not.toBeNull()
-      const cContentAfterStash = await fs.read(`${dir}/c.txt`)
-      const dContentAfterStash = await fs.read(`${dir}/d.js`)
-
-      expect(cContentAfterStash.toString()).toEqual(cContentBeforeStash)
-      expect(dContentAfterStash.toString()).toEqual(dContentBeforeStash)
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'push' })
+    } catch (e) {
+      error = e // should come here since no changes to stash
     }
-  )
+
+    expect(error).not.toBeNull()
+    const cContentAfterStash = await fs.read(`${dir}/c.txt`)
+    const dContentAfterStash = await fs.read(`${dir}/d.js`)
+
+    expect(cContentAfterStash.toString()).toEqual(cContentBeforeStash)
+    expect(dContentAfterStash.toString()).toEqual(dContentBeforeStash)
+  })
 })
 
 describe('stash push', () => {
-  ;(process.browser ? xit : it)('stash with staged changes', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('pushOne')
+  it('stash with staged changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('pushOne')
     await stashChanges(fs, dir, gitdir, false, false) // no unstaged changes
   })
-  ;(process.browser ? xit : it)(
-    'stash with staged and unstaged changes',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('pushTwo')
-      await stashChanges(fs, dir, gitdir, true, false) // with unstaged changes
+
+  it('stash with staged and unstaged changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('pushTwo')
+    await stashChanges(fs, dir, gitdir, true, false) // with unstaged changes
+  })
+
+  it('stash with staged and unstaged changes plus same file changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('pushThree')
+    await stashChanges(fs, dir, gitdir, true, true) // with unstaged changes
+  })
+
+  it('stash with untracked files - with other changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('pushUntracked')
+
+    await addUserConfig(fs, dir, gitdir)
+    await fs.write(`${dir}/a.txt`, 'staged changes - a')
+    await fs.write(`${dir}/b.js`, 'staged changes - b')
+
+    await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
+
+    const cContentBeforeStash = 'untracked file - c'
+    const dContentBeforeStash = 'console.log("untracked file - d")'
+
+    // Create untracked files
+    await fs.write(`${dir}/c.txt`, cContentBeforeStash)
+    await fs.write(`${dir}/d.js`, dContentBeforeStash)
+
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'push' })
+    } catch (e) {
+      error = e
     }
-  )
-  ;(process.browser ? xit : it)(
-    'stash with staged and unstaged changes plus same file changes',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('pushThree')
-      await stashChanges(fs, dir, gitdir, true, true) // with unstaged changes
+
+    expect(error).toBeNull()
+    const cContentAfterStash = await fs.read(`${dir}/c.txt`)
+    const dContentAfterStash = await fs.read(`${dir}/d.js`)
+
+    expect(cContentAfterStash.toString()).toEqual(cContentBeforeStash)
+    expect(dContentAfterStash.toString()).toEqual(dContentBeforeStash)
+  })
+})
+
+describe('stash create', () => {
+  it('stash create without user', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash-create')
+
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'create' })
+    } catch (e) {
+      error = e
     }
-  )
-  ;(process.browser ? xit : it)(
-    'stash with untracked files - with other changes',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('pushUntracked')
 
-      await addUserConfig(fs, dir, gitdir)
-      await fs.write(`${dir}/a.txt`, 'staged changes - a')
-      await fs.write(`${dir}/b.js`, 'staged changes - b')
+    expect(error).not.toBeNull()
+    expect(error.caller).toEqual('git.stash')
+    expect(error.code).toEqual(Errors.MissingNameError.code)
+    expect(error.data.role).toEqual('author')
+  })
 
-      await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
+  it('stash create with no changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash-create')
 
-      const cContentBeforeStash = 'untracked file - c'
-      const dContentBeforeStash = 'console.log("untracked file - d")'
+    // add user to config
+    await addUserConfig(fs, dir, gitdir)
 
-      // Create untracked files
-      await fs.write(`${dir}/c.txt`, cContentBeforeStash)
-      await fs.write(`${dir}/d.js`, dContentBeforeStash)
-
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'push' })
-      } catch (e) {
-        error = e
-      }
-
-      expect(error).toBeNull()
-      const cContentAfterStash = await fs.read(`${dir}/c.txt`)
-      const dContentAfterStash = await fs.read(`${dir}/d.js`)
-
-      expect(cContentAfterStash.toString()).toEqual(cContentBeforeStash)
-      expect(dContentAfterStash.toString()).toEqual(dContentBeforeStash)
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'create' })
+    } catch (e) {
+      error = e
     }
-  )
+
+    expect(error).not.toBeNull()
+    expect(error.caller).toEqual('git.stash')
+    expect(error.code).toEqual(Errors.NotFoundError.code)
+    expect(error.data.what).toEqual('changes, nothing to stash')
+  })
+
+  it('stash create with staged changes - returns commit hash without modifying working dir', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createOne')
+    await addUserConfig(fs, dir, gitdir)
+
+    const aOriginalContent = 'staged changes - a'
+    const bOriginalContent = 'staged changes - b'
+
+    await fs.write(`${dir}/a.txt`, aOriginalContent)
+    await fs.write(`${dir}/b.js`, bOriginalContent)
+    await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
+
+    const aStatusBefore = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatusBefore).toBe('modified')
+    const bStatusBefore = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatusBefore).toBe('modified')
+
+    let stashCommitHash = null
+    let error = null
+    try {
+      stashCommitHash = await stash({ fs, dir, gitdir, op: 'create' })
+    } catch (e) {
+      error = e
+    }
+
+    expect(error).toBeNull()
+    expect(stashCommitHash).not.toBeNull()
+    expect(typeof stashCommitHash).toBe('string')
+    expect(stashCommitHash.length).toBe(40) // SHA-1 hash length
+
+    // Verify working directory is NOT modified
+    const aContent = await fs.read(`${dir}/a.txt`)
+    expect(aContent.toString()).toEqual(aOriginalContent)
+    const bContent = await fs.read(`${dir}/b.js`)
+    expect(bContent.toString()).toEqual(bOriginalContent)
+
+    // Verify status is still modified
+    const aStatusAfter = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatusAfter).toBe('modified')
+    const bStatusAfter = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatusAfter).toBe('modified')
+
+    // Verify stash ref is NOT created
+    const stashList = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashList.length).toBe(0)
+  })
+
+  it('stash create with staged and unstaged changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createTwo')
+    await addUserConfig(fs, dir, gitdir)
+
+    const aOriginalContent = 'staged changes - a'
+    const bOriginalContent = 'staged changes - b'
+    const mOriginalContent = '<unstaged>m</unstaged>'
+
+    await fs.write(`${dir}/a.txt`, aOriginalContent)
+    await fs.write(`${dir}/b.js`, bOriginalContent)
+    await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
+
+    await fs.write(`${dir}/m.xml`, mOriginalContent)
+
+    let error = null
+    let stashCommitHash = null
+    try {
+      stashCommitHash = await stash({
+        fs,
+        dir,
+        gitdir,
+        op: 'create',
+        message: 'custom message',
+      })
+    } catch (e) {
+      error = e
+    }
+
+    expect(error).toBeNull()
+    expect(stashCommitHash).not.toBeNull()
+    expect(typeof stashCommitHash).toBe('string')
+
+    // Verify working directory is NOT modified
+    const aContent = await fs.read(`${dir}/a.txt`)
+    expect(aContent.toString()).toEqual(aOriginalContent)
+    const bContent = await fs.read(`${dir}/b.js`)
+    expect(bContent.toString()).toEqual(bOriginalContent)
+    const mContent = await fs.read(`${dir}/m.xml`)
+    expect(mContent.toString()).toEqual(mOriginalContent)
+
+    // Verify status remains unchanged
+    const aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatus).toBe('modified')
+    const bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('modified')
+    const mStatus = await status({ fs, dir, gitdir, filepath: 'm.xml' })
+    expect(mStatus).toBe('*modified')
+
+    // Verify stash ref is NOT created
+    const stashList = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashList.length).toBe(0)
+  })
+
+  it('stash create with staged and unstaged changes on same file', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createThree')
+    await addUserConfig(fs, dir, gitdir)
+
+    const aStagedContent = 'staged changes - a'
+    const aUnstagedContent = 'unstaged changes - a - again'
+
+    await fs.write(`${dir}/a.txt`, aStagedContent)
+    await add({ fs, dir, gitdir, filepath: ['a.txt'] })
+    await fs.write(`${dir}/a.txt`, aUnstagedContent)
+
+    const bOriginalContent = 'staged changes - b'
+    await fs.write(`${dir}/b.js`, bOriginalContent)
+    await add({ fs, dir, gitdir, filepath: ['b.js'] })
+
+    let error = null
+    let stashCommitHash = null
+    try {
+      stashCommitHash = await stash({ fs, dir, gitdir, op: 'create' })
+    } catch (e) {
+      error = e
+    }
+
+    expect(error).toBeNull()
+    expect(stashCommitHash).not.toBeNull()
+
+    // Verify working directory is NOT modified
+    const aContent = await fs.read(`${dir}/a.txt`)
+    expect(aContent.toString()).toEqual(aUnstagedContent)
+    const bContent = await fs.read(`${dir}/b.js`)
+    expect(bContent.toString()).toEqual(bOriginalContent)
+
+    // Verify status remains unchanged
+    const aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatus).toBe('*modified')
+    const bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('modified')
+  })
+
+  it('stash create with untracked files - no other changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createUntracked')
+
+    const cContentBeforeStash = 'untracked file - c'
+    const dContentBeforeStash = 'untracked file - d'
+
+    // Create untracked files
+    await fs.write(`${dir}/c.txt`, cContentBeforeStash)
+    await fs.write(`${dir}/d.js`, dContentBeforeStash)
+
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'create' })
+    } catch (e) {
+      error = e // should come here since no changes to stash
+    }
+
+    expect(error).not.toBeNull()
+    const cContentAfterStash = await fs.read(`${dir}/c.txt`)
+    const dContentAfterStash = await fs.read(`${dir}/d.js`)
+
+    expect(cContentAfterStash.toString()).toEqual(cContentBeforeStash)
+    expect(dContentAfterStash.toString()).toEqual(dContentBeforeStash)
+  })
+
+  it('stash create with untracked files - with other changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash(
+      'createUntrackedWithChanges'
+    )
+
+    await addUserConfig(fs, dir, gitdir)
+    const aOriginalContent = 'staged changes - a'
+    const bOriginalContent = 'staged changes - b'
+
+    await fs.write(`${dir}/a.txt`, aOriginalContent)
+    await fs.write(`${dir}/b.js`, bOriginalContent)
+    await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
+
+    const cContentBeforeStash = 'untracked file - c'
+    const dContentBeforeStash = 'console.log("untracked file - d")'
+
+    // Create untracked files
+    await fs.write(`${dir}/c.txt`, cContentBeforeStash)
+    await fs.write(`${dir}/d.js`, dContentBeforeStash)
+
+    let error = null
+    let stashCommitHash = null
+    try {
+      stashCommitHash = await stash({ fs, dir, gitdir, op: 'create' })
+    } catch (e) {
+      error = e
+    }
+
+    expect(error).toBeNull()
+    expect(stashCommitHash).not.toBeNull()
+
+    // Untracked files should remain unchanged
+    const cContentAfterStash = await fs.read(`${dir}/c.txt`)
+    const dContentAfterStash = await fs.read(`${dir}/d.js`)
+
+    expect(cContentAfterStash.toString()).toEqual(cContentBeforeStash)
+    expect(dContentAfterStash.toString()).toEqual(dContentBeforeStash)
+
+    // Tracked files should remain in modified state
+    const aContent = await fs.read(`${dir}/a.txt`)
+    expect(aContent.toString()).toEqual(aOriginalContent)
+    const bContent = await fs.read(`${dir}/b.js`)
+    expect(bContent.toString()).toEqual(bOriginalContent)
+  })
+
+  it('stash create with deleted files', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createDeleted')
+    await addUserConfig(fs, dir, gitdir)
+
+    await fs.rm(`${dir}/a.txt`)
+    await fs.rm(`${dir}/b.js`)
+
+    let aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatus).toBe('*deleted')
+    let bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('*deleted')
+
+    let error = null
+    let stashCommitHash = null
+    try {
+      stashCommitHash = await stash({ fs, dir, gitdir, op: 'create' })
+    } catch (e) {
+      error = e
+    }
+
+    expect(error).toBeNull()
+    expect(stashCommitHash).not.toBeNull()
+
+    // Files should remain deleted in working directory
+    aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatus).toBe('*deleted')
+    bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('*deleted')
+
+    // Verify stash ref is NOT created
+    const stashList = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashList.length).toBe(0)
+  })
+
+  it('stash create with changes in nested folders', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createNested')
+    await addUserConfig(fs, dir, gitdir)
+
+    const cOriginalContent = 'staged changes - c'
+    const dOriginalContent = 'staged changes - d'
+
+    await fs.write(`${dir}/folder/c.txt`, cOriginalContent)
+    await fs.write(`${dir}/folder/d.js`, dOriginalContent)
+    await add({ fs, dir, gitdir, filepath: ['folder/c.txt', 'folder/d.js'] })
+
+    let aStatus = await status({ fs, dir, gitdir, filepath: 'folder/c.txt' })
+    expect(aStatus).toBe('added')
+    let bStatus = await status({ fs, dir, gitdir, filepath: 'folder/d.js' })
+    expect(bStatus).toBe('added')
+
+    let error = null
+    let stashCommitHash = null
+    try {
+      stashCommitHash = await stash({ fs, dir, gitdir, op: 'create' })
+    } catch (e) {
+      error = e
+    }
+
+    expect(error).toBeNull()
+    expect(stashCommitHash).not.toBeNull()
+
+    // Verify files still exist in working directory
+    const cContent = await fs.read(`${dir}/folder/c.txt`)
+    expect(cContent.toString()).toEqual(cOriginalContent)
+    const dContent = await fs.read(`${dir}/folder/d.js`)
+    expect(dContent.toString()).toEqual(dOriginalContent)
+
+    // Verify status remains unchanged
+    aStatus = await status({ fs, dir, gitdir, filepath: 'folder/c.txt' })
+    expect(aStatus).toBe('added')
+    bStatus = await status({ fs, dir, gitdir, filepath: 'folder/d.js' })
+    expect(bStatus).toBe('added')
+  })
+
+  it('stash create multiple times returns different hashes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createMultiple')
+    await addUserConfig(fs, dir, gitdir)
+
+    await fs.write(`${dir}/a.txt`, 'first change')
+    await add({ fs, dir, gitdir, filepath: ['a.txt'] })
+
+    const firstHash = await stash({
+      fs,
+      dir,
+      gitdir,
+      op: 'create',
+      message: 'first',
+    })
+
+    await fs.write(`${dir}/a.txt`, 'second change')
+    await add({ fs, dir, gitdir, filepath: ['a.txt'] })
+
+    const secondHash = await stash({
+      fs,
+      dir,
+      gitdir,
+      op: 'create',
+      message: 'second',
+    })
+
+    expect(firstHash).not.toBeNull()
+    expect(secondHash).not.toBeNull()
+    expect(firstHash).not.toEqual(secondHash)
+
+    // Verify no stash refs were created
+    const stashList = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashList.length).toBe(0)
+  })
+
+  it('stash create does not interfere with existing stash list', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createWithExisting')
+    await addUserConfig(fs, dir, gitdir)
+
+    // Create a regular stash first
+    await fs.write(`${dir}/a.txt`, 'first stash change')
+    await add({ fs, dir, gitdir, filepath: ['a.txt'] })
+    await stash({ fs, dir, gitdir, op: 'push', message: 'regular stash' })
+
+    let stashList = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashList.length).toBe(1)
+
+    // Now use stash create
+    await fs.write(`${dir}/b.js`, 'create change')
+    await add({ fs, dir, gitdir, filepath: ['b.js'] })
+    const createHash = await stash({
+      fs,
+      dir,
+      gitdir,
+      op: 'create',
+      message: 'create stash',
+    })
+
+    expect(createHash).not.toBeNull()
+
+    // Verify stash list is unchanged
+    stashList = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashList.length).toBe(1)
+    expect(stashList[0]).toContain('regular stash')
+  })
+
+  it('stash create with custom message', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('createMessage')
+    await addUserConfig(fs, dir, gitdir)
+
+    await fs.write(`${dir}/a.txt`, 'test content')
+    await add({ fs, dir, gitdir, filepath: ['a.txt'] })
+
+    const customMessage = 'my custom stash message'
+    let stashCommitHash = null
+    let error = null
+
+    try {
+      stashCommitHash = await stash({
+        fs,
+        dir,
+        gitdir,
+        op: 'create',
+        message: customMessage,
+      })
+    } catch (e) {
+      error = e
+    }
+
+    expect(error).toBeNull()
+    expect(stashCommitHash).not.toBeNull()
+    expect(typeof stashCommitHash).toBe('string')
+    expect(stashCommitHash.length).toBe(40)
+
+    // Read the commit to verify message format
+    const commitObj = await readCommit({
+      fs,
+      dir,
+      gitdir,
+      oid: stashCommitHash,
+    })
+    expect(commitObj.commit.message).toContain(customMessage)
+  })
 })
 
 describe('stash apply', () => {
-  ;(process.browser ? xit : it)('stash apply with staged changes', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('applyOne')
+  it('stash apply with staged changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applyOne')
 
     await stashChanges(fs, dir, gitdir, false, false) // no unstaged changes
 
@@ -252,105 +667,100 @@ describe('stash apply', () => {
     const bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
     expect(bStatus).toBe('modified')
   })
-  ;(process.browser ? xit : it)(
-    'stash apply with staged and unstaged changes',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('applyTwo')
 
-      await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
+  it('stash apply with staged and unstaged changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applyTwo')
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'apply' })
-      } catch (e) {
-        error = e
-      }
+    await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
 
-      const aContent = await fs.read(`${dir}/a.txt`)
-      expect(aContent.toString()).toEqual('staged changes - a') // make sure the staged changes are applied
-      const bContent = await fs.read(`${dir}/b.js`)
-      expect(bContent.toString()).toEqual('staged changes - b') // make sure the staged changes are applied
-      const mContent = await fs.read(`${dir}/m.xml`)
-      expect(mContent.toString()).toEqual('<unstaged>m</unstaged>') // make sure the unstaged changes are applied
-
-      expect(error).toBeNull()
-      const aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
-      expect(aStatus).toBe('modified')
-      const bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
-      expect(bStatus).toBe('modified')
-      const mStatus = await status({ fs, dir, gitdir, filepath: 'm.xml' })
-      expect(mStatus).toBe('*modified') // m.xml is not staged
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'apply' })
+    } catch (e) {
+      error = e
     }
-  )
-  ;(process.browser ? xit : it)(
-    'stash apply with staged and unstaged changes, include same file',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('applyThree')
 
-      await stashChanges(fs, dir, gitdir, true, true) // staged and non-unstaged changes
+    const aContent = await fs.read(`${dir}/a.txt`)
+    expect(aContent.toString()).toEqual('staged changes - a') // make sure the staged changes are applied
+    const bContent = await fs.read(`${dir}/b.js`)
+    expect(bContent.toString()).toEqual('staged changes - b') // make sure the staged changes are applied
+    const mContent = await fs.read(`${dir}/m.xml`)
+    expect(mContent.toString()).toEqual('<unstaged>m</unstaged>') // make sure the unstaged changes are applied
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'apply' })
-      } catch (e) {
-        error = e
-      }
+    expect(error).toBeNull()
+    const aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatus).toBe('modified')
+    const bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('modified')
+    const mStatus = await status({ fs, dir, gitdir, filepath: 'm.xml' })
+    expect(mStatus).toBe('*modified') // m.xml is not staged
+  })
 
-      expect(error).toBeNull()
-      const aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
-      expect(aStatus).toBe('*modified') // a.txt has both staged and unstaged changes
+  it('stash apply with staged and unstaged changes, include same file', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applyThree')
 
-      const againContent = await fs.read(`${dir}/a.txt`)
-      expect(againContent.toString()).toEqual('unstaged changes - a - again') // make sure the unstaged changes are applied
+    await stashChanges(fs, dir, gitdir, true, true) // staged and non-unstaged changes
 
-      const bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
-      expect(bStatus).toBe('modified')
-      const mStatus = await status({ fs, dir, gitdir, filepath: 'm.xml' })
-      expect(mStatus).toBe('*modified') // m.xml is not staged
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'apply' })
+    } catch (e) {
+      error = e
     }
-  )
-  ;(process.browser ? xit : it)(
-    'stash apply with staged changes under two folders',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('applyFour')
-      await addUserConfig(fs, dir, gitdir)
 
-      await fs.write(`${dir}/folder/c.txt`, 'staged changes - c')
-      await fs.write(`${dir}/folder/d.js`, 'staged changes - d')
+    expect(error).toBeNull()
+    const aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatus).toBe('*modified') // a.txt has both staged and unstaged changes
 
-      await add({ fs, dir, gitdir, filepath: ['folder/c.txt', 'folder/d.js'] })
-      let aStatus = await status({ fs, dir, gitdir, filepath: 'folder/c.txt' })
-      expect(aStatus).toBe('added')
-      let bStatus = await status({ fs, dir, gitdir, filepath: 'folder/d.js' })
-      expect(bStatus).toBe('added')
+    const againContent = await fs.read(`${dir}/a.txt`)
+    expect(againContent.toString()).toEqual('unstaged changes - a - again') // make sure the unstaged changes are applied
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'push' })
-        aStatus = await status({
-          fs,
-          dir,
-          gitdir,
-          filepath: 'folder/c.txt',
-        })
-        expect(aStatus).toBe('absent')
-        bStatus = await status({ fs, dir, gitdir, filepath: 'folder/d.js' })
-        expect(bStatus).toBe('absent')
+    const bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('modified')
+    const mStatus = await status({ fs, dir, gitdir, filepath: 'm.xml' })
+    expect(mStatus).toBe('*modified') // m.xml is not staged
+  })
 
-        await stash({ fs, dir, gitdir, op: 'apply' })
-      } catch (e) {
-        error = e
-      }
+  it('stash apply with staged changes under two folders', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applyFour')
+    await addUserConfig(fs, dir, gitdir)
 
-      expect(error).toBeNull()
-      aStatus = await status({ fs, dir, gitdir, filepath: 'folder/c.txt' })
-      expect(aStatus).toBe('added')
+    await fs.write(`${dir}/folder/c.txt`, 'staged changes - c')
+    await fs.write(`${dir}/folder/d.js`, 'staged changes - d')
+
+    await add({ fs, dir, gitdir, filepath: ['folder/c.txt', 'folder/d.js'] })
+    let aStatus = await status({ fs, dir, gitdir, filepath: 'folder/c.txt' })
+    expect(aStatus).toBe('added')
+    let bStatus = await status({ fs, dir, gitdir, filepath: 'folder/d.js' })
+    expect(bStatus).toBe('added')
+
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'push' })
+      aStatus = await status({
+        fs,
+        dir,
+        gitdir,
+        filepath: 'folder/c.txt',
+      })
+      expect(aStatus).toBe('absent')
       bStatus = await status({ fs, dir, gitdir, filepath: 'folder/d.js' })
-      expect(bStatus).toBe('added')
+      expect(bStatus).toBe('absent')
+
+      await stash({ fs, dir, gitdir, op: 'apply' })
+    } catch (e) {
+      error = e
     }
-  )
-  ;(process.browser ? xit : it)('stash apply with deleted files', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('applyFive')
+
+    expect(error).toBeNull()
+    aStatus = await status({ fs, dir, gitdir, filepath: 'folder/c.txt' })
+    expect(aStatus).toBe('added')
+    bStatus = await status({ fs, dir, gitdir, filepath: 'folder/d.js' })
+    expect(bStatus).toBe('added')
+  })
+
+  it('stash apply with deleted files', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applyFive')
     await addUserConfig(fs, dir, gitdir)
 
     await fs.rm(`${dir}/a.txt`)
@@ -381,48 +791,47 @@ describe('stash apply', () => {
     bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
     expect(bStatus).toBe('*deleted')
   })
-  ;(process.browser ? xit : it)(
-    'stash apply with deleted files and staged changes',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('applySix')
-      await addUserConfig(fs, dir, gitdir)
 
-      await fs.rm(`${dir}/a.txt`)
-      await fs.write(`${dir}/b.js`, 'staged changes - b')
+  it('stash apply with deleted files and staged changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applySix')
+    await addUserConfig(fs, dir, gitdir)
 
-      let aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
-      expect(aStatus).toBe('*deleted')
-      let bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
-      expect(bStatus).toBe('*modified')
+    await fs.rm(`${dir}/a.txt`)
+    await fs.write(`${dir}/b.js`, 'staged changes - b')
 
-      await add({ fs, dir, gitdir, filepath: ['b.js'] })
+    let aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatus).toBe('*deleted')
+    let bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('*modified')
 
-      bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
-      expect(bStatus).toBe('modified')
+    await add({ fs, dir, gitdir, filepath: ['b.js'] })
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'push' })
+    bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('modified')
 
-        aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
-        expect(aStatus).toBe('unmodified')
-        bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
-        expect(bStatus).toBe('unmodified')
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'push' })
 
-        await stash({ fs, dir, gitdir, op: 'apply' })
-      } catch (e) {
-        error = e
-      }
-
-      expect(error).toBeNull()
       aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
-      expect(aStatus).toBe('*deleted')
+      expect(aStatus).toBe('unmodified')
       bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
-      expect(bStatus).toBe('modified')
+      expect(bStatus).toBe('unmodified')
+
+      await stash({ fs, dir, gitdir, op: 'apply' })
+    } catch (e) {
+      error = e
     }
-  )
-  ;(process.browser ? xit : it)('stash apply with delete folder', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('applySeven')
+
+    expect(error).toBeNull()
+    aStatus = await status({ fs, dir, gitdir, filepath: 'a.txt' })
+    expect(aStatus).toBe('*deleted')
+    bStatus = await status({ fs, dir, gitdir, filepath: 'b.js' })
+    expect(bStatus).toBe('modified')
+  })
+
+  it('stash apply with delete folder', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applySeven')
     await addUserConfig(fs, dir, gitdir)
 
     await fs.mkdir(`${dir}/folder`)
@@ -458,114 +867,110 @@ describe('stash apply', () => {
     aStatus = await status({ fs, dir, gitdir, filepath: 'folder/e.js' })
     expect(aStatus).toBe('*deleted')
   })
-  ;(process.browser ? xit : it)(
-    'stash apply with untracked files - with other staged and unstaged changes',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('applyUntracked')
 
-      await addUserConfig(fs, dir, gitdir)
-      await fs.write(`${dir}/a.txt`, 'staged changes - a')
-      await fs.write(`${dir}/b.js`, 'unstaged changes - b')
+  it('stash apply with untracked files - with other staged and unstaged changes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applyUntracked')
 
-      await add({ fs, dir, gitdir, filepath: ['a.txt'] }) // only staged a.txt
+    await addUserConfig(fs, dir, gitdir)
+    await fs.write(`${dir}/a.txt`, 'staged changes - a')
+    await fs.write(`${dir}/b.js`, 'unstaged changes - b')
 
-      // Create untracked files
-      await fs.write(`${dir}/c.txt`, 'untracked file - c')
-      await fs.write(`${dir}/d.js`, 'untracked file - d')
+    await add({ fs, dir, gitdir, filepath: ['a.txt'] }) // only staged a.txt
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'push' })
-        const cContentBeforeApply = await fs.read(`${dir}/c.txt`)
-        const dContentBeforeStash = await fs.read(`${dir}/d.js`)
+    // Create untracked files
+    await fs.write(`${dir}/c.txt`, 'untracked file - c')
+    await fs.write(`${dir}/d.js`, 'untracked file - d')
 
-        await stash({ fs, dir, gitdir, op: 'apply' })
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'push' })
+      const cContentBeforeApply = await fs.read(`${dir}/c.txt`)
+      const dContentBeforeStash = await fs.read(`${dir}/d.js`)
 
-        const cContentAfterApply = await fs.read(`${dir}/c.txt`)
-        const dContentAfterStash = await fs.read(`${dir}/d.js`)
+      await stash({ fs, dir, gitdir, op: 'apply' })
 
-        expect(cContentAfterApply.toString()).toEqual(
-          cContentBeforeApply.toString()
-        )
-        expect(dContentAfterStash.toString()).toEqual(
-          dContentBeforeStash.toString()
-        )
-      } catch (e) {
-        error = e
-      }
+      const cContentAfterApply = await fs.read(`${dir}/c.txt`)
+      const dContentAfterStash = await fs.read(`${dir}/d.js`)
 
-      expect(error).toBeNull()
+      expect(cContentAfterApply.toString()).toEqual(
+        cContentBeforeApply.toString()
+      )
+      expect(dContentAfterStash.toString()).toEqual(
+        dContentBeforeStash.toString()
+      )
+    } catch (e) {
+      error = e
     }
-  )
-  ;(process.browser ? xit : it)(
-    'stash apply with invalid ref idx',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('applyInvalidRefIdx')
 
-      await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
+    expect(error).toBeNull()
+  })
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'apply', refIdx: 1 })
-      } catch (e) {
-        error = e
-      }
+  it('stash apply with invalid ref idx', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applyInvalidRefIdx')
 
-      expect(error).not.toBeNull()
-      expect(error.caller).toEqual('git.stash')
-      expect(error.code).toEqual(Errors.InvalidRefNameError.code)
+    await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
+
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'apply', refIdx: 1 })
+    } catch (e) {
+      error = e
     }
-  )
-  ;(process.browser ? xit : it)(
-    'stash apply with non-default ref idx',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('applyInvalidRefIdx')
 
-      await stashChanges(fs, dir, gitdir, false, false, 'stash one') // no unstaged changes
+    expect(error).not.toBeNull()
+    expect(error.caller).toEqual('git.stash')
+    expect(error.code).toEqual(Errors.InvalidRefNameError.code)
+  })
 
-      const aOriginalContent = 'stash two staged changes - aa'
-      const bOriginalContent = 'console.log("stash two staged changes - bb")'
-      await fs.write(`${dir}/a.txt`, aOriginalContent)
-      await fs.write(`${dir}/b.js`, bOriginalContent)
+  it('stash apply with non-default ref idx', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('applyInvalidRefIdx')
 
-      await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
-      await stash({ fs, dir, gitdir, op: 'push', message: 'stash two' })
+    await stashChanges(fs, dir, gitdir, false, false, 'stash one') // no unstaged changes
 
-      await stashChanges(fs, dir, gitdir, true, true, 'stash three')
+    const aOriginalContent = 'stash two staged changes - aa'
+    const bOriginalContent = 'console.log("stash two staged changes - bb")'
+    await fs.write(`${dir}/a.txt`, aOriginalContent)
+    await fs.write(`${dir}/b.js`, bOriginalContent)
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'apply', refIdx: 1 })
-      } catch (e) {
-        error = e
-      }
+    await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
+    await stash({ fs, dir, gitdir, op: 'push', message: 'stash two' })
 
-      expect(error).toBeNull()
-      const aContent = await fs.read(`${dir}/a.txt`)
-      expect(aContent.toString()).toEqual(aOriginalContent) // make sure the 2nd staged changes are applied
-      const bContent = await fs.read(`${dir}/b.js`)
-      expect(bContent.toString()).toEqual(bOriginalContent) // make sure the 2nd staged changes are applied
+    await stashChanges(fs, dir, gitdir, true, true, 'stash three')
+
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'apply', refIdx: 1 })
+    } catch (e) {
+      error = e
     }
-  )
+
+    expect(error).toBeNull()
+    const aContent = await fs.read(`${dir}/a.txt`)
+    expect(aContent.toString()).toEqual(aOriginalContent) // make sure the 2nd staged changes are applied
+    const bContent = await fs.read(`${dir}/b.js`)
+    expect(bContent.toString()).toEqual(bOriginalContent) // make sure the 2nd staged changes are applied
+  })
 })
 
 describe('stash list', () => {
-  ;(process.browser ? xit : it)('stash list with no stash', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+  it('stash list with no stash', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     const stashList = await stash({ fs, dir, gitdir, op: 'list' })
     expect(stashList).toEqual([])
   })
-  ;(process.browser ? xit : it)('stash list with 1 stash', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+
+  it('stash list with 1 stash', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged 3 file changes
 
     const stashList = await stash({ fs, dir, gitdir, op: 'list' })
     expect(stashList.length).toBe(1)
   })
-  ;(process.browser ? xit : it)('stash list with 2 stashes', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+
+  it('stash list with 2 stashes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
@@ -573,16 +978,18 @@ describe('stash list', () => {
     const stashList = await stash({ fs, dir, gitdir, op: 'list' })
     expect(stashList.length).toBe(2)
   })
-  ;(process.browser ? xit : it)('stash list with default message', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+
+  it('stash list with default message', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
     const defaultMsg = await stash({ fs, dir, gitdir, op: 'list' })
     expect(defaultMsg).toEqual([
       'stash@{0}: WIP on master: 3ca31f1 initial commit',
     ])
   })
-  ;(process.browser ? xit : it)('stash list with custom message', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+
+  it('stash list with custom message', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     await addUserConfig(fs, dir, gitdir)
 
@@ -600,8 +1007,8 @@ describe('stash list', () => {
 })
 
 describe('stash drop', () => {
-  ;(process.browser ? xit : it)('stash drop with no stash', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('dropWithNoStash')
+  it('stash drop with no stash', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('dropWithNoStash')
 
     let error = null
     try {
@@ -612,8 +1019,9 @@ describe('stash drop', () => {
 
     expect(error).toBeNull()
   })
-  ;(process.browser ? xit : it)('stash drop with stash', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+
+  it('stash drop with stash', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
 
@@ -628,8 +1036,9 @@ describe('stash drop', () => {
     const stashList = await stash({ fs, dir, gitdir, op: 'list' })
     expect(stashList.length).toBe(0)
   })
-  ;(process.browser ? xit : it)('stash drop with invalid ref idx', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('dropInvalidRefIdx')
+
+  it('stash drop with invalid ref idx', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('dropInvalidRefIdx')
 
     await stashChanges(fs, dir, gitdir, false, false) // no unstaged changes
 
@@ -644,42 +1053,40 @@ describe('stash drop', () => {
     expect(error.caller).toEqual('git.stash')
     expect(error.code).toEqual(Errors.InvalidRefNameError.code)
   })
-  ;(process.browser ? xit : it)(
-    'stash drop with non-default ref idx',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('dropValidRefIdx')
 
-      await stashChanges(fs, dir, gitdir, false, false, 'stash one') // no unstaged changes
+  it('stash drop with non-default ref idx', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('dropValidRefIdx')
 
-      await fs.write(`${dir}/a.txt`, 'stash two staged changes - a')
-      await fs.write(`${dir}/b.js`, 'stash two staged changes - b')
+    await stashChanges(fs, dir, gitdir, false, false, 'stash one') // no unstaged changes
 
-      await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
-      await stash({ fs, dir, gitdir, op: 'push', message: 'stash two' })
+    await fs.write(`${dir}/a.txt`, 'stash two staged changes - a')
+    await fs.write(`${dir}/b.js`, 'stash two staged changes - b')
 
-      await stashChanges(fs, dir, gitdir, true, true, 'stash three')
+    await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
+    await stash({ fs, dir, gitdir, op: 'push', message: 'stash two' })
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'drop', refIdx: 1 })
-      } catch (e) {
-        error = e
-      }
+    await stashChanges(fs, dir, gitdir, true, true, 'stash three')
 
-      expect(error).toBeNull()
-
-      const stashList = await stash({ fs, dir, gitdir, op: 'list' })
-      expect(stashList).toEqual([
-        'stash@{0}: stash one: 3ca31f1 initial commit',
-        'stash@{1}: stash three: 3ca31f1 initial commit',
-      ])
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'drop', refIdx: 1 })
+    } catch (e) {
+      error = e
     }
-  )
+
+    expect(error).toBeNull()
+
+    const stashList = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashList).toEqual([
+      'stash@{0}: stash three: 3ca31f1 initial commit',
+      'stash@{1}: stash one: 3ca31f1 initial commit',
+    ])
+  })
 })
 
 describe('stash clear', () => {
-  ;(process.browser ? xit : it)('stash clear with no stash', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+  it('stash clear with no stash', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     let error = null
     try {
@@ -690,8 +1097,9 @@ describe('stash clear', () => {
 
     expect(error).toBeNull()
   })
-  ;(process.browser ? xit : it)('stash clear with stash', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+
+  it('stash clear with stash', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
 
@@ -706,8 +1114,9 @@ describe('stash clear', () => {
     const stashList = await stash({ fs, dir, gitdir, op: 'list' })
     expect(stashList.length).toBe(0)
   })
-  ;(process.browser ? xit : it)('stash clear with 2 stashes', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('test-stash')
+
+  it('stash clear with 2 stashes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('test-stash')
 
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
@@ -726,8 +1135,8 @@ describe('stash clear', () => {
 })
 
 describe('stash pop', () => {
-  ;(process.browser ? xit : it)('stash pop with no stash', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('popOne')
+  it('stash pop with no stash', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('popOne')
 
     let error = null
     try {
@@ -738,8 +1147,9 @@ describe('stash pop', () => {
 
     expect(error).toBeNull()
   })
-  ;(process.browser ? xit : it)('stash pop with 1 stash', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('popTwo')
+
+  it('stash pop with 1 stash', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('popTwo')
 
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
 
@@ -754,8 +1164,9 @@ describe('stash pop', () => {
     const stashList = await stash({ fs, dir, gitdir, op: 'list' })
     expect(stashList.length).toBe(0)
   })
-  ;(process.browser ? xit : it)('stash pop with 2 stashes', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('popThree')
+
+  it('stash pop with 2 stashes', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('popThree')
 
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
     await stashChanges(fs, dir, gitdir, true, false) // staged and non-unstaged changes
@@ -771,8 +1182,9 @@ describe('stash pop', () => {
     const stashList = await stash({ fs, dir, gitdir, op: 'list' })
     expect(stashList.length).toBe(1)
   })
-  ;(process.browser ? xit : it)('stash pop with invalid ref idx', async () => {
-    const { fs, dir, gitdir } = await makeFixtureStash('popInvalidRefIdx')
+
+  it('stash pop with invalid ref idx', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('popInvalidRefIdx')
 
     await stashChanges(fs, dir, gitdir, false, false) // no unstaged changes
     await stashChanges(fs, dir, gitdir, true, false) // plus unstaged changes
@@ -788,42 +1200,100 @@ describe('stash pop', () => {
     expect(error.caller).toEqual('git.stash')
     expect(error.code).toEqual(Errors.InvalidRefNameError.code)
   })
-  ;(process.browser ? xit : it)(
-    'stash pop with non-default ref idx',
-    async () => {
-      const { fs, dir, gitdir } = await makeFixtureStash('dropValidRefIdx')
 
-      await stashChanges(fs, dir, gitdir, false, false, 'stash one') // no unstaged changes
+  it('stash pop with non-default ref idx', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('dropValidRefIdx')
 
-      const aNewContent = 'stash two staged changes - aaa'
-      const bNewContent = 'console.log("stash two staged changes - bbb")'
+    await stashChanges(fs, dir, gitdir, false, false, 'stash one') // no unstaged changes
 
-      await fs.write(`${dir}/a.txt`, aNewContent)
-      await fs.write(`${dir}/b.js`, bNewContent)
+    const aNewContent = 'stash two staged changes - aaa'
+    const bNewContent = 'console.log("stash two staged changes - bbb")'
 
-      await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
-      await stash({ fs, dir, gitdir, op: 'push', message: 'stash two' })
+    await fs.write(`${dir}/a.txt`, aNewContent)
+    await fs.write(`${dir}/b.js`, bNewContent)
 
-      await stashChanges(fs, dir, gitdir, true, true, 'stash three')
+    await add({ fs, dir, gitdir, filepath: ['a.txt', 'b.js'] })
+    await stash({ fs, dir, gitdir, op: 'push', message: 'stash two' })
 
-      let error = null
-      try {
-        await stash({ fs, dir, gitdir, op: 'pop', refIdx: 1 })
-      } catch (e) {
-        error = e
-      }
+    await stashChanges(fs, dir, gitdir, true, true, 'stash three')
 
-      expect(error).toBeNull()
-
-      const stashList = await stash({ fs, dir, gitdir, op: 'list' })
-      expect(stashList).toEqual([
-        'stash@{0}: stash one: 3ca31f1 initial commit',
-        'stash@{1}: stash three: 3ca31f1 initial commit',
-      ])
-      const aContent = await fs.read(`${dir}/a.txt`)
-      expect(aContent.toString()).toEqual(aNewContent) // make sure the 2nd staged changes are applied
-      const bContent = await fs.read(`${dir}/b.js`)
-      expect(bContent.toString()).toEqual(bNewContent) // make sure the 2nd staged changes are applied
+    let error = null
+    try {
+      await stash({ fs, dir, gitdir, op: 'pop', refIdx: 1 })
+    } catch (e) {
+      error = e
     }
-  )
+
+    expect(error).toBeNull()
+
+    const stashList = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashList).toEqual([
+      'stash@{0}: stash three: 3ca31f1 initial commit',
+      'stash@{1}: stash one: 3ca31f1 initial commit',
+    ])
+    const aContent = await fs.read(`${dir}/a.txt`)
+    expect(aContent.toString()).toEqual(aNewContent) // make sure the 2nd staged changes are applied
+    const bContent = await fs.read(`${dir}/b.js`)
+    expect(bContent.toString()).toEqual(bNewContent) // make sure the 2nd staged changes are applied
+  })
+})
+
+describe('stash regression #2138', () => {
+  it('should not lose stashes after stash pop followed by stash push', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('stashRegression')
+    await addUserConfig(fs, dir, gitdir)
+
+    // --- stash 1 ---
+    await fs.write(dir + '/a.txt', 'change 1')
+    await stash({ fs, dir, gitdir, message: 'stash 1', op: 'push' })
+    // --- stash 2 ---
+    await fs.write(dir + '/a.txt', 'change 2')
+    await stash({ fs, dir, gitdir, message: 'stash 2', op: 'push' })
+
+    let stashes = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashes.length).toBe(2)
+
+    // Pop stash 2
+    await stash({ fs, dir, gitdir, op: 'pop' })
+
+    stashes = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashes.length).toBe(1)
+    // Push stash 2 again
+    await stash({ fs, dir, gitdir, message: 'stash 2', op: 'push' })
+
+    stashes = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashes.length).toBe(2)
+  })
+
+  it('stash list order before and after stash drop', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(Stash('stashRegression')
+    await addUserConfig(fs, dir, gitdir)
+
+    // --- stash 1 ---
+    await fs.write(dir + '/a.txt', 'change 1')
+    await stash({ fs, dir, gitdir, message: 'stash 1', op: 'push' })
+    // --- stash 2 ---
+    await fs.write(dir + '/a.txt', 'change 2')
+    await stash({ fs, dir, gitdir, message: 'stash 2', op: 'push' })
+
+    // --- stash 3 ---
+    await fs.write(dir + '/a.txt', 'change 3')
+    await stash({ fs, dir, gitdir, message: 'stash 3', op: 'push' })
+
+    let stashes = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashes).toEqual([
+      'stash@{0}: stash 3: 3ca31f1 initial commit',
+      'stash@{1}: stash 2: 3ca31f1 initial commit',
+      'stash@{2}: stash 1: 3ca31f1 initial commit',
+    ])
+
+    // drop stash 3
+    await stash({ fs, dir, gitdir, op: 'drop' })
+
+    stashes = await stash({ fs, dir, gitdir, op: 'list' })
+    expect(stashes).toEqual([
+      'stash@{0}: stash 2: 3ca31f1 initial commit',
+      'stash@{1}: stash 1: 3ca31f1 initial commit',
+    ])
+  })
 })

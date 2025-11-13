@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { listRefs } = require('isomorphic-git')
+import { listRefs } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listRefs', () => {
-  ;(process.browser ? xit : it)('listRefs', async () => {
+  it('listRefs', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listRefs')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listRefs')
     // Test
     const refs = await listRefs({
       fs,
@@ -16,7 +14,7 @@ describe('listRefs', () => {
       filepath: 'refs/tags',
     })
     expect(refs).toMatchInlineSnapshot(`
-      Array [
+      [
         "local-tag",
         "test-tag",
         "v0.0.1",

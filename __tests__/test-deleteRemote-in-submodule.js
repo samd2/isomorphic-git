@@ -1,24 +1,21 @@
 /* eslint-env node, browser, jasmine */
-const { Errors, deleteRemote, listRemotes } = require('isomorphic-git')
+import { Errors, deleteRemote, listRemotes } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('deleteRemote', () => {
-  ;(process.browser ? xit : it)('deleteRemote', async () => {
+  it('deleteRemote', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-deleteRemote')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-deleteRemote')
     const remote = 'foo'
     // Test
     await deleteRemote({ fs, dir, gitdir, remote })
     const a = await listRemotes({ fs, dir, gitdir })
     expect(a).toEqual([{ remote: 'bar', url: 'git@github.com:bar/bar.git' }])
   })
-  ;(process.browser ? xit : it)('missing argument', async () => {
+  it('missing argument', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-addRemote')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-addRemote')
     // Test
     let error = null
     try {

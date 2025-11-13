@@ -1,40 +1,26 @@
 /* eslint-env node, browser, jasmine */
-const path = require('path')
+import * as path from 'path'
 
-const {
-  Errors,
-  branch,
-  init,
-  currentBranch,
-  listFiles,
-} = require('isomorphic-git')
+import { Errors, branch, init, currentBranch, listFiles } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('branch', () => {
-  ;(process.browser ? xit : it)('branch', async () => {
+  it('branch', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-branch')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch')
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch' })
-    const files = await fs.readdir(
-      path.resolve(gitdirsmfullpath, 'refs', 'heads')
-    )
+    const files = await fs.readdir(path.resolve(gitdirsmfullpath, 'refs', 'heads'))
     expect(files).toEqual(['master', 'test-branch'])
     expect(await currentBranch({ fs, dir, gitdir })).toEqual('master')
   })
-  ;(process.browser ? xit : it)('branch with start point', async () => {
+
+  it('branch with start point', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-branch-start-point'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch-start-point')
     // Test
-    let files = await fs.readdir(
-      path.resolve(gitdirsmfullpath, 'refs', 'heads')
-    )
+    let files = await fs.readdir(path.resolve(gitdirsmfullpath, 'refs', 'heads'))
     expect(files).toEqual(['main', 'start-point'])
     await branch({ fs, dir, gitdir, ref: 'test-branch', object: 'start-point' })
     files = await fs.readdir(path.resolve(gitdirsmfullpath, 'refs', 'heads'))
@@ -56,10 +42,10 @@ describe('branch', () => {
     ])
     expect(await listFiles({ fs, dir, gitdir, ref: 'test-branch' })).toEqual([])
   })
-  ;(process.browser ? xit : it)('branch force', async () => {
+
+  it('branch force', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-branch')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch')
     let error = null
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch' })
@@ -74,11 +60,10 @@ describe('branch', () => {
     }
     expect(error).toBeNull()
   })
-  ;(process.browser ? xit : it)('branch with start point force', async () => {
+
+  it('branch with start point force', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-branch-start-point'
-    )
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch-start-point')
     let error = null
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch', object: 'start-point' })
@@ -96,16 +81,18 @@ describe('branch', () => {
       'new-file.txt',
     ])
   })
-  ;(process.browser ? xit : it)('branch --checkout', async () => {
+
+  it('branch --checkout', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-branch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-branch')
     // Test
     await branch({ fs, dir, gitdir, ref: 'test-branch', checkout: true })
     expect(await currentBranch({ fs, dir, gitdir })).toEqual('test-branch')
   })
-  ;(process.browser ? xit : it)('invalid branch name', async () => {
+
+  it('invalid branch name', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-branch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-branch')
     let error = null
     // Test
     try {
@@ -116,9 +103,10 @@ describe('branch', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.InvalidRefNameError).toBe(true)
   })
-  ;(process.browser ? xit : it)('missing ref argument', async () => {
+
+  it('missing ref argument', async () => {
     // Setup
-    const { fs, dir, gitdir } = await makeFixtureAsSubmodule('test-branch')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-branch')
     let error = null
     // Test
     try {
@@ -130,11 +118,10 @@ describe('branch', () => {
     expect(error).not.toBeNull()
     expect(error instanceof Errors.MissingParameterError).toBe(true)
   })
-  ;(process.browser ? xit : it)('empty repo', async () => {
+
+  it('empty repo', async () => {
     // Setup
-    const { dir, fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(
-      'test-branch-empty-repo'
-    )
+    const { dir, fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch-empty-repo')
     await init({ fs, dir, gitdir })
     let error = null
     // Test
@@ -147,29 +134,26 @@ describe('branch', () => {
     const file = await fs.read(path.resolve(gitdirsmfullpath, 'HEAD'), 'utf8')
     expect(file).toBe(`ref: refs/heads/test-branch\n`)
   })
-  ;(process.browser ? xit : it)(
-    'create branch with same name as a remote',
-    async () => {
-      // Setup
-      const { fs, dir, gitdir, gitdirsmfullpath } =
-        await makeFixtureAsSubmodule('test-branch')
-      let error = null
-      // Test
-      try {
-        await branch({ fs, dir, gitdir, ref: 'origin' })
-      } catch (err) {
-        error = err
-      }
-      expect(error).toBeNull()
-      expect(
-        await fs.exists(path.resolve(gitdirsmfullpath, 'refs/heads/origin'))
-      ).toBeTruthy()
-    }
-  )
-  ;(process.browser ? xit : it)('create branch named "HEAD"', async () => {
+
+  it('create branch with same name as a remote', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-branch')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch')
+    let error = null
+    // Test
+    try {
+      await branch({ fs, dir, gitdir, ref: 'origin' })
+    } catch (err) {
+      error = err
+    }
+    expect(error).toBeNull()
+    expect(
+      await fs.exists(path.resolve(gitdirsmfullpath, 'refs/heads/origin'))
+    ).toBeTruthy()
+  })
+
+  it('create branch named "HEAD"', async () => {
+    // Setup
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-branch')
     let error = null
     // Test
     try {

@@ -1,5 +1,5 @@
 /* eslint-env node, browser, jasmine */
-const {
+import {
   init,
   add,
   listFiles,
@@ -8,11 +8,9 @@ const {
   STAGE,
   status,
   getConfig,
-} = require('isomorphic-git')
+} from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 // NOTE: we cannot actually commit a real .gitignore file in fixtures or fixtures won't be included in this repo
 const writeGitIgnore = async (fs, dir) =>
@@ -26,9 +24,9 @@ const writeSymlink = async (fs, dir) =>
   fs._symlink('c/e.txt', dir + '/e-link.txt')
 
 describe('add', () => {
-  ;(process.browser ? xit : it)('file', async () => {
+  it('file', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     await add({ fs, dir, filepath: 'a.txt' })
@@ -40,81 +38,68 @@ describe('add', () => {
     await add({ fs, dir, filepath: 'b.txt' })
     expect((await listFiles({ fs, dir })).length).toEqual(3)
   })
-  ;(process.browser ? xit : it)('multiple files', async () => {
+  it('multiple files', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     await add({ fs, dir, filepath: ['a.txt', 'a-copy.txt', 'b.txt'] })
     expect((await listFiles({ fs, dir })).length).toEqual(3)
   })
-  ;(process.browser ? xit : it)(
-    'multiple files with parallel=false',
-    async () => {
-      // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule('test-add')
-      // Test
-      await init({ fs, dir })
+  it('multiple files with parallel=false', async () => {
+    // Setup
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    // Test
+    await init({ fs, dir })
+    await add({
+      fs,
+      dir,
+      filepath: ['a.txt', 'a-copy.txt', 'b.txt'],
+      parallel: false,
+    })
+    expect((await listFiles({ fs, dir })).length).toEqual(3)
+  })
+  it('multiple files with one failure (normal error)', async () => {
+    // Setup
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    // Test
+    await init({ fs, dir })
+    let err = null
+    try {
+      await add({ fs, dir, filepath: ['a.txt', 'a-copy.txt', 'non-existent'] })
+    } catch (e) {
+      err = e
+    }
+    expect(err.caller).toEqual('git.add')
+    expect(err.name).toEqual('NotFoundError')
+  })
+  it('multiple files with 2 failures (MultipleGitError) and an ignored file', async () => {
+    // Setup
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    await writeGitIgnore(fs, dir)
+
+    // Test
+    await init({ fs, dir })
+    let err = null
+    try {
       await add({
         fs,
         dir,
-        filepath: ['a.txt', 'a-copy.txt', 'b.txt'],
-        parallel: false,
+        filepath: ['a.txt', 'i.txt', 'non-existent', 'also-non-existent'],
       })
-      expect((await listFiles({ fs, dir })).length).toEqual(3)
+    } catch (e) {
+      err = e
     }
-  )
-  ;(process.browser ? xit : it)(
-    'multiple files with one failure (normal error)',
-    async () => {
-      // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule('test-add')
-      // Test
-      await init({ fs, dir })
-      let err = null
-      try {
-        await add({
-          fs,
-          dir,
-          filepath: ['a.txt', 'a-copy.txt', 'non-existent'],
-        })
-      } catch (e) {
-        err = e
-      }
-      expect(err.caller).toEqual('git.add')
-      expect(err.name).toEqual('NotFoundError')
-    }
-  )
-  ;(process.browser ? xit : it)(
-    'multiple files with 2 failures (MultipleGitError) and an ignored file',
-    async () => {
-      // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule('test-add')
-      await writeGitIgnore(fs, dir)
-
-      // Test
-      await init({ fs, dir })
-      let err = null
-      try {
-        await add({
-          fs,
-          dir,
-          filepath: ['a.txt', 'i.txt', 'non-existent', 'also-non-existent'],
-        })
-      } catch (e) {
-        err = e
-      }
-      expect(err.caller).toEqual('git.add')
-      expect(err.name).toEqual('MultipleGitError')
-      expect(err.errors.length).toEqual(2)
-      err.errors.forEach(e => {
-        expect(e.name).toEqual('NotFoundError')
-      })
-    }
-  )
-  ;(process.browser ? xit : it)('multiple files with 1 ignored', async () => {
+    expect(err.caller).toEqual('git.add')
+    expect(err.name).toEqual('MultipleGitError')
+    expect(err.errors.length).toEqual(2)
+    err.errors.forEach(e => {
+      expect(e.name).toEqual('NotFoundError')
+    })
+  })
+  it('multiple files with 1 ignored', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
 
     // Test
@@ -125,28 +110,25 @@ describe('add', () => {
       filepath: ['a.txt', 'i.txt'],
     })
   })
-  ;(process.browser ? xit : it)(
-    'multiple files with 1 ignored and force:true',
-    async () => {
-      // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule('test-add')
-      await writeGitIgnore(fs, dir)
-
-      // Test
-      await init({ fs, dir })
-      await add({
-        fs,
-        dir,
-        filepath: ['a.txt', 'i.txt'],
-        force: true,
-      })
-      expect((await listFiles({ fs, dir })).length).toEqual(2)
-      expect(await listFiles({ fs, dir })).toEqual(['a.txt', 'i.txt'])
-    }
-  )
-  ;(process.browser ? xit : it)('symlink', async () => {
+  it('multiple files with 1 ignored and force:true', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    await writeGitIgnore(fs, dir)
+
+    // Test
+    await init({ fs, dir })
+    await add({
+      fs,
+      dir,
+      filepath: ['a.txt', 'i.txt'],
+      force: true,
+    })
+    expect((await listFiles({ fs, dir })).length).toEqual(2)
+    expect(await listFiles({ fs, dir })).toEqual(['a.txt', 'i.txt'])
+  })
+  it('symlink', async () => {
+    // Setup
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     // it's not currently possible to tests symlinks in the browser since there's no way to create them
     const symlinkCreated = await writeSymlink(fs, dir)
       .then(() => true)
@@ -174,30 +156,27 @@ describe('add', () => {
     }
     expect(symlinkTargetStr).toEqual('c/e.txt')
   })
-  ;(process.browser ? xit : it)('ignored file', async () => {
+  it('ignored file', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
     await add({ fs, dir, filepath: 'i.txt' })
     expect((await listFiles({ fs, dir })).length).toEqual(0)
   })
-  ;(process.browser ? xit : it)(
-    'ignored file but with force=true',
-    async () => {
-      // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule('test-add')
-      await writeGitIgnore(fs, dir)
-      // Test
-      await init({ fs, dir })
-      await add({ fs, dir, filepath: 'i.txt', force: true })
-      expect((await listFiles({ fs, dir })).length).toEqual(1)
-    }
-  )
-  ;(process.browser ? xit : it)('non-existant file', async () => {
+  it('ignored file but with force=true', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    await writeGitIgnore(fs, dir)
+    // Test
+    await init({ fs, dir })
+    await add({ fs, dir, filepath: 'i.txt', force: true })
+    expect((await listFiles({ fs, dir })).length).toEqual(1)
+  })
+  it('non-existant file', async () => {
+    // Setup
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     let err = null
@@ -208,18 +187,18 @@ describe('add', () => {
     }
     expect(err.caller).toEqual('git.add')
   })
-  ;(process.browser ? xit : it)('folder', async () => {
+  it('folder', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     // Test
     await init({ fs, dir })
     expect((await listFiles({ fs, dir })).length).toEqual(0)
     await add({ fs, dir, filepath: 'c' })
     expect((await listFiles({ fs, dir })).length).toEqual(4)
   })
-  ;(process.browser ? xit : it)('folder with .gitignore', async () => {
+  it('folder with .gitignore', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -227,22 +206,19 @@ describe('add', () => {
     await add({ fs, dir, filepath: 'c' })
     expect((await listFiles({ fs, dir })).length).toEqual(3)
   })
-  ;(process.browser ? xit : it)(
-    'folder with .gitignore and force',
-    async () => {
-      // Setup
-      const { fs, dir } = await makeFixtureAsSubmodule('test-add')
-      await writeGitIgnore(fs, dir)
-      // Test
-      await init({ fs, dir })
-      expect((await listFiles({ fs, dir })).length).toEqual(0)
-      await add({ fs, dir, filepath: 'c', force: true })
-      expect((await listFiles({ fs, dir })).length).toEqual(4)
-    }
-  )
-  ;(process.browser ? xit : it)('git add .', async () => {
+  it('folder with .gitignore and force', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
+    await writeGitIgnore(fs, dir)
+    // Test
+    await init({ fs, dir })
+    expect((await listFiles({ fs, dir })).length).toEqual(0)
+    await add({ fs, dir, filepath: 'c', force: true })
+    expect((await listFiles({ fs, dir })).length).toEqual(4)
+  })
+  it('git add .', async () => {
+    // Setup
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -250,9 +226,9 @@ describe('add', () => {
     await add({ fs, dir, filepath: '.' })
     expect((await listFiles({ fs, dir })).length).toEqual(7)
   })
-  ;(process.browser ? xit : it)('git add . with parallel=false', async () => {
+  it('git add . with parallel=false', async () => {
     // Setup
-    const { fs, dir } = await makeFixtureAsSubmodule('test-add')
+    const { fs, dir } = await makeFixtureAsSubmodule(AsSubmodule('test-add')
     await writeGitIgnore(fs, dir)
     // Test
     await init({ fs, dir })
@@ -260,45 +236,40 @@ describe('add', () => {
     await add({ fs, dir, filepath: '.', parallel: false })
     expect((await listFiles({ fs, dir })).length).toEqual(7)
   })
-  ;(process.browser ? xit : it)(
-    'git add . with core.autocrlf=true does not break binary files',
-    async () => {
-      const { fs, dir, gitdir } =
-        await makeFixtureAsSubmodule('test-add-autocrlf')
-      expect(
-        await getConfig({ fs, dir, gitdir, path: 'core.autocrlf' })
-      ).toEqual('true')
-      let files = await fs.readdir(dir)
-      files = files.filter(e => e !== '.git')
-      expect(files.sort()).toMatchInlineSnapshot(`
-      Array [
+  it('git add . with core.autocrlf=true does not break binary files', async () => {
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(AsSubmodule('test-add-autocrlf')
+    expect(await getConfig({ fs, dir, gitdir, path: 'core.autocrlf' })).toEqual(
+      'true'
+    )
+    const files = await fs.readdir(dir)
+    expect(files.sort()).toMatchInlineSnapshot(`
+      [
         "20thcenturyfoodcourt.png",
         "Test.md",
       ]
     `)
-      const index = await listFiles({ fs, dir, gitdir })
-      expect(index).toMatchInlineSnapshot(`
-      Array [
+    const index = await listFiles({ fs, dir, gitdir })
+    expect(index).toMatchInlineSnapshot(`
+      [
         "20thcenturyfoodcourt.png",
         "Test.md",
       ]
     `)
-      expect(
-        new TextDecoder().decode(await fs.read(`${dir}/Test.md`))
-      ).toContain(`\r\n`)
-      await fs.write(`${dir}/README.md`, '# test')
+    expect(new TextDecoder().decode(await fs.read(`${dir}/Test.md`))).toContain(
+      `\r\n`
+    )
+    await fs.write(`${dir}/README.md`, '# test')
 
-      await add({ fs, dir, gitdir, filepath: '.' })
+    await add({ fs, dir, gitdir, filepath: '.' })
 
-      expect(
-        await status({ fs, dir, gitdir, filepath: '20thcenturyfoodcourt.png' })
-      ).toEqual('unmodified')
-      expect(await status({ fs, dir, gitdir, filepath: 'Test.md' })).toEqual(
-        'unmodified'
-      )
-      expect(await status({ fs, dir, gitdir, filepath: 'README.md' })).toEqual(
-        'added'
-      )
-    }
-  )
+    expect(
+      await status({ fs, dir, gitdir, filepath: '20thcenturyfoodcourt.png' })
+    ).toEqual('unmodified')
+    expect(await status({ fs, dir, gitdir, filepath: 'Test.md' })).toEqual(
+      'unmodified'
+    )
+    expect(await status({ fs, dir, gitdir, filepath: 'README.md' })).toEqual(
+      'added'
+    )
+  })
 })

@@ -1,20 +1,13 @@
 /* eslint-env node, browser, jasmine */
-const path = require('path')
+import * as path from 'path'
 
-const {
-  GitPackIndex,
-  GitObject,
-  shasum,
-} = require('isomorphic-git/internal-apis')
+import { GitPackIndex, GitObject, shasum } from 'isomorphic-git/internal-apis'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js' 
 
 describe('GitPackIndex', () => {
-  ;(process.browser ? xit : it)('from .idx', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitPackIndex')
+  it('from .idx', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitPackIndex')
     const idx = await fs.read(
       path.join(
         gitdirsmfullpath,
@@ -43,9 +36,8 @@ describe('GitPackIndex', () => {
       20855
     )
   })
-  ;(process.browser ? xit : it)('from .pack', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitPackIndex')
+  it('from .pack', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitPackIndex')
     const pack = await fs.read(
       path.join(
         gitdirsmfullpath,
@@ -74,24 +66,19 @@ describe('GitPackIndex', () => {
       20855
     )
   })
-  ;(process.browser ? xit : it)(
-    'from .pack when pack is truncated',
-    async () => {
-      const { fs, gitdirsmfullpath } =
-        await makeFixtureAsSubmodule('test-GitPackIndex')
-      const pack = await fs.read(
-        path.join(
-          gitdirsmfullpath,
-          'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack'
-        )
+  it('from .pack when pack is truncated', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitPackIndex')
+    const pack = await fs.read(
+      path.join(
+        gitdirsmfullpath,
+        'objects/pack/pack-1a1e70d2f116e8cb0cb42d26019e5c7d0eb01888.pack'
       )
-      const p = await GitPackIndex.fromPack({ pack: pack.slice(0, 12) })
-      expect(p.offsets.size).toBe(0)
-    }
-  )
-  ;(process.browser ? xit : it)('to .idx file from .pack', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitPackIndex')
+    )
+    const p = await GitPackIndex.fromPack({ pack: pack.slice(0, 12) })
+    expect(p.offsets.size).toBe(0)
+  })
+  it('to .idx file from .pack', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitPackIndex')
     const idx = await fs.read(
       path.join(
         gitdirsmfullpath,
@@ -109,9 +96,8 @@ describe('GitPackIndex', () => {
     expect(idxbuffer.byteLength).toBe(idx.byteLength)
     expect(idxbuffer.equals(idx)).toBe(true)
   })
-  ;(process.browser ? xit : it)('read undeltified object', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitPackIndex')
+  it('read undeltified object', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitPackIndex')
     const idx = await fs.read(
       path.join(
         gitdirsmfullpath,
@@ -143,9 +129,8 @@ describe('GitPackIndex', () => {
       "
     `)
   })
-  ;(process.browser ? xit : it)('read deltified object', async () => {
-    const { fs, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-GitPackIndex')
+  it('read deltified object', async () => {
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(AsSubmodule('test-GitPackIndex')
     const idx = await fs.read(
       path.join(
         gitdirsmfullpath,

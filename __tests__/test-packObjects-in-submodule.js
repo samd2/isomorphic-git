@@ -1,18 +1,15 @@
 /* eslint-env node, browser, jasmine */
-const path = require('path')
+import * as path from 'path'
 
-const { packObjects, indexPack } = require('isomorphic-git')
-const { readObject, readObjectPacked } = require('isomorphic-git/internal-apis')
+import { packObjects, indexPack, readObject } from 'isomorphic-git'
+import { readObjectPacked } from 'isomorphic-git/internal-apis'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('packObjects', () => {
-  ;(process.browser ? xit : it)('makes a packfile', async () => {
+  it('makes a packfile', async () => {
     // Setup
-    const { fs, gitdir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-packObjects')
+    const { fs, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-packObjects')
     const { filename, packfile } = await packObjects({
       fs,
       gitdir,
@@ -32,14 +29,13 @@ describe('packObjects', () => {
       ],
     })
     if (!packfile) throw new Error('type error')
-    expect(
-      await fs.exists(path.join(gitdirsmfullpath, `objects/pack/${filename}`))
-    ).toBe(false)
+    expect(await fs.exists(path.join(gitdirsmfullpath, `objects/pack/${filename}`))).toBe(
+      false
+    )
   })
-  ;(process.browser ? xit : it)('save packfile', async () => {
+  it('save packfile', async () => {
     // Setup
-    const { fs, dir, gitdir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-packObjects')
+    const { fs, dir, gitdir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-packObjects')
     const oids = [
       '5a9da3272badb2d3c8dbab463aed5741acb15a33',
       '0bfe8fa3764089465235461624f2ede1533e74ec',
@@ -66,8 +62,7 @@ describe('packObjects', () => {
     const fixdir = path.join(dir, 'git')
     const fullpath = path.join(gitdirsmfullpath, filepath)
     expect(await fs.exists(fullpath)).toBe(true)
-    const getExternalRefDelta = oid =>
-      readObject({ fs, cache, gitdir: gitdirsmfullpath, oid })
+    const getExternalRefDelta = oid => readObject({ fs, cache, gitdir: gitdirsmfullpath, oid })
     await indexPack({ fs, dir: gitdirsmfullpath, filepath, gitdir, cache })
     await Promise.all(
       oids.map(async oid => {

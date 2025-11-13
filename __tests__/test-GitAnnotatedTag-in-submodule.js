@@ -1,5 +1,5 @@
 /* eslint-env node, browser, jasmine */
-const { GitAnnotatedTag } = require('isomorphic-git/internal-apis')
+import { GitAnnotatedTag } from 'isomorphic-git/internal-apis'
 
 const tagString = `object af4d84a6a9fa7a74acdad07fddf9f17ff3a974ae
 type commit
@@ -58,11 +58,12 @@ dBWrLc3kdnemrlhSRzR2
 }
 
 describe('GitAnnotatedTag', () => {
-  ;(process.browser ? xit : it)('parse', async () => {
+  it('parse', async () => {
     const tag = GitAnnotatedTag.from(tagString)
     expect(tag.parse()).toEqual(tagObject)
   })
-  ;(process.browser ? xit : it)('render', async () => {
+
+  it('render', async () => {
     const tag = GitAnnotatedTag.from(tagObject)
     expect(tag.render()).toEqual(tagString)
   })

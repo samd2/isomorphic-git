@@ -1,7 +1,7 @@
 /* eslint-env node, browser, jasmine */
-const path = require('path')
+import * as path from 'path'
 
-const {
+import {
   init,
   add,
   remove,
@@ -10,17 +10,14 @@ const {
   listFiles,
   readCommit,
   readTree,
-} = require('isomorphic-git')
+} from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('unicode filepath support', () => {
-  ;(process.browser ? xit : it)('write/read index 日本語', async () => {
+  it('write/read index 日本語', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-unicode-paths')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-unicode-paths')
     await init({ fs, dir, gitdir })
     // Test
     await add({ fs, dir, gitdir, filepath: '日本語' })
@@ -28,10 +25,9 @@ describe('unicode filepath support', () => {
     await remove({ fs, dir, gitdir, filepath: '日本語' })
     expect((await listFiles({ fs, dir, gitdir })).length).toBe(0)
   })
-  ;(process.browser ? xit : it)('write/read index docs/日本語', async () => {
+  it('write/read index docs/日本語', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-unicode-paths')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-unicode-paths')
     await init({ fs, dir, gitdir })
     // Test
     await fs.mkdir(path.join(dir, 'docs'))
@@ -41,10 +37,9 @@ describe('unicode filepath support', () => {
     await remove({ fs, dir, gitdir, filepath: 'docs/日本語' })
     expect((await listFiles({ fs, dir, gitdir })).length).toBe(0)
   })
-  ;(process.browser ? xit : it)('write/read commit 日本語', async () => {
+  it('write/read commit 日本語', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-unicode-paths')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-unicode-paths')
     await init({ fs, dir, gitdir })
     await add({ fs, dir, gitdir, filepath: '日本語' })
     // Test
@@ -66,10 +61,9 @@ describe('unicode filepath support', () => {
     expect(comm.author.email).toBe('日本語@example.com')
     expect(comm.message).toBe('日本語\n')
   })
-  ;(process.browser ? xit : it)('write/read tree 日本語', async () => {
+  it('write/read tree 日本語', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-unicode-paths')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-unicode-paths')
     await init({ fs, dir, gitdir })
     await add({ fs, dir, gitdir, filepath: '日本語' })
     const sha = await commit({
@@ -95,10 +89,9 @@ describe('unicode filepath support', () => {
     })
     expect(tree[0].path).toBe('日本語')
   })
-  ;(process.browser ? xit : it)('checkout 日本語', async () => {
+  it('checkout 日本語', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-unicode-paths')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-unicode-paths')
     await init({ fs, dir, gitdir })
     await add({ fs, dir, gitdir, filepath: '日本語' })
     await commit({
@@ -119,10 +112,9 @@ describe('unicode filepath support', () => {
     await checkout({ fs, dir, gitdir, ref: 'HEAD' })
     expect((await listFiles({ fs, dir, gitdir }))[0]).toBe('日本語')
   })
-  ;(process.browser ? xit : it)('checkout docs/日本語', async () => {
+  it('checkout docs/日本語', async () => {
     // Setup
-    const { fs, dir, gitdir } =
-      await makeFixtureAsSubmodule('test-unicode-paths')
+    const { fs, dir, gitdir } = await makeFixtureAsSubmodule(('test-unicode-paths')
     await fs.mkdir(path.join(dir, 'docs'))
     await fs.write(path.join(dir, 'docs/日本語'), '')
     await init({ fs, dir, gitdir })

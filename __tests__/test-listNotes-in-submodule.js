@@ -1,14 +1,12 @@
 /* eslint-env node, browser, jasmine */
-const { listNotes } = require('isomorphic-git')
+import { listNotes } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listNotes', () => {
-  ;(process.browser ? xit : it)('from default branch', async () => {
+  it('from default branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listNotes')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listNotes')
     // Test
     const notes = await listNotes({
       fs,
@@ -30,9 +28,9 @@ describe('listNotes', () => {
       },
     ])
   })
-  ;(process.browser ? xit : it)('from alternate branch', async () => {
+  it('from alternate branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listNotes')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listNotes')
     // Test
     const notes = await listNotes({
       fs,
@@ -47,9 +45,9 @@ describe('listNotes', () => {
       },
     ])
   })
-  ;(process.browser ? xit : it)('from non-existant branch', async () => {
+  it('from non-existant branch', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listNotes')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listNotes')
     // Test
     const notes = await listNotes({
       fs,

@@ -1,22 +1,19 @@
 /* eslint-env node, browser, jasmine */
-const path = require('path')
+import * as path from 'path'
 
-const { Errors, status, add } = require('isomorphic-git')
+import { Errors, status, add } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('invalid .git/index', () => {
-  ;(process.browser ? xit : it)('empty file', async () => {
+  it('empty file', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-empty')
+    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
     await add({ fs, dir, filepath: file })
-    await fs.write(path.join(gitdirsmfullpath, 'index'), '', 'utf8')
+    await fs.write(path.join(gitdirsmfullpath, '.git', 'index'), '', 'utf8')
 
     // Test
     let error = null
@@ -29,19 +26,15 @@ describe('invalid .git/index', () => {
     expect(error instanceof Errors.InternalError).toBe(true)
     expect(error.data.message).toEqual('Index file is empty (.git/index)')
   })
-  ;(process.browser ? xit : it)('no magic number', async () => {
+
+  it('no magic number', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-empty')
+    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
     await add({ fs, dir, filepath: file })
-    await fs.write(
-      path.join(gitdirsmfullpath, 'index'),
-      'no-magic-number',
-      'utf8'
-    )
+    await fs.write(path.join(gitdirsmfullpath, '.git', 'index'), 'no-magic-number', 'utf8')
 
     // Test
     let error = null
@@ -54,15 +47,15 @@ describe('invalid .git/index', () => {
     expect(error instanceof Errors.InternalError).toBe(true)
     expect(error.data.message).toContain('Invalid dircache magic file number')
   })
-  ;(process.browser ? xit : it)('wrong checksum', async () => {
+
+  it('wrong checksum', async () => {
     // Setup
-    const { fs, dir, gitdirsmfullpath } =
-      await makeFixtureAsSubmodule('test-empty')
+    const { fs, dir, gitdirsmfullpath } = await makeFixtureAsSubmodule(('test-empty')
     const file = 'a.txt'
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
     await add({ fs, dir, filepath: file })
-    await fs.write(path.join(gitdirsmfullpath, 'index'), 'DIRCxxxxx', 'utf8')
+    await fs.write(path.join(gitdirsmfullpath, '.git', 'index'), 'DIRCxxxxx', 'utf8')
 
     // Test
     let error = null

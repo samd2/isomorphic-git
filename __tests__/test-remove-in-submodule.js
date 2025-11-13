@@ -1,18 +1,16 @@
 /* eslint-env node, browser, jasmine */
-const { remove, listFiles } = require('isomorphic-git')
+import { remove, listFiles } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('remove', () => {
-  ;(process.browser ? xit : it)('file', async () => {
+  it('file', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-remove')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-remove')
     // Test
     const before = await listFiles({ fs, gitdir })
     expect(before).toMatchInlineSnapshot(`
-      Array [
+      [
         ".babelrc",
         ".editorconfig",
         ".flowconfig",
@@ -42,7 +40,7 @@ describe('remove', () => {
     await remove({ fs, gitdir, filepath: 'LICENSE.md' })
     const after = await listFiles({ fs, gitdir })
     expect(after).toMatchInlineSnapshot(`
-      Array [
+      [
         ".babelrc",
         ".editorconfig",
         ".flowconfig",
@@ -70,13 +68,13 @@ describe('remove', () => {
     `)
     expect(before.length === after.length + 1).toBe(true)
   })
-  ;(process.browser ? xit : it)('dir', async () => {
+  it('dir', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-remove')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-remove')
     // Test
     const before = await listFiles({ fs, gitdir })
     expect(before).toMatchInlineSnapshot(`
-      Array [
+      [
         ".babelrc",
         ".editorconfig",
         ".flowconfig",
@@ -106,7 +104,7 @@ describe('remove', () => {
     await remove({ fs, gitdir, filepath: 'src/models' })
     const after = await listFiles({ fs, gitdir })
     expect(after).toMatchInlineSnapshot(`
-      Array [
+      [
         ".babelrc",
         ".editorconfig",
         ".flowconfig",

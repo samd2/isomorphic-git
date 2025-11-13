@@ -1,18 +1,16 @@
 /* eslint-env node, browser, jasmine */
-const { listFiles } = require('isomorphic-git')
+import { listFiles } from 'isomorphic-git'
 
-const {
-  makeFixtureAsSubmodule,
-} = require('./__helpers__/FixtureFSSubmodule.js')
+import { makeFixtureAsSubmodule(AsSubmodule } from './__helpers__/FixtureFSSubmodule.js'
 
 describe('listFiles', () => {
-  ;(process.browser ? xit : it)('index', async () => {
+  it('index', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-listFiles')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-listFiles')
     // Test
     const files = await listFiles({ fs, gitdir })
     expect(files).toMatchInlineSnapshot(`
-      Array [
+      [
         ".babelrc",
         ".editorconfig",
         ".flowconfig",
@@ -48,13 +46,13 @@ describe('listFiles', () => {
       ]
     `)
   })
-  ;(process.browser ? xit : it)('ref', async () => {
+  it('ref', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-checkout')
+    const { fs, gitdir } = await makeFixtureAsSubmodule(('test-checkout')
     // Test
     const files = await listFiles({ fs, gitdir, ref: 'test-branch' })
     expect(files).toMatchInlineSnapshot(`
-      Array [
+      [
         ".babelrc",
         ".editorconfig",
         ".flowconfig",
