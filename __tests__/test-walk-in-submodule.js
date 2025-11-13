@@ -24,6 +24,7 @@ describe('walk', () => {
     })
     expect(matrix).toEqual([
       ['.', true, true, true],
+      ['.git', true, false, false],
       ['a.txt', true, true, true],
       ['b.txt', true, true, true],
       ['c.txt', false, true, true],

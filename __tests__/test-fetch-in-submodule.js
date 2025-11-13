@@ -259,7 +259,7 @@ describe('fetch', () => {
       ref: 'test-branch-shallow-clone',
     })
     await sleep(1000) // seems to be a problem spot
-    shallow = (await fs.read(`${gitdir}/shallow`)).toString('utf8')
+    shallow = (await fs.read(`${gitdirsmfullpath}/shallow`)).toString('utf8')
     expect(shallow).toEqual('86ec153c7b48e02f92930d07542680f60d104d31\n')
   })
 

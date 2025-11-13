@@ -242,7 +242,9 @@ describe('add', () => {
     expect(await getConfig({ fs, dir, gitdir, path: 'core.autocrlf' })).toEqual(
       'true'
     )
-    const files = await fs.readdir(dir)
+    let files = await fs.readdir(dir)
+    files = files.filter(e => e !== '.git')
+
     expect(files.sort()).toMatchInlineSnapshot(`
       [
         "20thcenturyfoodcourt.png",
