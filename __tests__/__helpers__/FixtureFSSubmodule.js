@@ -16,7 +16,7 @@
 
 import http from 'isomorphic-git/http'
 
-const path = require('path')
+import { join } from '../utils/join.js'
 
 const localhost =
   typeof window === 'undefined' ? 'localhost' : window.location.hostname
@@ -55,7 +55,7 @@ export async function makeFixtureAsSubmodule(fixture) {
 
   // The superproject gitdir ought to be a .git subfolder,
   // and not a distant tmp folder:
-  const gitdirsp = path.join(dirsp, '.git')
+  const gitdirsp = join(dirsp, '.git')
 
   await clone({
     fs: fssp,
@@ -72,8 +72,8 @@ export async function makeFixtureAsSubmodule(fixture) {
   // console.log(gitdirsp)
 
   // Move the submodule's gitdir into place
-  await fssp._mkdir(path.join(gitdirsp, 'modules'))
-  const gitdirsmfullpath = path.join(gitdirsp, 'modules', 'mysubmodule')
+  await fssp._mkdir(join(gitdirsp, 'modules'))
+  const gitdirsmfullpath = join(gitdirsp, 'modules', 'mysubmodule')
   // THE SYMLINK METHOD
   // await fssp._symlink(gitdirsm, path.join(gitdirsp, 'modules', 'mysubmodule'))
   // THE COPYRECURSIVESYNC METHOD
@@ -82,7 +82,7 @@ export async function makeFixtureAsSubmodule(fixture) {
   await copyRecursiveSyncShell(gitdirsm, gitdirsmfullpath)
 
   // Move the submodule's main dir into place
-  const officialSubmoduleDir = path.join(dirsp, 'mysubmodule')
+  const officialSubmoduleDir = join(dirsp, 'mysubmodule')
   // THE SYMLINK METHOD
   // await fssp._symlink(dirsm, officialSubmoduleDir)
   // THE COPYRECURSIVESYNC METHOD
@@ -91,7 +91,7 @@ export async function makeFixtureAsSubmodule(fixture) {
   await copyRecursiveSyncShell(dirsm, officialSubmoduleDir)
 
   // Write a ".git" file into the submodule
-  const submoduleGitFile = path.join(officialSubmoduleDir, '.git')
+  const submoduleGitFile = join(officialSubmoduleDir, '.git')
   const submoduleGitFileContent = 'gitdir: ../.git/modules/mysubmodule\n'
   await fssp._writeFile(submoduleGitFile, submoduleGitFileContent)
 
