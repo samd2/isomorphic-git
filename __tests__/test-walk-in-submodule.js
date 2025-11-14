@@ -537,15 +537,15 @@ describe('walk', () => {
     })
 
     // core.autocrlf is true \r\n should be replaced with \n
-    expectedMatrix[1][1] = {
+    expectedMatrix[2][1] = {
       type: 'blob',
       mode: 0o100644,
       content: 'Hello\nagain',
       oid: 'e855bd8b67cc7ee321e4dec1b9e5b17e13aec8e1',
       hasStat: true,
     }
-    expectedMatrix[1][3].mode = FILEMODE
-    expectedMatrix[6][3].mode = FILEMODE
+    expectedMatrix[2][3].mode = FILEMODE
+    expectedMatrix[7][3].mode = FILEMODE
     expect(matrix).toEqual(expectedMatrix)
 
     // Check oid + content updates when changing autocrlf back to false
