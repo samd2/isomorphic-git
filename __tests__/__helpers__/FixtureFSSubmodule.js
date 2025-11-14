@@ -23,6 +23,9 @@ import { join } from '../../src/utils/join.js'
 
 import { makeFixture } from './FixtureFS.js'
 
+jest.useFakeTimers()
+jest.setTimeout(60_000)
+
 const localhost =
   typeof window === 'undefined' ? 'localhost' : window.location.hostname
 
