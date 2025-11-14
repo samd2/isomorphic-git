@@ -22,6 +22,5 @@ export default function commonConfig(outputName) {
     testTimeout: 60000,
     workerIdleMemoryLimit: 0.2,
     resetModules: true,
-    maxWorkers: 2,
   }
 }
