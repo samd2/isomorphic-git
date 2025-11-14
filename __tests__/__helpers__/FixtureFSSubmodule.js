@@ -14,7 +14,7 @@
 // That's what discoverGitdir.js solves for. The way to run git
 // commands inside a submodule is to be aware of the remote location of the .git folder.
 
-// import { spawnSync } from 'child_process'
+import { spawnSync } from 'child_process'
 
 import { clone } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
@@ -23,27 +23,18 @@ import { join } from '../../src/utils/join.js'
 
 import { makeFixture } from './FixtureFS.js'
 
-if (globalThis.jasmine) jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000
-
 const localhost =
   typeof window === 'undefined' ? 'localhost' : window.location.hostname
 
-// This works
-// const copyRecursiveSyncShell = async function (src, dest) {
-//   spawnSync('cp -rp ' + String(src) + ' ' + String(dest) + ' ', {
-//     shell: '/bin/bash',
-//   })
-// }
+const copyRecursiveSyncShell = async function (src, dest) {
+  spawnSync('cp -rp ' + String(src) + ' ' + String(dest) + ' ', {
+    shell: '/bin/bash',
+  })
+}
 
 export async function makeFixtureAsSubmodule(fixture) {
   // Create fixture for submodule (sm)
   const { dir: dirsm, gitdir: gitdirsm } = await makeFixture(fixture)
-  // console.log('fssm:')
-  // console.log(fssm)
-  // console.log('dirsm:')
-  // console.log(dirsm)
-  // console.log('gitdirsm:')
-  // console.log(gitdirsm)
 
   // Create fixture for superproject (sp)
   const { fs: fssp, dir: dirsp } = await makeFixture('superproject-' + fixture)
@@ -59,29 +50,15 @@ export async function makeFixtureAsSubmodule(fixture) {
     gitdir: gitdirsp,
     url: `http://${localhost}:8888/test-submodules.git`,
   })
-  // console.log('fssp:')
-  // console.log(fssp)
-  // console.log('dirsp:')
-  // console.log(dirsp)
-  // console.log('gitdirsp:')
-  // console.log(gitdirsp)
 
   // Move the submodule's gitdir into place
   await fssp._mkdir(join(gitdirsp, 'modules'))
   const gitdirsmfullpath = join(gitdirsp, 'modules', 'mysubmodule')
-  // await copyRecursiveSyncShell(gitdirsm, gitdirsmfullpath)
-  await fssp.cpSync(gitdirsm, gitdirsmfullpath, { recursive: true })
+  await copyRecursiveSyncShell(gitdirsm, gitdirsmfullpath)
 
   // Move the submodule's main dir into place
   const officialSubmoduleDir = join(dirsp, 'mysubmodule')
-  // THE SYMLINK METHOD
-  // await fssp._symlink(dirsm, officialSubmoduleDir)
-  // THE COPYRECURSIVESYNC METHOD
-  // await copyRecursiveSync(fssp, dirsm, officialSubmoduleDir)
-  // THE SHELL METHOD
-  // await copyRecursiveSyncShell(dirsm, officialSubmoduleDir)
-
-  await fssp.cpSync(dirsm, officialSubmoduleDir, { recursive: true })
+  await copyRecursiveSyncShell(dirsm, officialSubmoduleDir)
 
   // Write a ".git" file into the submodule
   const submoduleGitFile = join(officialSubmoduleDir, '.git')
