@@ -110,6 +110,18 @@ describe('walk', () => {
         },
       ],
       [
+        '.git',
+        {
+          type: 'blob',
+          mode: FILEMODE,
+          content: 'gitdir: ../.git/modules/mysubmodule\n',
+          oid: 'fcef7abb5d2b9a5d89a44d8d5b487349018ba04b',
+          hasStat: true,
+        },
+        null,
+        null,
+      ],
+      [
         'a.txt',
         {
           type: 'blob',
@@ -328,6 +340,18 @@ describe('walk', () => {
           oid: undefined,
           hasStat: false,
         },
+      ],
+      [
+        '.git',
+        {
+          type: 'blob',
+          mode: FILEMODE,
+          content: 'gitdir: ../.git/modules/mysubmodule\n',
+          oid: 'fcef7abb5d2b9a5d89a44d8d5b487349018ba04b',
+          hasStat: true,
+        },
+        null,
+        null,
       ],
       [
         'a.txt',

@@ -14,7 +14,7 @@ describe('invalid .git/index', () => {
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
     await add({ fs, dir, filepath: file })
-    await fs.write(path.join(gitdirsmfullpath, '.git', 'index'), '', 'utf8')
+    await fs.write(path.join(gitdirsmfullpath, 'index'), '', 'utf8')
 
     // Test
     let error = null
@@ -37,7 +37,7 @@ describe('invalid .git/index', () => {
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
     await add({ fs, dir, filepath: file })
     await fs.write(
-      path.join(gitdirsmfullpath, '.git', 'index'),
+      path.join(gitdirsmfullpath, 'index'),
       'no-magic-number',
       'utf8'
     )
@@ -62,11 +62,7 @@ describe('invalid .git/index', () => {
 
     await fs.write(path.join(dir, file), 'Hi', 'utf8')
     await add({ fs, dir, filepath: file })
-    await fs.write(
-      path.join(gitdirsmfullpath, '.git', 'index'),
-      'DIRCxxxxx',
-      'utf8'
-    )
+    await fs.write(path.join(gitdirsmfullpath, 'index'), 'DIRCxxxxx', 'utf8')
 
     // Test
     let error = null

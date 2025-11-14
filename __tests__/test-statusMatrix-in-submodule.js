@@ -255,12 +255,14 @@ describe('statusMatrix', () => {
     // Test
     const a = await statusMatrix({ fs, dir, gitdir, ignored: true })
     expect(a).toEqual([
+      ['.git', 0, 2, 2],
       ['.gitignore', 0, 2, 2],
       ['ignoreme.txt', 0, 2, 2],
     ])
     // Test
     const b = await statusMatrix({ fs, dir, gitdir, ignored: false })
     expect(b).toEqual([
+      ['.git', 0, 2, 2],
       ['.gitignore', 0, 2, 2],
       ['ignoreme.txt', 0, 2, 2],
     ])

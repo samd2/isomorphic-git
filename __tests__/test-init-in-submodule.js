@@ -10,9 +10,9 @@ describe('init', () => {
       await makeFixtureAsSubmodule('test-init')
     await init({ fs, dir })
     expect(await fs.exists(dir)).toBe(true)
-    expect(await fs.exists(`${gitdirsmfullpath}/.git/objects`)).toBe(true)
-    expect(await fs.exists(`${gitdirsmfullpath}/.git/refs/heads`)).toBe(true)
-    expect(await fs.exists(`${gitdirsmfullpath}/.git/HEAD`)).toBe(true)
+    expect(await fs.exists(`${gitdirsmfullpath}/objects`)).toBe(true)
+    expect(await fs.exists(`${gitdirsmfullpath}/refs/heads`)).toBe(true)
+    expect(await fs.exists(`${gitdirsmfullpath}/HEAD`)).toBe(true)
   })
   it('init --bare', async () => {
     const { fs, dir } = await makeFixtureAsSubmodule('test-init')
@@ -30,13 +30,13 @@ describe('init', () => {
     const email = 'meme'
     await init({ fs, dir })
     expect(await fs.exists(dir)).toBe(true)
-    expect(await fs.exists(`${gitdirsmfullpath}/.git/config`)).toBe(true)
+    expect(await fs.exists(`${gitdirsmfullpath}/config`)).toBe(true)
     await setConfig({ fs, dir, path: 'user.name', value: name })
     await setConfig({ fs, dir, path: 'user.email', value: email })
     // Test
     await init({ fs, dir })
     expect(await fs.exists(dir)).toBe(true)
-    expect(await fs.exists(`${gitdirsmfullpath}/.git/config`)).toBe(true)
+    expect(await fs.exists(`${gitdirsmfullpath}/config`)).toBe(true)
     // check that the properties we added are still there.
     expect(await getConfig({ fs, dir, path: 'user.name' })).toEqual(name)
     expect(await getConfig({ fs, dir, path: 'user.email' })).toEqual(email)

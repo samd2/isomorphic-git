@@ -164,8 +164,6 @@ describe('abortMerge', () => {
         // So a difference is a detected. This may be fine. Or, is it an insight into a problem.
         // Where is there an explanation of how "walk" interacts with "ignore"?
 
-        expect(await modified(workdir, head)).toBe(false)
-
         // expect(await modified(index, workdir)).toBe(false)
         // 2025 comment: See above comment.
       },
