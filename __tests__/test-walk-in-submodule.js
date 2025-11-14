@@ -570,7 +570,7 @@ describe('walk', () => {
     })
 
     // core.autocrlf is false \r\n should not be replaced with \n
-    expectedMatrix[1][1] = {
+    expectedMatrix[2][1] = {
       type: 'blob',
       mode: 0o100644,
       content: 'Hello\r\nagain',
