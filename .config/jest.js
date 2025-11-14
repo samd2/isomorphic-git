@@ -20,7 +20,7 @@ export default function commonConfig(outputName) {
       ],
     ],
     testTimeout: 60000,
-    workerIdleMemoryLimit: 0.1,
+    workerIdleMemoryLimit: '100MB',
     resetModules: true,
   }
 }
