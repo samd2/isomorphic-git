@@ -23,8 +23,7 @@ jobs:
         condition: ne(variables['CacheRestored'], 'true')
 
       - script: |
-          export NODE_OPTIONS=--max-old-space-size=8000
-          npm test --runInBand --logHeapUsage
+          npm test
         displayName: 'Run tests'
         env:
           BROWSER_STACK_ACCESS_KEY: $(BROWSER_STACK_ACCESS_KEY)
