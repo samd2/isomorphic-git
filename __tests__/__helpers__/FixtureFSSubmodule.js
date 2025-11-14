@@ -14,7 +14,7 @@
 // That's what discoverGitdir.js solves for. The way to run git
 // commands inside a submodule is to be aware of the remote location of the .git folder.
 
-import { spawnSync } from 'child_process'
+// import { spawnSync } from 'child_process'
 
 import { clone } from 'isomorphic-git'
 import http from 'isomorphic-git/http'
@@ -23,17 +23,17 @@ import { join } from '../../src/utils/join.js'
 
 import { makeFixture } from './FixtureFS.js'
 
-jest.useFakeTimers()
-jest.setTimeout(60_000)
+if (globalThis.jasmine) jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000
 
 const localhost =
   typeof window === 'undefined' ? 'localhost' : window.location.hostname
 
-const copyRecursiveSyncShell = async function (src, dest) {
-  spawnSync('cp -rp ' + String(src) + ' ' + String(dest) + ' ', {
-    shell: '/bin/bash',
-  })
-}
+// This works
+// const copyRecursiveSyncShell = async function (src, dest) {
+//   spawnSync('cp -rp ' + String(src) + ' ' + String(dest) + ' ', {
+//     shell: '/bin/bash',
+//   })
+// }
 
 export async function makeFixtureAsSubmodule(fixture) {
   // Create fixture for submodule (sm)
@@ -70,7 +70,7 @@ export async function makeFixtureAsSubmodule(fixture) {
   await fssp._mkdir(join(gitdirsp, 'modules'))
   const gitdirsmfullpath = join(gitdirsp, 'modules', 'mysubmodule')
   // await copyRecursiveSyncShell(gitdirsm, gitdirsmfullpath)
-  await fssp.cpSync(gitdirsm, gitdirsmfullpath, {recursive: true})
+  await fssp.cpSync(gitdirsm, gitdirsmfullpath, { recursive: true })
 
   // Move the submodule's main dir into place
   const officialSubmoduleDir = join(dirsp, 'mysubmodule')
@@ -79,9 +79,9 @@ export async function makeFixtureAsSubmodule(fixture) {
   // THE COPYRECURSIVESYNC METHOD
   // await copyRecursiveSync(fssp, dirsm, officialSubmoduleDir)
   // THE SHELL METHOD
-  //await copyRecursiveSyncShell(dirsm, officialSubmoduleDir)
+  // await copyRecursiveSyncShell(dirsm, officialSubmoduleDir)
 
-  await fssp.cpSync(gitdirsm, gitdirsmfullpath, {recursive: true})
+  await fssp.cpSync(dirsm, officialSubmoduleDir, { recursive: true })
 
   // Write a ".git" file into the submodule
   const submoduleGitFile = join(officialSubmoduleDir, '.git')
