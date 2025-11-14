@@ -60,7 +60,8 @@ const bundlewatchEnvironmentVariables = () => {
 }
 
 const jestEnv = 'NODE_OPTIONS="--experimental-vm-modules --max-old-space-size-percentage=80"'
-const jestCommand = 'jest --ci --coverage --runInBand --logHeapUsage'
+const jestCommand = 'jest --ci --coverage'
+// const jestCommand = 'jest --ci --coverage --runInBand --logHeapUsage'
 
 const jestBrowser = browserName => {
   const cmd = `${jestCommand} --config jest-browser.config.js`
