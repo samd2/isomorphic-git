@@ -22,7 +22,9 @@ jobs:
         displayName: 'Install dependencies'
         condition: ne(variables['CacheRestored'], 'true')
 
-      - script: npm test
+      - script: |
+          export NODE_OPTIONS=--max-old-space-size-percentage=75
+          npm test
         displayName: 'Run tests'
         env:
           BROWSER_STACK_ACCESS_KEY: $(BROWSER_STACK_ACCESS_KEY)
