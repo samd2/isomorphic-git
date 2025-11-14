@@ -59,7 +59,7 @@ const bundlewatchEnvironmentVariables = () => {
   return options.join(' ')
 }
 
-const jestEnv = 'NODE_OPTIONS=--experimental-vm-modules --max-old-space-size-percentage=80'
+const jestEnv = 'NODE_OPTIONS="--experimental-vm-modules --max-old-space-size-percentage=80"'
 const jestCommand = 'jest --ci --coverage --runInBand --logHeapUsage'
 
 const jestBrowser = browserName => {
