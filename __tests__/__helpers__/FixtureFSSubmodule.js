@@ -33,14 +33,6 @@ const copyRecursiveSyncShell = async function (src, dest) {
   spawnSync('cp -rp ' + String(src) + ' ' + String(dest) + ' ', {
     shell: '/bin/bash',
   })
-  // The following lines might be re-enabled, but for now trying
-  // to speed up tests.
-  // const output = spawnSync('cp -rp ' + String(src) + ' ' + String(dest) + ' ', {
-  //   shell: '/bin/bash',
-  // })
-  // console.log('copyRecursive:')
-  // console.log(`stderr: ${output.stderr.toString()}`)
-  // console.log(`stdout: ${output.stdout.toString()}`)
 }
 
 export async function makeFixtureAsSubmodule(fixture) {
@@ -77,12 +69,8 @@ export async function makeFixtureAsSubmodule(fixture) {
   // Move the submodule's gitdir into place
   await fssp._mkdir(join(gitdirsp, 'modules'))
   const gitdirsmfullpath = join(gitdirsp, 'modules', 'mysubmodule')
-  // THE SYMLINK METHOD
-  // await fssp._symlink(gitdirsm, path.join(gitdirsp, 'modules', 'mysubmodule'))
-  // THE COPYRECURSIVESYNC METHOD
-  // await copyRecursiveSync(fssp, gitdirsm, path.join(gitdirsp, 'modules', 'mysubmodule'))
-  // THE SHELL METHOD
-  await copyRecursiveSyncShell(gitdirsm, gitdirsmfullpath)
+  // await copyRecursiveSyncShell(gitdirsm, gitdirsmfullpath)
+  await fssp.cpSync(gitdirsm, gitdirsmfullpath, {recursive: true})
 
   // Move the submodule's main dir into place
   const officialSubmoduleDir = join(dirsp, 'mysubmodule')
@@ -91,7 +79,9 @@ export async function makeFixtureAsSubmodule(fixture) {
   // THE COPYRECURSIVESYNC METHOD
   // await copyRecursiveSync(fssp, dirsm, officialSubmoduleDir)
   // THE SHELL METHOD
-  await copyRecursiveSyncShell(dirsm, officialSubmoduleDir)
+  //await copyRecursiveSyncShell(dirsm, officialSubmoduleDir)
+
+  await fssp.cpSync(gitdirsm, gitdirsmfullpath, {recursive: true})
 
   // Write a ".git" file into the submodule
   const submoduleGitFile = join(officialSubmoduleDir, '.git')
