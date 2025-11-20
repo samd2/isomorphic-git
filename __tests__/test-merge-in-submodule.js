@@ -339,7 +339,8 @@ describe('merge', () => {
 
   it("merge 'delete-first-half' and 'delete-second-half' (dryRun)", async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-merge')
+    const { fs, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-merge')
     const commit = (
       await log({
         fs,
@@ -382,10 +383,14 @@ describe('merge', () => {
     )[0]
     expect(notMergeCommit.oid).toEqual(originalCommit.oid)
     if (!report.oid) throw new Error('type error')
+
     // make sure no commit object was created
     expect(
       await fs.exists(
-        `${gitdir}/objects/${report.oid.slice(0, 2)}/${report.oid.slice(2)}`
+        `${gitdirsmfullpath}/objects/${report.oid.slice(
+          0,
+          2
+        )}/${report.oid.slice(2)}`
       )
     ).toBe(false)
   })

@@ -365,9 +365,14 @@ describe('fetch', () => {
       // shrug
     }
     // assert that tag was deleted
-    expect(await fs.exists(`${gitdir}/refs/tags/v1.0.0-beta1`)).toBe(false)
+    expect(await fs.exists(`${gitdirsmfullpath}/refs/tags/v1.0.0-beta1`)).toBe(
+      false
+    )
     // assert that tags was force-updated
-    const newValue = await fs.read(`${gitdir}/refs/tags/v1.0.0`, 'utf8')
+    const newValue = await fs.read(
+      `${gitdirsmfullpath}/refs/tags/v1.0.0`,
+      'utf8'
+    )
     expect(oldValue).not.toEqual(newValue)
   })
 })

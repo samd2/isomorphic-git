@@ -157,7 +157,8 @@ describe('commit', () => {
 
   it('dry run', async () => {
     // Setup
-    const { fs, gitdir } = await makeFixtureAsSubmodule('test-commit')
+    const { fs, gitdir, gitdirsmfullpath } =
+      await makeFixtureAsSubmodule('test-commit')
     const { oid: originalOid } = (await log({ fs, gitdir, depth: 1 }))[0]
     // Test
     const sha = await commit({
@@ -180,7 +181,7 @@ describe('commit', () => {
     // and did NOT create commit object
     expect(
       await fs.exists(
-        `${gitdir}/objects/7a/51c0b1181d738198ff21c4679d3aa32eb52fe0`
+        `${gitdirsmfullpath}/objects/7a/51c0b1181d738198ff21c4679d3aa32eb52fe0`
       )
     ).toBe(false)
   })

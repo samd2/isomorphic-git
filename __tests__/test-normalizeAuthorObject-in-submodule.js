@@ -113,7 +113,7 @@ describe('normalizeAuthorObject', () => {
 
   it('return undefined if no value can be retrieved', async () => {
     // Setup
-    const { fs, gitdir: gitdirsmfullpath } = await makeFixtureAsSubmodule(
+    const { fs, gitdirsmfullpath } = await makeFixtureAsSubmodule(
       'test-normalizeAuthorObject'
     )
 
