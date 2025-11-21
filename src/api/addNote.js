@@ -73,10 +73,9 @@ export async function addNote({
     })
     if (!committer) throw new MissingNameError('committer')
 
-    const fsp = new FileSystem(fs)
-    const updatedGitdir = await discoverGitdir({ fsp, dotgit: gitdir })
+    const updatedGitdir = await discoverGitdir({ fsp: fs, dotgit: gitdir })
     return await _addNote({
-      fs: fsp,
+      fs,
       cache,
       onSign,
       gitdir: updatedGitdir,
