@@ -15,7 +15,6 @@ const optional = cmd =>
   `(${cmd}) || echo "Optional command '${quote(cmd)}' failed".`
 
 const timeout = n => cmd => `timeout -t ${n}m -- ${cmd}`
-// const timeout5 = timeout(5)
 const timeout15 = timeout(15)
 
 /**
@@ -171,6 +170,7 @@ module.exports = {
         'test.setup',
         'test.node',
         'test.chrome',
+        'test.firefox',
         'test.teardown'
       ),
       browsers: series.nps('test.chrome', 'test.firefox'),
