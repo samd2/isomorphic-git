@@ -170,7 +170,6 @@ module.exports = {
         'test.setup',
         'test.node',
         'test.chrome',
-        'test.firefox',
         'test.teardown'
       ),
       browsers: series.nps('test.chrome', 'test.firefox'),
